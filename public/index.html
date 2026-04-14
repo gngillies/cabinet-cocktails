@@ -107,24 +107,58 @@ body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-s
 <script>
 let imageBase64 = null;
 
-// Fetch real cocktail photo from TheCocktailDB by name
+// Keyword map for cocktails TheCocktailDB struggles with
+const COCKTAIL_KEYWORD_MAP = {
+  'smash': 'gin smash', 'royale': 'gin tonic', 'reverse': 'martini',
+  'mule': 'moscow mule', 'plane': 'aviation', 'chambery': 'moscow mule',
+  'wildcard': 'aviation', 'spritz': 'aperol spritz', 'fizz': 'gin fizz',
+  'flip': 'brandy flip', 'sling': 'singapore sling', 'buck': 'moscow mule',
+  'rickey': 'gin rickey', 'cooler': 'tequila sunrise', 'toddy': 'hot toddy',
+  'punch': 'planter's punch', 'swizzle': 'rum swizzle', 'shrub': 'whiskey sour',
+};
+
+async function searchCocktailDB(query) {
+  try {
+    const res = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + encodeURIComponent(query));
+    const data = await res.json();
+    if (data.drinks && data.drinks[0] && data.drinks[0].strDrinkThumb) {
+      return data.drinks[0].strDrinkThumb;
+    }
+  } catch(e) {}
+  return null;
+}
+
 async function getCocktailPhoto(name) {
-  try {
-    const res = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${encodeURIComponent(name)}`);
-    const data = await res.json();
-    if (data.drinks && data.drinks[0] && data.drinks[0].strDrinkThumb) {
-      return data.drinks[0].strDrinkThumb;
+  const lower = name.toLowerCase();
+
+  // 1. Try exact name
+  let photo = await searchCocktailDB(name);
+  if (photo) return photo;
+
+  // 2. Try without leading "The "
+  const stripped = name.replace(/^the /i, '').trim();
+  if (stripped !== name) {
+    photo = await searchCocktailDB(stripped);
+    if (photo) return photo;
+  }
+
+  // 3. Try keyword map
+  for (const [keyword, substitute] of Object.entries(COCKTAIL_KEYWORD_MAP)) {
+    if (lower.includes(keyword)) {
+      photo = await searchCocktailDB(substitute);
+      if (photo) return photo;
     }
-  } catch(e) {}
-  // Fallback: search for first word of cocktail name
-  try {
-    const firstWord = name.split(' ')[0];
-    const res = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${encodeURIComponent(firstWord)}`);
-    const data = await res.json();
-    if (data.drinks && data.drinks[0] && data.drinks[0].strDrinkThumb) {
-      return data.drinks[0].strDrinkThumb;
-    }
-  } catch(e) {}
+  }
+
+  // 4. Try each individual word (longest first)
+  const words = lower.split(/\s+/).filter(w => w.length > 3)
+    .sort((a,b) => b.length - a.length);
+  for (const word of words) {
+    photo = await searchCocktailDB(word);
+    if (photo) return photo;
+  }
+
+  // 5. Final fallback — a nice generic cocktail image
   return 'https://www.thecocktaildb.com/images/media/drink/metwgh1606770327.jpg';
 }
 
