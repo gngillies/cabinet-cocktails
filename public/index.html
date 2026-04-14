@@ -22,14 +22,14 @@ body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-s
 .main { padding: 1.25rem 1.1rem 5rem; max-width: 580px; margin: 0 auto; }
 .upload-zone {
   border-radius: 22px; padding: 2.5rem 1.5rem 2rem; text-align: center; cursor: pointer;
-  position: relative; overflow: hidden;
+  position: relative;
   background: linear-gradient(160deg, #1c1c1c, #0e0e0e);
   box-shadow: 0 16px 40px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.06);
-  transition: all 0.3s ease; border: 2px solid transparent;
+  transition: all 0.3s ease;
+  border: 2px solid #c9a84c;
+  background-image: linear-gradient(160deg, #1c1c1c, #0e0e0e);
 }
-.upload-zone::before { content: ''; position: absolute; inset: -2px; border-radius: 24px; background: linear-gradient(135deg, #f6d365, #e07b2a, #d94f8a, #7b5cf0); z-index: -1; }
-.upload-zone::after { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,255,255,0.025) 60px), repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,255,255,0.025) 60px); pointer-events: none; }
-.upload-zone:hover { transform: translateY(-2px); box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(201,168,76,0.15); }
+.upload-zone:hover { transform: translateY(-2px); box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(201,168,76,0.15); border-color: #f6d365; }
 .upload-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; z-index: 2; }
 .upload-icon-wrap { width: 88px; height: 88px; border-radius: 50%; margin: 0 auto 1.25rem; background: linear-gradient(145deg, #252525, #161616); position: relative; box-shadow: 0 8px 24px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; border: 2px solid transparent; }
 .upload-icon-wrap::before { content: ''; position: absolute; inset: -2px; border-radius: 50%; background: linear-gradient(135deg, #f6d365, #d94f8a); z-index: -1; }
