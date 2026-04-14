@@ -20,68 +20,29 @@ body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-s
 .header-title { font-family: 'Playfair Display', serif; font-size: 1.45rem; color: var(--gold); font-weight: 700; line-height: 1; }
 .header-sub { font-size: 0.6rem; color: var(--muted); letter-spacing: 0.16em; text-transform: uppercase; margin-top: 0.2rem; }
 .main { padding: 1.25rem 1.1rem 5rem; max-width: 580px; margin: 0 auto; }
-
-/* Upload zone - jelly bean style */
 .upload-zone {
   border-radius: 22px; padding: 2.5rem 1.5rem 2rem; text-align: center; cursor: pointer;
   position: relative; overflow: hidden;
   background: linear-gradient(160deg, #1c1c1c, #0e0e0e);
   box-shadow: 0 16px 40px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.06);
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
+  transition: all 0.3s ease; border: 2px solid transparent;
 }
-.upload-zone::before {
-  content: ''; position: absolute; inset: -2px; border-radius: 24px;
-  background: linear-gradient(135deg, #f6d365, #e07b2a, #d94f8a, #7b5cf0); z-index: -1;
-}
-.upload-zone::after {
-  content: ''; position: absolute; inset: 0;
-  background: repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,255,255,0.025) 60px),
-              repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,255,255,0.025) 60px);
-  pointer-events: none;
-}
+.upload-zone::before { content: ''; position: absolute; inset: -2px; border-radius: 24px; background: linear-gradient(135deg, #f6d365, #e07b2a, #d94f8a, #7b5cf0); z-index: -1; }
+.upload-zone::after { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,255,255,0.025) 60px), repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,255,255,0.025) 60px); pointer-events: none; }
 .upload-zone:hover { transform: translateY(-2px); box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(201,168,76,0.15); }
 .upload-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; z-index: 2; }
-.upload-icon-wrap {
-  width: 88px; height: 88px; border-radius: 50%; margin: 0 auto 1.25rem;
-  background: linear-gradient(145deg, #252525, #161616);
-  position: relative;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
-  display: flex; align-items: center; justify-content: center;
-  border: 2px solid transparent;
-}
-.upload-icon-wrap::before {
-  content: ''; position: absolute; inset: -2px; border-radius: 50%;
-  background: linear-gradient(135deg, #f6d365, #d94f8a); z-index: -1;
-}
-.upload-icon-wrap::after {
-  content: ''; position: absolute; top: 4px; left: 10px; right: 10px; height: 40%;
-  border-radius: 50%; background: rgba(255,255,255,0.07); pointer-events: none;
-}
+.upload-icon-wrap { width: 88px; height: 88px; border-radius: 50%; margin: 0 auto 1.25rem; background: linear-gradient(145deg, #252525, #161616); position: relative; box-shadow: 0 8px 24px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; border: 2px solid transparent; }
+.upload-icon-wrap::before { content: ''; position: absolute; inset: -2px; border-radius: 50%; background: linear-gradient(135deg, #f6d365, #d94f8a); z-index: -1; }
+.upload-icon-wrap::after { content: ''; position: absolute; top: 4px; left: 10px; right: 10px; height: 40%; border-radius: 50%; background: rgba(255,255,255,0.07); pointer-events: none; }
 .upload-icon { font-size: 2.4rem; line-height: 1; position: relative; z-index: 1; }
 .upload-title { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 1.35rem; font-weight: 900; color: #ffffff; margin-bottom: 0.4rem; letter-spacing: -0.02em; }
 .upload-hint { font-size: 0.78rem; color: var(--muted); line-height: 1.5; margin-bottom: 1.5rem; }
 .upload-dots { position: absolute; top: 14px; left: 16px; display: flex; gap: 6px; z-index: 3; }
 .upload-dot { width: 9px; height: 9px; border-radius: 50%; }
-
-/* Jelly bean button */
-.jelly-btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem;
-  padding: 0.8rem 2.2rem; border-radius: 50px; border: none; cursor: pointer;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 0.95rem; font-weight: 800; color: #3d1f00; letter-spacing: 0.02em;
-  position: relative; overflow: hidden;
-  background: linear-gradient(180deg, #ffda6b 0%, #f0a020 50%, #c97010 100%);
-  box-shadow: 0 2px 0 #7a4800, 0 4px 0 #5a3400, 0 8px 20px rgba(240,160,32,0.5), inset 0 1px 0 rgba(255,255,255,0.5);
-  transition: all 0.12s ease; z-index: 3;
-}
-.jelly-btn::before {
-  content: ''; position: absolute; top: 3px; left: 12px; right: 12px; height: 45%;
-  border-radius: 50px; background: linear-gradient(180deg, rgba(255,255,255,0.5), rgba(255,255,255,0)); pointer-events: none;
-}
+.jelly-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem; padding: 0.8rem 2.2rem; border-radius: 50px; border: none; cursor: pointer; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 0.95rem; font-weight: 800; color: #3d1f00; letter-spacing: 0.02em; position: relative; overflow: hidden; background: linear-gradient(180deg, #ffda6b 0%, #f0a020 50%, #c97010 100%); box-shadow: 0 2px 0 #7a4800, 0 4px 0 #5a3400, 0 8px 20px rgba(240,160,32,0.5), inset 0 1px 0 rgba(255,255,255,0.5); transition: all 0.12s ease; z-index: 3; }
+.jelly-btn::before { content: ''; position: absolute; top: 3px; left: 12px; right: 12px; height: 45%; border-radius: 50px; background: linear-gradient(180deg, rgba(255,255,255,0.5), rgba(255,255,255,0)); pointer-events: none; }
 .jelly-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 0 #7a4800, 0 6px 0 #5a3400, 0 12px 28px rgba(240,160,32,0.6), inset 0 1px 0 rgba(255,255,255,0.5); }
-.jelly-btn:active { transform: translateY(3px); box-shadow: 0 0px 0 #7a4800, 0 1px 0 #5a3400, 0 4px 12px rgba(240,160,32,0.4), inset 0 1px 0 rgba(255,255,255,0.3); }
-
+.jelly-btn:active { transform: translateY(3px); box-shadow: 0 0px 0 #7a4800, 0 1px 0 #5a3400, 0 4px 12px rgba(240,160,32,0.4); }
 .preview-wrap { position: relative; border-radius: 16px; overflow: hidden; margin-bottom: 1rem; }
 .preview-img { width: 100%; max-height: 280px; object-fit: cover; display: block; }
 .preview-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.82)); padding: 2rem 1rem 0.85rem; display: flex; justify-content: space-between; align-items: flex-end; }
@@ -109,8 +70,8 @@ body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-s
 .card.wildcard { border-color: var(--amber); background: linear-gradient(160deg, var(--surface), rgba(224,123,42,0.06)); }
 .card.wildcard::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background: linear-gradient(90deg, var(--amber), var(--gold)); z-index:1; }
 .card-img-wrap { width: 100%; height: 160px; overflow: hidden; position: relative; background: var(--surface2); }
-.card-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; filter: brightness(0.82) saturate(1.1); }
-.card:hover .card-img { transform: scale(1.03); filter: brightness(0.92) saturate(1.15); }
+.card-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; filter: brightness(0.85) saturate(1.1); }
+.card:hover .card-img { transform: scale(1.03); filter: brightness(0.95) saturate(1.15); }
 .card-img-gradient { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.05) 30%, rgba(13,13,13,0.75) 100%); }
 .card-img-badge { position: absolute; top: 0.7rem; right: 0.8rem; background: linear-gradient(135deg, var(--gold), var(--amber)); color: #0d0d0d; font-weight: 700; font-size: 0.9rem; padding: 0.22rem 0.65rem; border-radius: 8px; font-family: 'Playfair Display', serif; z-index: 2; }
 .card-img-wc { position: absolute; top: 0.7rem; right: 0.8rem; background: var(--amber); color: #0d0d0d; font-size: 0.62rem; font-weight: 700; padding: 0.22rem 0.6rem; border-radius: 6px; letter-spacing: 0.1em; text-transform: uppercase; z-index: 2; }
@@ -144,31 +105,27 @@ body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-s
 </div>
 <div class="main" id="main"></div>
 <script>
-let imageBase64 = null, imageType = 'image/jpeg';
+let imageBase64 = null;
 
-const PHOTOS = {
-  'manhattan':     'https://images.unsplash.com/photo-1527761939622-933c2cc40c5b?w=600&h=300&fit=crop',
-  'martini':       'https://images.unsplash.com/photo-1575023782549-62ca0d244b39?w=600&h=300&fit=crop',
-  'negroni':       'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=600&h=300&fit=crop',
-  'boulevardier':  'https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=600&h=300&fit=crop',
-  'old fashioned': 'https://images.unsplash.com/photo-1582906573562-ad2b80e21eca?w=600&h=300&fit=crop',
-  'sour':          'https://images.unsplash.com/photo-1607622750671-6cd9a99eabd1?w=600&h=300&fit=crop',
-  'smash':         'https://images.unsplash.com/photo-1568644396922-5c3bfae12521?w=600&h=300&fit=crop',
-  'spritz':        'https://images.unsplash.com/photo-1570598912132-0ba1dc952b7d?w=600&h=300&fit=crop',
-  'aperol':        'https://images.unsplash.com/photo-1570598912132-0ba1dc952b7d?w=600&h=300&fit=crop',
-  'gimlet':        'https://images.unsplash.com/photo-1516535794938-6063878f08cc?w=600&h=300&fit=crop',
-  'daiquiri':      'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600&h=300&fit=crop',
-  'default':       'https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=600&h=300&fit=crop',
-  'wildcard':      'https://images.unsplash.com/photo-1543253687-c931c8e01820?w=600&h=300&fit=crop',
-};
-
-function getPhoto(name, isWildcard) {
-  if (isWildcard) return PHOTOS.wildcard;
-  const l = (name||'').toLowerCase();
-  for (const [k,v] of Object.entries(PHOTOS)) {
-    if (k !== 'default' && k !== 'wildcard' && l.includes(k)) return v;
-  }
-  return PHOTOS.default;
+// Fetch real cocktail photo from TheCocktailDB by name
+async function getCocktailPhoto(name) {
+  try {
+    const res = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${encodeURIComponent(name)}`);
+    const data = await res.json();
+    if (data.drinks && data.drinks[0] && data.drinks[0].strDrinkThumb) {
+      return data.drinks[0].strDrinkThumb;
+    }
+  } catch(e) {}
+  // Fallback: search for first word of cocktail name
+  try {
+    const firstWord = name.split(' ')[0];
+    const res = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${encodeURIComponent(firstWord)}`);
+    const data = await res.json();
+    if (data.drinks && data.drinks[0] && data.drinks[0].strDrinkThumb) {
+      return data.drinks[0].strDrinkThumb;
+    }
+  } catch(e) {}
+  return 'https://www.thecocktaildb.com/images/media/drink/metwgh1606770327.jpg';
 }
 
 function showUpload() {
@@ -242,7 +199,8 @@ async function analyze() {
     });
     clearInterval(iv);
     if (!res.ok) { const e = await res.json(); throw new Error(e.error || 'Server error'); }
-    renderResults(await res.json());
+    const result = await res.json();
+    await renderResults(result);
   } catch(err) {
     clearInterval(iv);
     document.getElementById('main').innerHTML = `
@@ -251,14 +209,19 @@ async function analyze() {
   }
 }
 
-function renderResults(r) {
+async function renderResults(r) {
+  // Fetch all photos in parallel
+  const cocktailPhotos = await Promise.all((r.cocktails||[]).map(c => getCocktailPhoto(c.name)));
+  const wildcardPhoto = r.wildcard ? await getCocktailPhoto(r.wildcard.name) : '';
+
   let html = `<div class="section"><div class="section-label">Detected in your cabinet</div><div class="bottles-list">`;
   (r.bottles||[]).forEach(b => { html += `<div class="bottle-tag"><span class="dot"></span>${esc(b)}</div>`; });
   html += `</div></div><div class="section"><div class="section-label">Cocktails you can make now</div>`;
+
   (r.cocktails||[]).forEach((c,i) => {
     html += `<div class="card" id="c${i}" onclick="toggle('c${i}')">
       <div class="card-img-wrap">
-        <img class="card-img" src="${getPhoto(c.name,false)}" loading="lazy">
+        <img class="card-img" src="${cocktailPhotos[i]}" loading="lazy" onerror="this.src='https://www.thecocktaildb.com/images/media/drink/metwgh1606770327.jpg'">
         <div class="card-img-gradient"></div>
         <div class="card-img-badge">${c.score}</div>
         <div class="card-img-rank">#${i+1} Recommended</div>
@@ -276,12 +239,13 @@ function renderResults(r) {
       </div></div>`;
   });
   html += `</div>`;
+
   if (r.wildcard) {
     const w = r.wildcard;
     html += `<div class="section"><div class="section-label">Wildcard — original creation</div>
     <div class="card wildcard" id="cwc" onclick="toggle('cwc')">
       <div class="card-img-wrap">
-        <img class="card-img" src="${getPhoto(w.name,true)}" loading="lazy">
+        <img class="card-img" src="${wildcardPhoto}" loading="lazy" onerror="this.src='https://www.thecocktaildb.com/images/media/drink/ywxwqs1461919865.jpg'">
         <div class="card-img-gradient"></div>
         <div class="card-img-wc">✦ Wildcard</div>
         <div class="card-img-rank">Claude's Original Recipe</div>
@@ -300,6 +264,7 @@ function renderResults(r) {
       </div>
     </div></div>`;
   }
+
   html += `<button class="btn-secondary" onclick="showUpload()">📷 Scan Another Cabinet</button>`;
   document.getElementById('main').innerHTML = html;
 }
