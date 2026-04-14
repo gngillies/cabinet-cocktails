@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cabinet Cocktails</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0d0d0d; --surface: #161616; --surface2: #1e1e1e;
+  --border: #2a2a2a; --gold: #c9a84c; --amber: #e07b2a;
+  --text: #f0ece4; --muted: #888;
+}
+body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh;
+  background-image: radial-gradient(ellipse at 15% 15%, rgba(201,168,76,0.05) 0%, transparent 55%), radial-gradient(ellipse at 85% 85%, rgba(224,123,42,0.05) 0%, transparent 55%);
+}
+.header { padding: 1.25rem 1.25rem 1rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.75rem; position: sticky; top: 0; background: rgba(13,13,13,0.96); backdrop-filter: blur(12px); z-index: 10; }
+.header-icon { font-size: 1.7rem; line-height: 1; }
+.header-title { font-family: 'Playfair Display', serif; font-size: 1.45rem; color: var(--gold); font-weight: 700; line-height: 1; }
+.header-sub { font-size: 0.6rem; color: var(--muted); letter-spacing: 0.16em; text-transform: uppercase; margin-top: 0.2rem; }
+.main { padding: 1.25rem 1.1rem 5rem; max-width: 580px; margin: 0 auto; }
+
+/* Upload zone - jelly bean style */
+.upload-zone {
+  border-radius: 22px; padding: 2.5rem 1.5rem 2rem; text-align: center; cursor: pointer;
+  position: relative; overflow: hidden;
+  background: linear-gradient(160deg, #1c1c1c, #0e0e0e);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.06);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+.upload-zone::before {
+  content: ''; position: absolute; inset: -2px; border-radius: 24px;
+  background: linear-gradient(135deg, #f6d365, #e07b2a, #d94f8a, #7b5cf0); z-index: -1;
+}
+.upload-zone::after {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,255,255,0.025) 60px),
+              repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,255,255,0.025) 60px);
+  pointer-events: none;
+}
+.upload-zone:hover { transform: translateY(-2px); box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(201,168,76,0.15); }
+.upload-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; z-index: 2; }
+.upload-icon-wrap {
+  width: 88px; height: 88px; border-radius: 50%; margin: 0 auto 1.25rem;
+  background: linear-gradient(145deg, #252525, #161616);
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center;
+  border: 2px solid transparent;
+}
+.upload-icon-wrap::before {
+  content: ''; position: absolute; inset: -2px; border-radius: 50%;
+  background: linear-gradient(135deg, #f6d365, #d94f8a); z-index: -1;
+}
+.upload-icon-wrap::after {
+  content: ''; position: absolute; top: 4px; left: 10px; right: 10px; height: 40%;
+  border-radius: 50%; background: rgba(255,255,255,0.07); pointer-events: none;
+}
+.upload-icon { font-size: 2.4rem; line-height: 1; position: relative; z-index: 1; }
+.upload-title { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 1.35rem; font-weight: 900; color: #ffffff; margin-bottom: 0.4rem; letter-spacing: -0.02em; }
+.upload-hint { font-size: 0.78rem; color: var(--muted); line-height: 1.5; margin-bottom: 1.5rem; }
+.upload-dots { position: absolute; top: 14px; left: 16px; display: flex; gap: 6px; z-index: 3; }
+.upload-dot { width: 9px; height: 9px; border-radius: 50%; }
+
+/* Jelly bean button */
+.jelly-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem;
+  padding: 0.8rem 2.2rem; border-radius: 50px; border: none; cursor: pointer;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 0.95rem; font-weight: 800; color: #3d1f00; letter-spacing: 0.02em;
+  position: relative; overflow: hidden;
+  background: linear-gradient(180deg, #ffda6b 0%, #f0a020 50%, #c97010 100%);
+  box-shadow: 0 2px 0 #7a4800, 0 4px 0 #5a3400, 0 8px 20px rgba(240,160,32,0.5), inset 0 1px 0 rgba(255,255,255,0.5);
+  transition: all 0.12s ease; z-index: 3;
+}
+.jelly-btn::before {
+  content: ''; position: absolute; top: 3px; left: 12px; right: 12px; height: 45%;
+  border-radius: 50px; background: linear-gradient(180deg, rgba(255,255,255,0.5), rgba(255,255,255,0)); pointer-events: none;
+}
+.jelly-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 0 #7a4800, 0 6px 0 #5a3400, 0 12px 28px rgba(240,160,32,0.6), inset 0 1px 0 rgba(255,255,255,0.5); }
+.jelly-btn:active { transform: translateY(3px); box-shadow: 0 0px 0 #7a4800, 0 1px 0 #5a3400, 0 4px 12px rgba(240,160,32,0.4), inset 0 1px 0 rgba(255,255,255,0.3); }
+
+.preview-wrap { position: relative; border-radius: 16px; overflow: hidden; margin-bottom: 1rem; }
+.preview-img { width: 100%; max-height: 280px; object-fit: cover; display: block; }
+.preview-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.82)); padding: 2rem 1rem 0.85rem; display: flex; justify-content: space-between; align-items: flex-end; }
+.preview-label { font-size: 0.7rem; color: var(--gold); letter-spacing: 0.12em; text-transform: uppercase; }
+.btn-change { background: rgba(255,255,255,0.13); border: none; color: #fff; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.72rem; cursor: pointer; }
+.img-info { font-size: 0.7rem; color: var(--muted); text-align: center; margin-bottom: 0.85rem; padding: 0.35rem; background: var(--surface2); border-radius: 8px; }
+.btn-analyze { width: 100%; padding: 1rem; background: linear-gradient(135deg, var(--gold), var(--amber)); border: none; border-radius: 14px; color: #0d0d0d; font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.25s; }
+.btn-analyze:hover { box-shadow: 0 8px 24px rgba(201,168,76,0.32); transform: translateY(-1px); }
+.btn-secondary { width: 100%; padding: 0.9rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 14px; color: var(--gold); font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 1rem; }
+.loading-wrap { padding: 3.5rem 1rem; text-align: center; }
+.loading-bar { width: 100%; height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; margin-bottom: 1.5rem; }
+.loading-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--amber)); animation: loadbar 1.8s ease-in-out infinite; }
+@keyframes loadbar { 0%{width:0%;margin-left:0} 50%{width:65%;margin-left:18%} 100%{width:0%;margin-left:100%} }
+.loading-step { font-size: 0.82rem; color: var(--muted); }
+.section { margin-top: 1.75rem; animation: fadeUp 0.35s ease both; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+.section-label { font-size: 0.65rem; color: var(--gold); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.85rem; display: flex; align-items: center; gap: 0.5rem; }
+.section-label::after { content:''; flex:1; height:1px; background: var(--border); }
+.bottles-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.bottle-tag { background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 0.28rem 0.8rem; font-size: 0.78rem; display: flex; align-items: center; gap: 0.35rem; }
+.dot { width:6px; height:6px; border-radius:50%; background:var(--gold); flex-shrink:0; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; margin-bottom: 0.75rem; cursor: pointer; transition: border-color 0.2s; position: relative; overflow: hidden; }
+.card:hover { border-color: rgba(201,168,76,0.35); }
+.card.open { border-color: var(--gold); }
+.card.wildcard { border-color: var(--amber); background: linear-gradient(160deg, var(--surface), rgba(224,123,42,0.06)); }
+.card.wildcard::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background: linear-gradient(90deg, var(--amber), var(--gold)); z-index:1; }
+.card-img-wrap { width: 100%; height: 160px; overflow: hidden; position: relative; background: var(--surface2); }
+.card-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; filter: brightness(0.82) saturate(1.1); }
+.card:hover .card-img { transform: scale(1.03); filter: brightness(0.92) saturate(1.15); }
+.card-img-gradient { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.05) 30%, rgba(13,13,13,0.75) 100%); }
+.card-img-badge { position: absolute; top: 0.7rem; right: 0.8rem; background: linear-gradient(135deg, var(--gold), var(--amber)); color: #0d0d0d; font-weight: 700; font-size: 0.9rem; padding: 0.22rem 0.65rem; border-radius: 8px; font-family: 'Playfair Display', serif; z-index: 2; }
+.card-img-wc { position: absolute; top: 0.7rem; right: 0.8rem; background: var(--amber); color: #0d0d0d; font-size: 0.62rem; font-weight: 700; padding: 0.22rem 0.6rem; border-radius: 6px; letter-spacing: 0.1em; text-transform: uppercase; z-index: 2; }
+.card-img-rank { position: absolute; bottom: 0.7rem; left: 0.9rem; font-size: 0.62rem; color: rgba(240,236,228,0.7); letter-spacing: 0.1em; text-transform: uppercase; z-index: 2; }
+.card-body { padding: 0.9rem 1.1rem 1rem; }
+.card-name { font-family: 'Playfair Display', serif; font-size: 1.12rem; font-weight: 700; line-height: 1.2; margin-bottom: 0.22rem; }
+.card-tagline { font-size: 0.76rem; color: var(--muted); line-height: 1.45; }
+.card-toggle-row { display: flex; align-items: center; justify-content: space-between; margin-top: 0.65rem; }
+.card-toggle-hint { font-size: 0.68rem; color: var(--gold); }
+.chevron { color: var(--muted); font-size: 0.75rem; transition: transform 0.22s; }
+.card.open .chevron { transform: rotate(180deg); }
+.card-detail { display: none; padding: 0 1.1rem 1.1rem; border-top: 1px solid var(--border); padding-top: 1rem; }
+.card.open .card-detail { display: block; animation: fadeUp 0.25s ease; }
+.dl { font-size: 0.62rem; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.45rem; margin-top: 0.9rem; }
+.dl:first-child { margin-top: 0; }
+.ing-list { list-style: none; }
+.ing-list li { font-size: 0.81rem; padding: 0.2rem 0; display: flex; align-items: flex-start; gap: 0.5rem; line-height: 1.4; }
+.ing-list li::before { content: '—'; color: var(--gold); font-size: 0.65rem; flex-shrink: 0; margin-top: 0.15rem; }
+.inst { font-size: 0.81rem; color: var(--muted); line-height: 1.68; }
+.flavor { font-size: 0.8rem; color: var(--muted); line-height: 1.62; font-style: italic; }
+.error-box { background: rgba(192,57,43,0.1); border: 1px solid rgba(192,57,43,0.3); border-radius: 14px; padding: 1.1rem 1.25rem; font-size: 0.82rem; color: #e07070; line-height: 1.6; margin-top: 1rem; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-icon">🍸</div>
+  <div>
+    <div class="header-title">Cabinet Cocktails</div>
+    <div class="header-sub">AI-powered bar intelligence</div>
+  </div>
+</div>
+<div class="main" id="main"></div>
+<script>
+let imageBase64 = null, imageType = 'image/jpeg';
+
+const PHOTOS = {
+  'manhattan':     'https://images.unsplash.com/photo-1527761939622-933c2cc40c5b?w=600&h=300&fit=crop',
+  'martini':       'https://images.unsplash.com/photo-1575023782549-62ca0d244b39?w=600&h=300&fit=crop',
+  'negroni':       'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=600&h=300&fit=crop',
+  'boulevardier':  'https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=600&h=300&fit=crop',
+  'old fashioned': 'https://images.unsplash.com/photo-1582906573562-ad2b80e21eca?w=600&h=300&fit=crop',
+  'sour':          'https://images.unsplash.com/photo-1607622750671-6cd9a99eabd1?w=600&h=300&fit=crop',
+  'smash':         'https://images.unsplash.com/photo-1568644396922-5c3bfae12521?w=600&h=300&fit=crop',
+  'spritz':        'https://images.unsplash.com/photo-1570598912132-0ba1dc952b7d?w=600&h=300&fit=crop',
+  'aperol':        'https://images.unsplash.com/photo-1570598912132-0ba1dc952b7d?w=600&h=300&fit=crop',
+  'gimlet':        'https://images.unsplash.com/photo-1516535794938-6063878f08cc?w=600&h=300&fit=crop',
+  'daiquiri':      'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600&h=300&fit=crop',
+  'default':       'https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=600&h=300&fit=crop',
+  'wildcard':      'https://images.unsplash.com/photo-1543253687-c931c8e01820?w=600&h=300&fit=crop',
+};
+
+function getPhoto(name, isWildcard) {
+  if (isWildcard) return PHOTOS.wildcard;
+  const l = (name||'').toLowerCase();
+  for (const [k,v] of Object.entries(PHOTOS)) {
+    if (k !== 'default' && k !== 'wildcard' && l.includes(k)) return v;
+  }
+  return PHOTOS.default;
+}
+
+function showUpload() {
+  imageBase64 = null;
+  document.getElementById('main').innerHTML = `
+    <div class="upload-zone" id="uz">
+      <input type="file" id="fi" accept="image/*" capture="environment">
+      <div class="upload-dots">
+        <div class="upload-dot" style="background:#f6d365"></div>
+        <div class="upload-dot" style="background:#e07b2a"></div>
+        <div class="upload-dot" style="background:#d94f8a"></div>
+        <div class="upload-dot" style="background:#7b5cf0"></div>
+      </div>
+      <div class="upload-icon-wrap"><div class="upload-icon">📷</div></div>
+      <div class="upload-title">Photograph Your Liquor Cabinet</div>
+      <div class="upload-hint">Tap to snap a photo · we'll find every cocktail you can make</div>
+      <button class="jelly-btn" onclick="document.getElementById('fi').click(); event.stopPropagation();">📷&nbsp;&nbsp;Open Camera</button>
+    </div>`;
+  document.getElementById('fi').addEventListener('change', onFile);
+  document.getElementById('uz').addEventListener('click', e => { if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'BUTTON') document.getElementById('fi').click(); });
+}
+
+function onFile(e) {
+  const file = e.target.files[0]; if (!file) return;
+  const img = new Image();
+  img.onload = () => {
+    const MAX = 1400;
+    let w = img.width, h = img.height;
+    if (w > MAX || h > MAX) { const r = Math.min(MAX/w, MAX/h); w = Math.round(w*r); h = Math.round(h*r); }
+    const canvas = document.createElement('canvas');
+    canvas.width = w; canvas.height = h;
+    canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+    canvas.toBlob(blob => {
+      const reader = new FileReader();
+      reader.onload = ev => { imageBase64 = ev.target.result.split(',')[1]; showPreview(canvas.toDataURL('image/jpeg', 0.88), w, h, blob.size); };
+      reader.readAsDataURL(blob);
+    }, 'image/jpeg', 0.88);
+  };
+  img.src = URL.createObjectURL(file);
+}
+
+function showPreview(url, w, h, size) {
+  document.getElementById('main').innerHTML = `
+    <div class="preview-wrap">
+      <img src="${url}" class="preview-img">
+      <div class="preview-overlay">
+        <span class="preview-label">Ready to analyze</span>
+        <button class="btn-change" onclick="showUpload()">Change photo</button>
+      </div>
+    </div>
+    <div class="img-info">📐 ${w}×${h}px · ${(size/1024).toFixed(0)} KB</div>
+    <button class="btn-analyze" onclick="analyze()">🔍 Discover My Cocktails</button>`;
+}
+
+async function analyze() {
+  if (!imageBase64) return;
+  const steps = ["Scanning your cabinet...", "Identifying bottles...", "Cross-referencing recipes...", "Crafting your list...", "Inventing your Wildcard..."];
+  let si = 0;
+  document.getElementById('main').innerHTML = `
+    <div class="loading-wrap">
+      <div class="loading-bar"><div class="loading-fill"></div></div>
+      <div class="loading-step" id="lstep">${steps[0]}</div>
+    </div>`;
+  const iv = setInterval(() => { si=(si+1)%steps.length; const el=document.getElementById('lstep'); if(el) el.textContent=steps[si]; }, 1600);
+
+  try {
+    const res = await fetch('/analyze', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ imageBase64, imageType: 'image/jpeg' })
+    });
+    clearInterval(iv);
+    if (!res.ok) { const e = await res.json(); throw new Error(e.error || 'Server error'); }
+    renderResults(await res.json());
+  } catch(err) {
+    clearInterval(iv);
+    document.getElementById('main').innerHTML = `
+      <div class="error-box">⚠️ <strong>Something went wrong:</strong> ${err.message}</div>
+      <button class="btn-secondary" onclick="showUpload()">📷 Try Again</button>`;
+  }
+}
+
+function renderResults(r) {
+  let html = `<div class="section"><div class="section-label">Detected in your cabinet</div><div class="bottles-list">`;
+  (r.bottles||[]).forEach(b => { html += `<div class="bottle-tag"><span class="dot"></span>${esc(b)}</div>`; });
+  html += `</div></div><div class="section"><div class="section-label">Cocktails you can make now</div>`;
+  (r.cocktails||[]).forEach((c,i) => {
+    html += `<div class="card" id="c${i}" onclick="toggle('c${i}')">
+      <div class="card-img-wrap">
+        <img class="card-img" src="${getPhoto(c.name,false)}" loading="lazy">
+        <div class="card-img-gradient"></div>
+        <div class="card-img-badge">${c.score}</div>
+        <div class="card-img-rank">#${i+1} Recommended</div>
+      </div>
+      <div class="card-body">
+        <div class="card-name">${esc(c.name)}</div>
+        <div class="card-tagline">${esc(c.tagline)}</div>
+        <div class="card-toggle-row"><span class="card-toggle-hint">Tap for recipe</span><span class="chevron">▼</span></div>
+      </div>
+      <div class="card-detail">
+        <div class="dl">Ingredients</div>
+        <ul class="ing-list">${(c.ingredients||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
+        <div class="dl">Instructions</div><p class="inst">${esc(c.instructions)}</p>
+        ${c.flavorNote?`<div class="dl">Flavor Profile</div><p class="flavor">${esc(c.flavorNote)}</p>`:''}
+      </div></div>`;
+  });
+  html += `</div>`;
+  if (r.wildcard) {
+    const w = r.wildcard;
+    html += `<div class="section"><div class="section-label">Wildcard — original creation</div>
+    <div class="card wildcard" id="cwc" onclick="toggle('cwc')">
+      <div class="card-img-wrap">
+        <img class="card-img" src="${getPhoto(w.name,true)}" loading="lazy">
+        <div class="card-img-gradient"></div>
+        <div class="card-img-wc">✦ Wildcard</div>
+        <div class="card-img-rank">Claude's Original Recipe</div>
+      </div>
+      <div class="card-body">
+        <div class="card-name">${esc(w.name)}</div>
+        <div class="card-tagline">${esc(w.tagline)}</div>
+        <div class="card-toggle-row"><span class="card-toggle-hint">Tap for recipe</span><span class="chevron">▼</span></div>
+      </div>
+      <div class="card-detail">
+        ${w.rationale?`<div class="dl">The Concept</div><p class="flavor">${esc(w.rationale)}</p>`:''}
+        <div class="dl">Ingredients</div>
+        <ul class="ing-list">${(w.ingredients||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
+        <div class="dl">Instructions</div><p class="inst">${esc(w.instructions)}</p>
+        ${w.flavorNote?`<div class="dl">Flavor Science</div><p class="flavor">${esc(w.flavorNote)}</p>`:''}
+      </div>
+    </div></div>`;
+  }
+  html += `<button class="btn-secondary" onclick="showUpload()">📷 Scan Another Cabinet</button>`;
+  document.getElementById('main').innerHTML = html;
+}
+
+function toggle(id) { document.getElementById(id).classList.toggle('open'); }
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+showUpload();
+</script>
+</body>
+</html>
