@@ -10,44 +10,29 @@
 :root {
   --bg: #0d0d0d; --surface: #161616; --surface2: #1e1e1e;
   --border: #2a2a2a; --gold: #c9a84c; --amber: #e07b2a;
-  --text: #f0ece4; --muted: #888;
+  --text: #f0ece4; --muted: #888888;
 }
-body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh;
-  background-image: radial-gradient(ellipse at 15% 15%, rgba(201,168,76,0.05) 0%, transparent 55%), radial-gradient(ellipse at 85% 85%, rgba(224,123,42,0.05) 0%, transparent 55%);
-}
-.header { padding: 1.25rem 1.25rem 1rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.75rem; position: sticky; top: 0; background: rgba(13,13,13,0.96); backdrop-filter: blur(12px); z-index: 10; }
+body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+.header { padding: 1.25rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.75rem; position: sticky; top: 0; background: #0d0d0d; z-index: 10; }
 .header-icon { font-size: 1.7rem; line-height: 1; }
 .header-title { font-family: 'Playfair Display', serif; font-size: 1.45rem; color: var(--gold); font-weight: 700; line-height: 1; }
 .header-sub { font-size: 0.6rem; color: var(--muted); letter-spacing: 0.16em; text-transform: uppercase; margin-top: 0.2rem; }
 .main { padding: 1.25rem 1.1rem 5rem; max-width: 580px; margin: 0 auto; }
-.upload-zone {
-  border-radius: 22px; padding: 2.5rem 1.5rem 2rem; text-align: center; cursor: pointer;
-  position: relative;
-  background: linear-gradient(160deg, #1c1c1c, #0e0e0e);
-  box-shadow: 0 16px 40px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.06);
-  transition: all 0.3s ease;
-  border: 2px solid #c9a84c;
-  background-image: linear-gradient(160deg, #1c1c1c, #0e0e0e);
-}
-.upload-zone:hover { transform: translateY(-2px); box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(201,168,76,0.15); border-color: #f6d365; }
-.upload-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; z-index: 2; }
-.upload-icon-wrap { width: 88px; height: 88px; border-radius: 50%; margin: 0 auto 1.25rem; background: linear-gradient(145deg, #252525, #161616); position: relative; box-shadow: 0 8px 24px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; border: 2px solid transparent; }
-.upload-icon-wrap::before { content: ''; position: absolute; inset: -2px; border-radius: 50%; background: linear-gradient(135deg, #f6d365, #d94f8a); z-index: -1; }
-.upload-icon-wrap::after { content: ''; position: absolute; top: 4px; left: 10px; right: 10px; height: 40%; border-radius: 50%; background: rgba(255,255,255,0.07); pointer-events: none; }
-.upload-icon { font-size: 2.4rem; line-height: 1; position: relative; z-index: 1; }
-.upload-title { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 1.35rem; font-weight: 900; color: #ffffff; margin-bottom: 0.4rem; letter-spacing: -0.02em; }
+.upload-zone { border-radius: 18px; padding: 3rem 1.5rem 2.5rem; text-align: center; cursor: pointer; background: var(--surface); border: 2px solid var(--gold); transition: all 0.3s ease; position: relative; }
+.upload-zone:hover { border-color: var(--amber); background: #1a1a1a; }
+.upload-zone input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 2; }
+.upload-icon-wrap { width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 1.25rem; background: var(--surface2); border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; }
+.upload-icon { font-size: 2.2rem; }
+.upload-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: #ffffff; margin-bottom: 0.4rem; }
 .upload-hint { font-size: 0.78rem; color: var(--muted); line-height: 1.5; margin-bottom: 1.5rem; }
-.upload-dots { position: absolute; top: 14px; left: 16px; display: flex; gap: 6px; z-index: 3; }
-.upload-dot { width: 9px; height: 9px; border-radius: 50%; }
-.jelly-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem; padding: 0.8rem 2.2rem; border-radius: 50px; border: none; cursor: pointer; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 0.95rem; font-weight: 800; color: #3d1f00; letter-spacing: 0.02em; position: relative; overflow: hidden; background: linear-gradient(180deg, #ffda6b 0%, #f0a020 50%, #c97010 100%); box-shadow: 0 2px 0 #7a4800, 0 4px 0 #5a3400, 0 8px 20px rgba(240,160,32,0.5), inset 0 1px 0 rgba(255,255,255,0.5); transition: all 0.12s ease; z-index: 3; }
-.jelly-btn::before { content: ''; position: absolute; top: 3px; left: 12px; right: 12px; height: 45%; border-radius: 50px; background: linear-gradient(180deg, rgba(255,255,255,0.5), rgba(255,255,255,0)); pointer-events: none; }
-.jelly-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 0 #7a4800, 0 6px 0 #5a3400, 0 12px 28px rgba(240,160,32,0.6), inset 0 1px 0 rgba(255,255,255,0.5); }
-.jelly-btn:active { transform: translateY(3px); box-shadow: 0 0px 0 #7a4800, 0 1px 0 #5a3400, 0 4px 12px rgba(240,160,32,0.4); }
+.jelly-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem; padding: 0.85rem 2.2rem; border-radius: 50px; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 700; color: #3d1f00; background: linear-gradient(180deg, #ffda6b 0%, #f0a020 55%, #c97010 100%); box-shadow: 0 3px 0 #7a4800, 0 6px 16px rgba(240,160,32,0.45); transition: all 0.12s ease; position: relative; z-index: 3; }
+.jelly-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 0 #7a4800, 0 10px 24px rgba(240,160,32,0.55); }
+.jelly-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #7a4800, 0 3px 8px rgba(240,160,32,0.3); }
 .preview-wrap { position: relative; border-radius: 16px; overflow: hidden; margin-bottom: 1rem; }
 .preview-img { width: 100%; max-height: 280px; object-fit: cover; display: block; }
 .preview-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.82)); padding: 2rem 1rem 0.85rem; display: flex; justify-content: space-between; align-items: flex-end; }
 .preview-label { font-size: 0.7rem; color: var(--gold); letter-spacing: 0.12em; text-transform: uppercase; }
-.btn-change { background: rgba(255,255,255,0.13); border: none; color: #fff; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.72rem; cursor: pointer; }
+.btn-change { background: rgba(255,255,255,0.15); border: none; color: #fff; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.72rem; cursor: pointer; }
 .img-info { font-size: 0.7rem; color: var(--muted); text-align: center; margin-bottom: 0.85rem; padding: 0.35rem; background: var(--surface2); border-radius: 8px; }
 .btn-analyze { width: 100%; padding: 1rem; background: linear-gradient(135deg, var(--gold), var(--amber)); border: none; border-radius: 14px; color: #0d0d0d; font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.25s; }
 .btn-analyze:hover { box-shadow: 0 8px 24px rgba(201,168,76,0.32); transform: translateY(-1px); }
@@ -57,39 +42,37 @@ body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-s
 .loading-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--amber)); animation: loadbar 1.8s ease-in-out infinite; }
 @keyframes loadbar { 0%{width:0%;margin-left:0} 50%{width:65%;margin-left:18%} 100%{width:0%;margin-left:100%} }
 .loading-step { font-size: 0.82rem; color: var(--muted); }
-.section { margin-top: 1.75rem; animation: fadeUp 0.35s ease both; }
-@keyframes fadeUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+.section { margin-top: 1.75rem; }
 .section-label { font-size: 0.65rem; color: var(--gold); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.85rem; display: flex; align-items: center; gap: 0.5rem; }
-.section-label::after { content:''; flex:1; height:1px; background: var(--border); }
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 .bottles-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 .bottle-tag { background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 0.28rem 0.8rem; font-size: 0.78rem; display: flex; align-items: center; gap: 0.35rem; }
-.dot { width:6px; height:6px; border-radius:50%; background:var(--gold); flex-shrink:0; }
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; margin-bottom: 0.75rem; cursor: pointer; transition: border-color 0.2s; position: relative; overflow: hidden; }
-.card:hover { border-color: rgba(201,168,76,0.35); }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; margin-bottom: 0.75rem; cursor: pointer; transition: border-color 0.2s; overflow: hidden; }
+.card:hover { border-color: rgba(201,168,76,0.4); }
 .card.open { border-color: var(--gold); }
-.card.wildcard { border-color: var(--amber); background: linear-gradient(160deg, var(--surface), rgba(224,123,42,0.06)); }
-.card.wildcard::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background: linear-gradient(90deg, var(--amber), var(--gold)); z-index:1; }
+.card.wildcard { border-color: var(--amber); }
 .card-img-wrap { width: 100%; height: 160px; overflow: hidden; position: relative; background: var(--surface2); }
-.card-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; filter: brightness(0.85) saturate(1.1); }
-.card:hover .card-img { transform: scale(1.03); filter: brightness(0.95) saturate(1.15); }
+.card-img { width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(0.85); transition: transform 0.4s ease; }
+.card:hover .card-img { transform: scale(1.03); filter: brightness(0.95); }
 .card-img-gradient { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.05) 30%, rgba(13,13,13,0.75) 100%); }
 .card-img-badge { position: absolute; top: 0.7rem; right: 0.8rem; background: linear-gradient(135deg, var(--gold), var(--amber)); color: #0d0d0d; font-weight: 700; font-size: 0.9rem; padding: 0.22rem 0.65rem; border-radius: 8px; font-family: 'Playfair Display', serif; z-index: 2; }
 .card-img-wc { position: absolute; top: 0.7rem; right: 0.8rem; background: var(--amber); color: #0d0d0d; font-size: 0.62rem; font-weight: 700; padding: 0.22rem 0.6rem; border-radius: 6px; letter-spacing: 0.1em; text-transform: uppercase; z-index: 2; }
-.card-img-rank { position: absolute; bottom: 0.7rem; left: 0.9rem; font-size: 0.62rem; color: rgba(240,236,228,0.7); letter-spacing: 0.1em; text-transform: uppercase; z-index: 2; }
+.card-img-rank { position: absolute; bottom: 0.7rem; left: 0.9rem; font-size: 0.62rem; color: rgba(240,236,228,0.75); letter-spacing: 0.1em; text-transform: uppercase; z-index: 2; }
 .card-body { padding: 0.9rem 1.1rem 1rem; }
-.card-name { font-family: 'Playfair Display', serif; font-size: 1.12rem; font-weight: 700; line-height: 1.2; margin-bottom: 0.22rem; }
+.card-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; line-height: 1.2; margin-bottom: 0.22rem; }
 .card-tagline { font-size: 0.76rem; color: var(--muted); line-height: 1.45; }
 .card-toggle-row { display: flex; align-items: center; justify-content: space-between; margin-top: 0.65rem; }
 .card-toggle-hint { font-size: 0.68rem; color: var(--gold); }
 .chevron { color: var(--muted); font-size: 0.75rem; transition: transform 0.22s; }
 .card.open .chevron { transform: rotate(180deg); }
-.card-detail { display: none; padding: 0 1.1rem 1.1rem; border-top: 1px solid var(--border); padding-top: 1rem; }
-.card.open .card-detail { display: block; animation: fadeUp 0.25s ease; }
+.card-detail { display: none; padding: 1rem 1.1rem 1.1rem; border-top: 1px solid var(--border); }
+.card.open .card-detail { display: block; }
 .dl { font-size: 0.62rem; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.45rem; margin-top: 0.9rem; }
 .dl:first-child { margin-top: 0; }
 .ing-list { list-style: none; }
 .ing-list li { font-size: 0.81rem; padding: 0.2rem 0; display: flex; align-items: flex-start; gap: 0.5rem; line-height: 1.4; }
-.ing-list li::before { content: '—'; color: var(--gold); font-size: 0.65rem; flex-shrink: 0; margin-top: 0.15rem; }
+.ing-list li::before { content: '-'; color: var(--gold); flex-shrink: 0; }
 .inst { font-size: 0.81rem; color: var(--muted); line-height: 1.68; }
 .flavor { font-size: 0.8rem; color: var(--muted); line-height: 1.62; font-style: italic; }
 .error-box { background: rgba(192,57,43,0.1); border: 1px solid rgba(192,57,43,0.3); border-radius: 14px; padding: 1.1rem 1.25rem; font-size: 0.82rem; color: #e07070; line-height: 1.6; margin-top: 1rem; }
@@ -97,214 +80,181 @@ body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-s
 </head>
 <body>
 <div class="header">
-  <div class="header-icon">🍸</div>
+  <div class="header-icon">&#127864;</div>
   <div>
     <div class="header-title">Cabinet Cocktails</div>
-    <div class="header-sub">AI-powered bar intelligence</div>
+    <div class="header-sub">AI-Powered Bar Intelligence</div>
   </div>
 </div>
 <div class="main" id="main"></div>
 <script>
-let imageBase64 = null;
+var imageBase64 = null;
 
-// Keyword map for cocktails TheCocktailDB struggles with
-const COCKTAIL_KEYWORD_MAP = {
-  'smash': 'gin smash', 'royale': 'gin tonic', 'reverse': 'martini',
-  'mule': 'moscow mule', 'plane': 'aviation', 'chambery': 'moscow mule',
-  'wildcard': 'aviation', 'spritz': 'aperol spritz', 'fizz': 'gin fizz',
-  'flip': 'brandy flip', 'sling': 'singapore sling', 'buck': 'moscow mule',
-  'rickey': 'gin rickey', 'cooler': 'tequila sunrise', 'toddy': 'hot toddy',
-  'punch': 'planter's punch', 'swizzle': 'rum swizzle', 'shrub': 'whiskey sour',
+var KW_MAP = {
+  smash:'gin smash', royale:'gin tonic', reverse:'martini',
+  mule:'moscow mule', plane:'aviation', chambery:'moscow mule',
+  spritz:'aperol spritz', fizz:'gin fizz', sling:'singapore sling',
+  toddy:'hot toddy', punch:'rum punch', buck:'moscow mule', rickey:'gin rickey'
 };
 
-async function searchCocktailDB(query) {
-  try {
-    const res = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + encodeURIComponent(query));
-    const data = await res.json();
-    if (data.drinks && data.drinks[0] && data.drinks[0].strDrinkThumb) {
-      return data.drinks[0].strDrinkThumb;
-    }
-  } catch(e) {}
-  return null;
+var DEFAULT_IMG = 'https://www.thecocktaildb.com/images/media/drink/metwgh1606770327.jpg';
+
+function dbSearch(query, cb) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + encodeURIComponent(query));
+  xhr.onload = function() {
+    try {
+      var d = JSON.parse(xhr.responseText);
+      cb(d.drinks && d.drinks[0] ? d.drinks[0].strDrinkThumb : null);
+    } catch(e) { cb(null); }
+  };
+  xhr.onerror = function() { cb(null); };
+  xhr.send();
 }
 
-async function getCocktailPhoto(name) {
-  const lower = name.toLowerCase();
-
-  // 1. Try exact name
-  let photo = await searchCocktailDB(name);
-  if (photo) return photo;
-
-  // 2. Try without leading "The "
-  const stripped = name.replace(/^the /i, '').trim();
-  if (stripped !== name) {
-    photo = await searchCocktailDB(stripped);
-    if (photo) return photo;
-  }
-
-  // 3. Try keyword map
-  for (const [keyword, substitute] of Object.entries(COCKTAIL_KEYWORD_MAP)) {
-    if (lower.includes(keyword)) {
-      photo = await searchCocktailDB(substitute);
-      if (photo) return photo;
-    }
-  }
-
-  // 4. Try each individual word (longest first)
-  const words = lower.split(/\s+/).filter(w => w.length > 3)
-    .sort((a,b) => b.length - a.length);
-  for (const word of words) {
-    photo = await searchCocktailDB(word);
-    if (photo) return photo;
-  }
-
-  // 5. Final fallback — a nice generic cocktail image
-  return 'https://www.thecocktaildb.com/images/media/drink/metwgh1606770327.jpg';
+function getPhoto(name, cb) {
+  var lower = (name||'').toLowerCase();
+  dbSearch(name, function(p) {
+    if (p) return cb(p);
+    var s = name.replace(/^the /i,'').trim();
+    dbSearch(s !== name ? s : '__', function(p2) {
+      if (p2) return cb(p2);
+      var kw = null;
+      for (var k in KW_MAP) { if (lower.indexOf(k) !== -1) { kw = KW_MAP[k]; break; } }
+      dbSearch(kw || '__', function(p3) {
+        if (p3) return cb(p3);
+        var words = lower.split(' ').filter(function(w){return w.length>3;}).sort(function(a,b){return b.length-a.length;});
+        var i = 0;
+        function next() {
+          if (i >= words.length) return cb(DEFAULT_IMG);
+          dbSearch(words[i++], function(p4) { if (p4) cb(p4); else next(); });
+        }
+        next();
+      });
+    });
+  });
 }
 
 function showUpload() {
   imageBase64 = null;
-  document.getElementById('main').innerHTML = `
-    <div class="upload-zone" id="uz">
-      <input type="file" id="fi" accept="image/*" capture="environment">
-      <div class="upload-dots">
-        <div class="upload-dot" style="background:#f6d365"></div>
-        <div class="upload-dot" style="background:#e07b2a"></div>
-        <div class="upload-dot" style="background:#d94f8a"></div>
-        <div class="upload-dot" style="background:#7b5cf0"></div>
-      </div>
-      <div class="upload-icon-wrap"><div class="upload-icon">📷</div></div>
-      <div class="upload-title">Photograph Your Liquor Cabinet</div>
-      <div class="upload-hint">Tap to snap a photo - we'll find every cocktail you can make</div>
-      <button class="jelly-btn" onclick="document.getElementById('fi').click(); event.stopPropagation();">📷&nbsp;&nbsp;Open Camera</button>
-    </div>`;
+  var h = '<div class="upload-zone" id="uz">';
+  h += '<input type="file" id="fi" accept="image/*" capture="environment">';
+  h += '<div class="upload-icon-wrap"><div class="upload-icon">&#128247;</div></div>';
+  h += '<div class="upload-title">Photograph Your Liquor Cabinet</div>';
+  h += '<div class="upload-hint">Tap to take a photo - we will find every cocktail you can make</div>';
+  h += '<button class="jelly-btn" id="cb">&#128247;&nbsp; Open Camera</button>';
+  h += '</div>';
+  document.getElementById('main').innerHTML = h;
   document.getElementById('fi').addEventListener('change', onFile);
-  document.getElementById('uz').addEventListener('click', e => { if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'BUTTON') document.getElementById('fi').click(); });
+  document.getElementById('cb').addEventListener('click', function(e) { e.stopPropagation(); document.getElementById('fi').click(); });
+  document.getElementById('uz').addEventListener('click', function(e) { if (e.target.id !== 'fi' && e.target.id !== 'cb') document.getElementById('fi').click(); });
 }
 
 function onFile(e) {
-  const file = e.target.files[0]; if (!file) return;
-  const img = new Image();
-  img.onload = () => {
-    const MAX = 1400;
-    let w = img.width, h = img.height;
-    if (w > MAX || h > MAX) { const r = Math.min(MAX/w, MAX/h); w = Math.round(w*r); h = Math.round(h*r); }
-    const canvas = document.createElement('canvas');
-    canvas.width = w; canvas.height = h;
-    canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-    canvas.toBlob(blob => {
-      const reader = new FileReader();
-      reader.onload = ev => { imageBase64 = ev.target.result.split(',')[1]; showPreview(canvas.toDataURL('image/jpeg', 0.88), w, h, blob.size); };
-      reader.readAsDataURL(blob);
-    }, 'image/jpeg', 0.88);
+  var file = e.target.files[0]; if (!file) return;
+  var img = new Image();
+  img.onload = function() {
+    var MAX=1400, w=img.width, h=img.height;
+    if (w>MAX||h>MAX) { var r=Math.min(MAX/w,MAX/h); w=Math.round(w*r); h=Math.round(h*r); }
+    var c=document.createElement('canvas'); c.width=w; c.height=h;
+    c.getContext('2d').drawImage(img,0,0,w,h);
+    c.toBlob(function(blob) {
+      var fr=new FileReader();
+      fr.onload=function(ev){ imageBase64=ev.target.result.split(',')[1]; showPreview(c.toDataURL('image/jpeg',0.88),w,h,blob.size); };
+      fr.readAsDataURL(blob);
+    },'image/jpeg',0.88);
   };
-  img.src = URL.createObjectURL(file);
+  img.src=URL.createObjectURL(file);
 }
 
-function showPreview(url, w, h, size) {
-  document.getElementById('main').innerHTML = `
-    <div class="preview-wrap">
-      <img src="${url}" class="preview-img">
-      <div class="preview-overlay">
-        <span class="preview-label">Ready to analyze</span>
-        <button class="btn-change" onclick="showUpload()">Change photo</button>
-      </div>
-    </div>
-    <div class="img-info">📐 ${w}×${h}px - ${(size/1024).toFixed(0)} KB</div>
-    <button class="btn-analyze" onclick="analyze()">🔍 Discover My Cocktails</button>`;
+function showPreview(url,w,h,size) {
+  var h2='<div class="preview-wrap"><img src="'+url+'" class="preview-img">';
+  h2+='<div class="preview-overlay"><span class="preview-label">Ready to analyze</span>';
+  h2+='<button class="btn-change" onclick="showUpload()">Change photo</button></div></div>';
+  h2+='<div class="img-info">'+w+'x'+h+'px - '+(size/1024).toFixed(0)+' KB</div>';
+  h2+='<button class="btn-analyze" onclick="analyze()">&#128269; Discover My Cocktails</button>';
+  document.getElementById('main').innerHTML=h2;
 }
 
-async function analyze() {
+function analyze() {
   if (!imageBase64) return;
-  const steps = ["Scanning your cabinet...", "Identifying bottles...", "Cross-referencing recipes...", "Crafting your list...", "Inventing your Wildcard..."];
-  let si = 0;
-  document.getElementById('main').innerHTML = `
-    <div class="loading-wrap">
-      <div class="loading-bar"><div class="loading-fill"></div></div>
-      <div class="loading-step" id="lstep">${steps[0]}</div>
-    </div>`;
-  const iv = setInterval(() => { si=(si+1)%steps.length; const el=document.getElementById('lstep'); if(el) el.textContent=steps[si]; }, 1600);
-
-  try {
-    const res = await fetch('/analyze', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ imageBase64, imageType: 'image/jpeg' })
-    });
+  var steps=['Scanning your cabinet...','Identifying bottles...','Cross-referencing recipes...','Crafting your list...','Inventing your Wildcard...'];
+  var si=0;
+  document.getElementById('main').innerHTML='<div class="loading-wrap"><div class="loading-bar"><div class="loading-fill"></div></div><div class="loading-step" id="ls">'+steps[0]+'</div></div>';
+  var iv=setInterval(function(){ si=(si+1)%steps.length; var el=document.getElementById('ls'); if(el) el.textContent=steps[si]; },1600);
+  var xhr=new XMLHttpRequest();
+  xhr.open('POST','/analyze');
+  xhr.setRequestHeader('Content-Type','application/json');
+  xhr.onload=function(){
     clearInterval(iv);
-    if (!res.ok) { const e = await res.json(); throw new Error(e.error || 'Server error'); }
-    const result = await res.json();
-    await renderResults(result);
-  } catch(err) {
-    clearInterval(iv);
-    document.getElementById('main').innerHTML = `
-      <div class="error-box">⚠️ <strong>Something went wrong:</strong> ${err.message}</div>
-      <button class="btn-secondary" onclick="showUpload()">📷 Try Again</button>`;
-  }
+    try {
+      if (xhr.status!==200) { var er=JSON.parse(xhr.responseText); throw new Error(er.error||'Server error '+xhr.status); }
+      renderResults(JSON.parse(xhr.responseText));
+    } catch(e){ showError(e.message); }
+  };
+  xhr.onerror=function(){ clearInterval(iv); showError('Network error - please try again'); };
+  xhr.send(JSON.stringify({imageBase64:imageBase64,imageType:'image/jpeg'}));
 }
 
-async function renderResults(r) {
-  // Fetch all photos in parallel
-  const cocktailPhotos = await Promise.all((r.cocktails||[]).map(c => getCocktailPhoto(c.name)));
-  const wildcardPhoto = r.wildcard ? await getCocktailPhoto(r.wildcard.name) : '';
+function showError(msg) {
+  document.getElementById('main').innerHTML='<div class="error-box"><strong>Something went wrong:</strong> '+esc(msg)+'</div><button class="btn-secondary" onclick="showUpload()">Try Again</button>';
+}
 
-  let html = `<div class="section"><div class="section-label">Detected in your cabinet</div><div class="bottles-list">`;
-  (r.bottles||[]).forEach(b => { html += `<div class="bottle-tag"><span class="dot"></span>${esc(b)}</div>`; });
-  html += `</div></div><div class="section"><div class="section-label">Cocktails you can make now</div>`;
-
-  (r.cocktails||[]).forEach((c,i) => {
-    html += `<div class="card" id="c${i}" onclick="toggle('c${i}')">
-      <div class="card-img-wrap">
-        <img class="card-img" src="${cocktailPhotos[i]}" loading="lazy" onerror="this.src='https://www.thecocktaildb.com/images/media/drink/metwgh1606770327.jpg'">
-        <div class="card-img-gradient"></div>
-        <div class="card-img-badge">${c.score}</div>
-        <div class="card-img-rank">#${i+1} Recommended</div>
-      </div>
-      <div class="card-body">
-        <div class="card-name">${esc(c.name)}</div>
-        <div class="card-tagline">${esc(c.tagline)}</div>
-        <div class="card-toggle-row"><span class="card-toggle-hint">Tap for recipe</span><span class="chevron">▼</span></div>
-      </div>
-      <div class="card-detail">
-        <div class="dl">Ingredients</div>
-        <ul class="ing-list">${(c.ingredients||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
-        <div class="dl">Instructions</div><p class="inst">${esc(c.instructions)}</p>
-        ${c.flavorNote?`<div class="dl">Flavor Profile</div><p class="flavor">${esc(c.flavorNote)}</p>`:''}
-      </div></div>`;
-  });
-  html += `</div>`;
-
+function renderResults(r) {
+  var bottles=r.bottles||[], cocktails=r.cocktails||[];
+  var h='<div class="section"><div class="section-label">Detected in your cabinet</div><div class="bottles-list">';
+  for (var i=0;i<bottles.length;i++) h+='<div class="bottle-tag"><span class="dot"></span>'+esc(bottles[i])+'</div>';
+  h+='</div></div><div class="section"><div class="section-label">Cocktails you can make now</div>';
+  for (var j=0;j<cocktails.length;j++) {
+    var c=cocktails[j];
+    h+='<div class="card" id="c'+j+'" onclick="toggle(\'c'+j+'\')">';
+    h+='<div class="card-img-wrap"><img class="card-img" id="ci'+j+'" src="'+DEFAULT_IMG+'" loading="lazy">';
+    h+='<div class="card-img-gradient"></div><div class="card-img-badge">'+c.score+'</div>';
+    h+='<div class="card-img-rank">#'+(j+1)+' Recommended</div></div>';
+    h+='<div class="card-body"><div class="card-name">'+esc(c.name)+'</div>';
+    h+='<div class="card-tagline">'+esc(c.tagline)+'</div>';
+    h+='<div class="card-toggle-row"><span class="card-toggle-hint">Tap for recipe</span><span class="chevron">&#9660;</span></div></div>';
+    h+='<div class="card-detail"><div class="dl">Ingredients</div><ul class="ing-list">';
+    var ings=c.ingredients||[]; for (var k=0;k<ings.length;k++) h+='<li>'+esc(ings[k])+'</li>';
+    h+='</ul><div class="dl">Instructions</div><p class="inst">'+esc(c.instructions)+'</p>';
+    if (c.flavorNote) h+='<div class="dl">Flavor Profile</div><p class="flavor">'+esc(c.flavorNote)+'</p>';
+    h+='</div></div>';
+  }
+  h+='</div>';
   if (r.wildcard) {
-    const w = r.wildcard;
-    html += `<div class="section"><div class="section-label">Wildcard — original creation</div>
-    <div class="card wildcard" id="cwc" onclick="toggle('cwc')">
-      <div class="card-img-wrap">
-        <img class="card-img" src="${wildcardPhoto}" loading="lazy" onerror="this.src='https://www.thecocktaildb.com/images/media/drink/ywxwqs1461919865.jpg'">
-        <div class="card-img-gradient"></div>
-        <div class="card-img-wc">✦ Wildcard</div>
-        <div class="card-img-rank">Claude's Original Recipe</div>
-      </div>
-      <div class="card-body">
-        <div class="card-name">${esc(w.name)}</div>
-        <div class="card-tagline">${esc(w.tagline)}</div>
-        <div class="card-toggle-row"><span class="card-toggle-hint">Tap for recipe</span><span class="chevron">▼</span></div>
-      </div>
-      <div class="card-detail">
-        ${w.rationale?`<div class="dl">The Concept</div><p class="flavor">${esc(w.rationale)}</p>`:''}
-        <div class="dl">Ingredients</div>
-        <ul class="ing-list">${(w.ingredients||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
-        <div class="dl">Instructions</div><p class="inst">${esc(w.instructions)}</p>
-        ${w.flavorNote?`<div class="dl">Flavor Science</div><p class="flavor">${esc(w.flavorNote)}</p>`:''}
-      </div>
-    </div></div>`;
+    var w=r.wildcard;
+    h+='<div class="section"><div class="section-label">Wildcard - original creation</div>';
+    h+='<div class="card wildcard" id="cwc" onclick="toggle(\'cwc\')">';
+    h+='<div class="card-img-wrap"><img class="card-img" id="wci" src="'+DEFAULT_IMG+'" loading="lazy">';
+    h+='<div class="card-img-gradient"></div><div class="card-img-wc">Wildcard</div>';
+    h+='<div class="card-img-rank">Claude\'s Original Recipe</div></div>';
+    h+='<div class="card-body"><div class="card-name">'+esc(w.name)+'</div>';
+    h+='<div class="card-tagline">'+esc(w.tagline)+'</div>';
+    h+='<div class="card-toggle-row"><span class="card-toggle-hint">Tap for recipe</span><span class="chevron">&#9660;</span></div></div>';
+    h+='<div class="card-detail">';
+    if (w.rationale) h+='<div class="dl">The Concept</div><p class="flavor">'+esc(w.rationale)+'</p>';
+    h+='<div class="dl">Ingredients</div><ul class="ing-list">';
+    var wi=w.ingredients||[]; for (var wj=0;wj<wi.length;wj++) h+='<li>'+esc(wi[wj])+'</li>';
+    h+='</ul><div class="dl">Instructions</div><p class="inst">'+esc(w.instructions)+'</p>';
+    if (w.flavorNote) h+='<div class="dl">Flavor Science</div><p class="flavor">'+esc(w.flavorNote)+'</p>';
+    h+='</div></div></div>';
   }
-
-  html += `<button class="btn-secondary" onclick="showUpload()">📷 Scan Another Cabinet</button>`;
-  document.getElementById('main').innerHTML = html;
+  h+='<button class="btn-secondary" onclick="showUpload()">&#128247; Scan Another Cabinet</button>';
+  document.getElementById('main').innerHTML=h;
+  for (var ci=0;ci<cocktails.length;ci++) loadPhoto(cocktails[ci].name,'ci'+ci);
+  if (r.wildcard) loadPhoto(r.wildcard.name,'wci');
 }
 
-function toggle(id) { document.getElementById(id).classList.toggle('open'); }
-function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function loadPhoto(name,imgId) {
+  getPhoto(name,function(url){ var el=document.getElementById(imgId); if(el) el.src=url; });
+}
+
+function toggle(id) { var el=document.getElementById(id); if(el) el.classList.toggle('open'); }
+
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 
 showUpload();
 </script>
