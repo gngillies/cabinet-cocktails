@@ -175,7 +175,7 @@ function showUpload() {
       </div>
       <div class="upload-icon-wrap"><div class="upload-icon">📷</div></div>
       <div class="upload-title">Photograph Your Liquor Cabinet</div>
-      <div class="upload-hint">Tap to snap a photo · we'll find every cocktail you can make</div>
+      <div class="upload-hint">Tap to snap a photo - we'll find every cocktail you can make</div>
       <button class="jelly-btn" onclick="document.getElementById('fi').click(); event.stopPropagation();">📷&nbsp;&nbsp;Open Camera</button>
     </div>`;
   document.getElementById('fi').addEventListener('change', onFile);
@@ -210,7 +210,7 @@ function showPreview(url, w, h, size) {
         <button class="btn-change" onclick="showUpload()">Change photo</button>
       </div>
     </div>
-    <div class="img-info">📐 ${w}×${h}px · ${(size/1024).toFixed(0)} KB</div>
+    <div class="img-info">📐 ${w}×${h}px - ${(size/1024).toFixed(0)} KB</div>
     <button class="btn-analyze" onclick="analyze()">🔍 Discover My Cocktails</button>`;
 }
 
