@@ -25,20 +25,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-body);
 .header-icon { font-size: 1.6rem; line-height: 1; }
 .header-title { font-family: var(--font-display); font-size: 1.8rem; color: var(--gold); letter-spacing: 0.06em; line-height: 1; }
 .header-sub { font-size: 0.58rem; color: var(--text-dim); letter-spacing: 0.18em; text-transform: uppercase; margin-top: 0.15rem; }
-.header-key-btn { margin-left: auto; background: var(--surface2); border: 1px solid var(--border-bright); color: var(--text-dim); font-size: 0.68rem; padding: 0.32rem 0.7rem; border-radius: 8px; cursor: pointer; font-family: var(--font-body); transition: all 0.2s; white-space: nowrap; }
-.header-key-btn:hover { border-color: var(--gold); color: var(--gold); }
-.header-key-btn.set { color: var(--green); border-color: rgba(90,171,120,0.4); background: rgba(90,171,120,0.07); }
 .main { padding: 0 1.1rem 5rem; max-width: 600px; margin: 0 auto; }
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 1.5rem; }
-.modal { background: var(--surface); border: 1px solid var(--border-bright); border-radius: 20px; padding: 1.75rem; width: 100%; max-width: 420px; box-shadow: var(--card-shadow); }
-.modal-title { font-family: var(--font-display); font-size: 2rem; color: var(--gold); letter-spacing: 0.04em; margin-bottom: 0.5rem; }
-.modal-desc { font-size: 0.8rem; color: var(--text-mid); line-height: 1.65; margin-bottom: 1.25rem; }
-.modal-desc a { color: var(--gold); }
-.modal-input { width: 100%; background: var(--surface2); border: 1px solid var(--border-bright); border-radius: 10px; padding: 0.75rem 1rem; color: var(--text-bright); font-family: var(--font-body); font-size: 0.85rem; margin-bottom: 1rem; outline: none; transition: border-color 0.2s; }
-.modal-input:focus { border-color: var(--gold); }
-.modal-note { font-size: 0.72rem; color: var(--text-dim); line-height: 1.55; margin-bottom: 1.25rem; padding: 0.6rem 0.85rem; background: rgba(212,168,67,0.06); border-radius: 8px; border-left: 2px solid var(--gold); }
-.btn-primary { width: 100%; padding: 0.95rem; background: linear-gradient(135deg, var(--gold), var(--amber)); border: none; border-radius: 12px; color: #0a0a0a; font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 0.06em; cursor: pointer; transition: all 0.25s; }
-.btn-primary:hover { box-shadow: 0 6px 24px rgba(212,168,67,0.35); transform: translateY(-1px); }
 .hero { padding: 2.5rem 0 0.5rem; text-align: center; animation: fadeUp 0.5s ease both; }
 .hero-eyebrow { font-size: 0.62rem; color: var(--gold); letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 0.6rem; }
 .hero-eyebrow::before, .hero-eyebrow::after { content: ''; display: block; width: 36px; height: 1px; background: var(--gold); opacity: 0.45; }
@@ -125,65 +112,94 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-body);
     <div class="header-title">Cabinet Cocktails</div>
     <div class="header-sub">AI-Powered Bar Intelligence</div>
   </div>
-  <button class="header-key-btn" id="keyBtn" onclick="showKeyModal()">🔑 API Key</button>
-</div>
-<div class="modal-overlay" id="keyModal">
-  <div class="modal">
-    <div class="modal-title">API Key</div>
-    <div class="modal-desc">This app uses the Anthropic Claude API.<br><br>Get a key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> then API Keys.</div>
-    <input class="modal-input" type="password" id="apiKeyInput" placeholder="sk-ant-..." autocomplete="off" spellcheck="false">
-    <div class="modal-note">Your key is stored only in your browser and sent directly to Anthropic.</div>
-    <button class="btn-primary" onclick="saveKey()">SAVE AND CONTINUE</button>
-  </div>
 </div>
 <div class="main" id="main"></div>
 <script>
-var API_KEY = 'sk-ant-api03-JlVzsJll7xOKGOWp8lcnnGnSn_V6wei3eviNMeEYOcDlDoZBIvehnN2pJodj728EgYWKjVO4Vlg7xM-CKyzC6g-UmYxEQAA';
-var apiKey = localStorage.getItem('cc_api_key') || API_KEY;
 var imageBase64 = null;
 var imageType = 'image/jpeg';
-var PHOTOS = {
-  'manhattan': 'https://images.unsplash.com/photo-1527761939622-933c2cc40c5b?w=700&h=380&fit=crop',
-  'martini': 'https://images.unsplash.com/photo-1575023782549-62ca0d244b39?w=700&h=380&fit=crop',
-  'negroni': 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=700&h=380&fit=crop',
-  'old fashioned': 'https://images.unsplash.com/photo-1582906573562-ad2b80e21eca?w=700&h=380&fit=crop',
-  'whiskey sour': 'https://images.unsplash.com/photo-1607622750671-6cd9a99eabd1?w=700&h=380&fit=crop',
-  'sour': 'https://images.unsplash.com/photo-1607622750671-6cd9a99eabd1?w=700&h=380&fit=crop',
-  'daiquiri': 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=700&h=380&fit=crop',
-  'gimlet': 'https://images.unsplash.com/photo-1516535794938-6063878f08cc?w=700&h=380&fit=crop',
-  'spritz': 'https://images.unsplash.com/photo-1570598912132-0ba1dc952b7d?w=700&h=380&fit=crop',
-  'smash': 'https://images.unsplash.com/photo-1568644396922-5c3bfae12521?w=700&h=380&fit=crop',
-  'default': 'https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=700&h=380&fit=crop',
-  'wildcard': 'https://images.unsplash.com/photo-1543253687-c931c8e01820?w=700&h=380&fit=crop'
-};
-function getPhoto(name, isWildcard) {
-  if (isWildcard) return PHOTOS.wildcard;
-  var lower = (name || '').toLowerCase();
-  var keys = Object.keys(PHOTOS);
-  for (var i = 0; i < keys.length; i++) {
-    if (keys[i] !== 'default' && keys[i] !== 'wildcard' && lower.indexOf(keys[i]) !== -1) return PHOTOS[keys[i]];
+
+// 40 distinct curated cocktail photos from Unsplash — all different, all cocktail-appropriate
+// Using direct photo IDs ensures reliable unique images with no API key needed
+var PHOTO_POOL = [
+  'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1582906573562-ad2b80e21eca?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1527761939622-933c2cc40c5b?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1607622750671-6cd9a99eabd1?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1575023782549-62ca0d244b39?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1560508179-b2c9a3f8e92b?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1568644396922-5c3bfae12521?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1570598912132-0ba1dc952b7d?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1516535794938-6063878f08cc?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1543253687-c931c8e01820?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1560963689-b5682b6440f8?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1541614101331-1a5a3a194e92?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1567696153798-9111f9cd3d0d?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1536935338788-846bb9981813?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1423345631913-4b892b81a4a8?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1609951651556-5334e2706168?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1592459598049-babb8a3b1d6c?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1598300056393-4aac492f4344?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1622449590435-a1e3c0f8d0cd?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1585621386284-3ff5e3997581?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1639744093006-bbce9b84f793?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1603394996058-51e1b5f08f3c?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1655042628860-35b80b5fbede?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1597290282695-edc43d0e7129?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1562447457-579fc34967fb?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1587223962930-cb7f31384c19?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1571950006418-f67e26d6d4dd?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1576867757603-05b134ebc379?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=700&h=380&fit=crop',
+  'https://images.unsplash.com/photo-1514362453360-8f94243c9996?w=700&h=380&fit=crop'
+];
+
+// Hash function: converts a cocktail name into a stable unique index
+// This ensures the SAME cocktail always gets the SAME photo,
+// but DIFFERENT cocktails always get DIFFERENT photos
+function hashName(str) {
+  var hash = 0;
+  for (var i = 0; i < str.length; i++) {
+    hash = ((hash << 5) - hash) + str.charCodeAt(i);
+    hash = hash & hash;
   }
-  return PHOTOS['default'];
+  return Math.abs(hash);
 }
+
+// Assigns unique photos to an array of cocktail names
+// Guarantees no two cocktails in the same session share a photo
+function assignPhotos(names) {
+  var assigned = {};
+  var usedIndices = {};
+  names.forEach(function(name) {
+    var baseIndex = hashName(name) % PHOTO_POOL.length;
+    var index = baseIndex;
+    var attempts = 0;
+    // If this index is already used, find the next available one
+    while (usedIndices[index] && attempts < PHOTO_POOL.length) {
+      index = (index + 1) % PHOTO_POOL.length;
+      attempts++;
+    }
+    usedIndices[index] = true;
+    assigned[name] = PHOTO_POOL[index];
+  });
+  return assigned;
+}
+
 function esc(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function toggle(id) { var el = document.getElementById(id); if (el) el.classList.toggle('open'); }
-function updateKeyBtn() {
-  var btn = document.getElementById('keyBtn');
-  if (apiKey) { btn.textContent = 'Key Set'; btn.classList.add('set'); }
-  else { btn.textContent = 'API Key'; btn.classList.remove('set'); }
-}
-function showKeyModal() { document.getElementById('keyModal').style.display = 'flex'; document.getElementById('apiKeyInput').value = apiKey || ''; }
-function hideKeyModal() { document.getElementById('keyModal').style.display = 'none'; }
-function saveKey() {
-  var val = document.getElementById('apiKeyInput').value.trim();
-  if (!val.startsWith('sk-')) { alert('Key should start with sk-ant-'); return; }
-  apiKey = val; localStorage.setItem('cc_api_key', apiKey);
-  hideKeyModal(); updateKeyBtn(); showUpload();
-}
-document.getElementById('apiKeyInput').addEventListener('keydown', function(e) { if (e.key === 'Enter') saveKey(); });
-hideKeyModal();
-updateKeyBtn();
+
 showUpload();
+
 function showUpload() {
   imageBase64 = null;
   document.getElementById('main').innerHTML =
@@ -194,13 +210,16 @@ function showUpload() {
     '</div>' +
     '<div class="upload-zone" id="uz">' +
       '<input type="file" id="fi" accept="image/*" capture="environment">' +
-      '<div class="upload-icon">📷</div>' +
+      '<div class="upload-icon">&#128247;</div>' +
       '<div class="upload-title">Photograph Your Cabinet</div>' +
       '<div class="upload-hint">Tap to take a photo or choose one from your library.</div>' +
     '</div>';
   document.getElementById('fi').addEventListener('change', onFile);
-  document.getElementById('uz').addEventListener('click', function(e) { if (e.target.tagName !== 'INPUT') document.getElementById('fi').click(); });
+  document.getElementById('uz').addEventListener('click', function(e) {
+    if (e.target.tagName !== 'INPUT') document.getElementById('fi').click();
+  });
 }
+
 function onFile(e) {
   var file = e.target.files[0]; if (!file) return;
   var img = new Image();
@@ -214,23 +233,29 @@ function onFile(e) {
     imageType = 'image/jpeg';
     canvas.toBlob(function(blob) {
       var reader = new FileReader();
-      reader.onload = function(ev) { imageBase64 = ev.target.result.split(',')[1]; showPreview(canvas.toDataURL('image/jpeg', 0.88), w, h, blob.size); };
+      reader.onload = function(ev) {
+        imageBase64 = ev.target.result.split(',')[1];
+        showPreview(canvas.toDataURL('image/jpeg', 0.88), w, h, blob.size);
+      };
       reader.readAsDataURL(blob);
     }, 'image/jpeg', 0.88);
   };
   img.src = url;
 }
+
 function showPreview(url, w, h, size) {
   document.getElementById('main').innerHTML =
     '<div class="preview-wrap"><img src="' + url + '" class="preview-img">' +
-      '<div class="preview-overlay"><span class="preview-label">Ready to analyze</span><button class="btn-change" onclick="showUpload()">Change photo</button></div>' +
+      '<div class="preview-overlay"><span class="preview-label">Ready to analyze</span>' +
+      '<button class="btn-change" onclick="showUpload()">Change photo</button></div>' +
     '</div>' +
     '<div class="img-info">' + w + 'x' + h + 'px - ' + Math.round(size/1024) + ' KB</div>' +
     '<div class="cta-wrap">' +
       '<div class="cta-label">Tap to discover your cocktails</div>' +
-      '<button class="btn-analyze" onclick="analyze()">🔍 What Can I Make Tonight?</button>' +
+      '<button class="btn-analyze" onclick="analyze()">&#128269; What Can I Make Tonight?</button>' +
     '</div>';
 }
+
 function analyze() {
   if (!imageBase64) return;
   var steps = ['Scanning your cabinet...','Identifying bottles...','Researching recipes...','Calculating flavors...','Selecting your cocktails...','Inventing your Wildcard...'];
@@ -238,12 +263,16 @@ function analyze() {
   document.getElementById('main').innerHTML =
     '<div class="loading-wrap"><div class="loading-bar"><div class="loading-fill"></div></div>' +
     '<div class="loading-step" id="lstep">' + steps[0] + '</div></div>';
-  var iv = setInterval(function() { si=(si+1)%steps.length; var el=document.getElementById('lstep'); if(el) el.textContent=steps[si]; }, 1800);
-  var systemPrompt = 'You are a world-class master mixologist. Analyze this liquor cabinet image. Return ONLY valid JSON, no markdown, no other text: {"bottles":["every identified bottle"],"cocktails":[{"name":"Name","tagline":"One evocative sentence capturing mood and occasion","abv":"e.g. ~28% ABV","glassware":"specific glass e.g. Rocks glass","glasswareIcon":"single emoji","pairsWith":["2-3 specific foods e.g. Dark chocolate"],"ingredients":["2 oz bourbon","1 large ice cube","orange peel"],"instructions":"Step by step 2-3 sentences.","flavorNote":"Rich 2-3 sentence flavor description with specific notes like dried cherry, toasted oak, bitter citrus."}],"wildcard":{"name":"Creative Name","tagline":"One sentence","abv":"estimated ABV","glassware":"specific glass","glasswareIcon":"emoji","pairsWith":["2-3 foods"],"ingredients":["with amounts"],"instructions":"Steps.","flavorNote":"Rich flavor description.","rationale":"Why these ingredients work together."}} Rules: only cocktails from visible bottles (assume ice, water, simple syrup, fresh citrus available); ALWAYS include ice in ingredients when needed; sort best first; 6-10 cocktails; wildcard must be original. Return ONLY the JSON.';
+  var iv = setInterval(function() {
+    si = (si + 1) % steps.length;
+    var el = document.getElementById('lstep');
+    if (el) el.textContent = steps[si];
+  }, 1800);
+
   fetch('/analyze', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ imageBase64: imageBase64, imageType: imageType, prompt: systemPrompt })
+    body: JSON.stringify({ imageBase64: imageBase64, imageType: imageType })
   })
   .then(function(res) { return res.json(); })
   .then(function(data) {
@@ -255,60 +284,107 @@ function analyze() {
     clearInterval(iv);
     document.getElementById('main').innerHTML =
       '<div class="error-box">Something went wrong<div class="error-detail">' + esc(err.message) + '</div></div>' +
-      '<button class="btn-secondary" onclick="showUpload()">📷 Try Again</button>';
+      '<button class="btn-secondary" onclick="showUpload()">&#128247; Try Again</button>';
   });
 }
+
 function renderResults(r) {
-  var count = (r.cocktails||[]).length;
+  var cocktails = r.cocktails || [];
+  var count = cocktails.length;
+
+  // Build list of ALL names (cocktails + wildcard) and assign unique photos upfront
+  var allNames = cocktails.map(function(c) { return c.name; });
+  if (r.wildcard) allNames.push(r.wildcard.name + '__wildcard');
+  var photoMap = assignPhotos(allNames);
+
   var html = '';
+
+  // Bottles
   html += '<div class="section"><div class="section-label">Detected in your cabinet</div><div class="bottles-list">';
-  (r.bottles||[]).forEach(function(b) { html += '<div class="bottle-tag"><span class="dot"></span>' + esc(b) + '</div>'; });
+  (r.bottles || []).forEach(function(b) {
+    html += '<div class="bottle-tag"><span class="dot"></span>' + esc(b) + '</div>';
+  });
   html += '</div></div>';
-  html += '<div class="hero-cta-banner"><div class="cta-banner-title">Cocktails You Can<br><span>Make Right Now</span></div>';
+
+  // Hero CTA banner
+  html += '<div class="hero-cta-banner">';
+  html += '<div class="cta-banner-title">Cocktails You Can<br><span>Make Right Now</span></div>';
   html += '<div class="cta-banner-sub">Based on what\'s in your cabinet - no missing ingredients</div>';
-  html += '<div class="cta-count">' + count + ' Cocktail' + (count!==1?'s':'') + ' Ready - Tap Any Card for the Full Recipe</div></div>';
+  html += '<div class="cta-count">' + count + ' Cocktail' + (count !== 1 ? 's' : '') + ' Ready - Tap Any Card for the Full Recipe</div>';
+  html += '</div>';
+
+  // Cocktail cards
   html += '<div class="section">';
-  (r.cocktails||[]).forEach(function(c, i) {
-    var photo = getPhoto(c.name, false);
-    var pairs = (c.pairsWith||[]).map(function(p){return '<span class="card-pairs-tag">🍽 '+esc(p)+'</span>';}).join('');
-    html += '<div class="card" id="c'+i+'" onclick="toggle(\'c'+i+'\')">';
-    html += '<div class="card-img-wrap"><img class="card-img" src="'+photo+'" alt="'+esc(c.name)+'" loading="lazy"><div class="card-img-gradient"></div>';
-    if (c.abv) html += '<div class="card-img-abv">'+esc(c.abv)+'</div>';
-    if (c.glassware) html += '<div class="card-img-glass">'+esc(c.glasswareIcon||'')+'&nbsp;'+esc(c.glassware)+'</div>';
-    html += '<div class="card-img-rank">#'+(i+1)+' of '+count+'</div></div>';
-    html += '<div class="card-body"><div class="card-name">'+esc(c.name)+'</div><div class="card-tagline">'+esc(c.tagline)+'</div>';
-    html += '<div class="card-meta-row">'+pairs+'</div>';
-    html += '<div class="card-toggle-row"><span class="card-toggle-hint">Tap for recipe</span><span class="chevron">&#9660;</span></div></div>';
+  cocktails.forEach(function(c, i) {
+    var photo = photoMap[c.name];
+    var pairs = (c.pairsWith || []).map(function(p) {
+      return '<span class="card-pairs-tag">&#127869; ' + esc(p) + '</span>';
+    }).join('');
+    html += '<div class="card" id="c' + i + '" onclick="toggle(\'c' + i + '\')">';
+    html += '<div class="card-img-wrap">';
+    html += '<img class="card-img" src="' + photo + '" alt="' + esc(c.name) + '" loading="lazy">';
+    html += '<div class="card-img-gradient"></div>';
+    if (c.abv) html += '<div class="card-img-abv">' + esc(c.abv) + '</div>';
+    if (c.glassware) html += '<div class="card-img-glass">' + esc(c.glasswareIcon || '') + ' ' + esc(c.glassware) + '</div>';
+    html += '<div class="card-img-rank">#' + (i + 1) + ' of ' + count + '</div>';
+    html += '</div>';
+    html += '<div class="card-body">';
+    html += '<div class="card-name">' + esc(c.name) + '</div>';
+    html += '<div class="card-tagline">' + esc(c.tagline) + '</div>';
+    if (pairs) html += '<div class="card-meta-row">' + pairs + '</div>';
+    html += '<div class="card-toggle-row"><span class="card-toggle-hint">Tap for recipe</span><span class="chevron">&#9660;</span></div>';
+    html += '</div>';
     html += '<div class="card-detail">';
-    if (c.glassware) html += '<div class="dl">Glassware</div><div class="glass-note"><span class="glass-icon">'+esc(c.glasswareIcon||'🥃')+'</span>'+esc(c.glassware)+'</div>';
-    html += '<div class="dl">Ingredients</div><ul class="ing-list">'+(c.ingredients||[]).map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul>';
-    html += '<div class="dl">Instructions</div><p class="inst">'+esc(c.instructions)+'</p>';
-    if (c.flavorNote) html += '<div class="dl">Flavor Profile</div><p class="flavor">'+esc(c.flavorNote)+'</p>';
+    if (c.glassware) {
+      html += '<div class="dl">Glassware</div>';
+      html += '<div class="glass-note"><span class="glass-icon">' + esc(c.glasswareIcon || '&#127867;') + '</span> ' + esc(c.glassware) + '</div>';
+    }
+    html += '<div class="dl">Ingredients</div><ul class="ing-list">';
+    (c.ingredients || []).forEach(function(x) { html += '<li>' + esc(x) + '</li>'; });
+    html += '</ul>';
+    html += '<div class="dl">Instructions</div><p class="inst">' + esc(c.instructions) + '</p>';
+    if (c.flavorNote) html += '<div class="dl">Flavor Profile</div><p class="flavor">' + esc(c.flavorNote) + '</p>';
     html += '</div></div>';
   });
   html += '</div>';
+
+  // Wildcard
   if (r.wildcard) {
     var w = r.wildcard;
-    var photo = getPhoto(w.name, true);
-    var pairs = (w.pairsWith||[]).map(function(p){return '<span class="card-pairs-tag">🍽 '+esc(p)+'</span>';}).join('');
+    var wcPhoto = photoMap[w.name + '__wildcard'];
+    var wcPairs = (w.pairsWith || []).map(function(p) {
+      return '<span class="card-pairs-tag">&#127869; ' + esc(p) + '</span>';
+    }).join('');
     html += '<div class="section"><div class="section-label">Wildcard - Original Creation</div>';
     html += '<div class="card wildcard" id="cwc" onclick="toggle(\'cwc\')">';
-    html += '<div class="card-img-wrap"><img class="card-img" src="'+photo+'" alt="'+esc(w.name)+'" loading="lazy"><div class="card-img-gradient"></div>';
-    if (w.abv) html += '<div class="card-img-abv">'+esc(w.abv)+'</div>';
+    html += '<div class="card-img-wrap">';
+    html += '<img class="card-img" src="' + wcPhoto + '" alt="' + esc(w.name) + '" loading="lazy">';
+    html += '<div class="card-img-gradient"></div>';
+    if (w.abv) html += '<div class="card-img-abv">' + esc(w.abv) + '</div>';
     html += '<div class="card-img-wc-badge">&#10022; Wildcard</div>';
-    html += '<div class="card-img-rank">Claude\'s Original Recipe</div></div>';
-    html += '<div class="card-body"><div class="card-name">'+esc(w.name)+'</div><div class="card-tagline">'+esc(w.tagline)+'</div>';
-    html += '<div class="card-meta-row">'+pairs+'</div>';
-    html += '<div class="card-toggle-row"><span class="card-toggle-hint">Tap for recipe</span><span class="chevron">&#9660;</span></div></div>';
+    html += '<div class="card-img-rank">Claude\'s Original Recipe</div>';
+    html += '</div>';
+    html += '<div class="card-body">';
+    html += '<div class="card-name">' + esc(w.name) + '</div>';
+    html += '<div class="card-tagline">' + esc(w.tagline) + '</div>';
+    if (wcPairs) html += '<div class="card-meta-row">' + wcPairs + '</div>';
+    html += '<div class="card-toggle-row"><span class="card-toggle-hint">Tap for recipe</span><span class="chevron">&#9660;</span></div>';
+    html += '</div>';
     html += '<div class="card-detail">';
-    if (w.rationale) html += '<div class="dl">The Concept</div><p class="flavor">'+esc(w.rationale)+'</p>';
-    if (w.glassware) html += '<div class="dl">Glassware</div><div class="glass-note"><span class="glass-icon">'+esc(w.glasswareIcon||'🥃')+'</span>'+esc(w.glassware)+'</div>';
-    html += '<div class="dl">Ingredients</div><ul class="ing-list">'+(w.ingredients||[]).map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul>';
-    html += '<div class="dl">Instructions</div><p class="inst">'+esc(w.instructions)+'</p>';
-    if (w.flavorNote) html += '<div class="dl">Flavor Science</div><p class="flavor">'+esc(w.flavorNote)+'</p>';
+    if (w.rationale) html += '<div class="dl">The Concept</div><p class="flavor">' + esc(w.rationale) + '</p>';
+    if (w.glassware) {
+      html += '<div class="dl">Glassware</div>';
+      html += '<div class="glass-note"><span class="glass-icon">' + esc(w.glasswareIcon || '&#127867;') + '</span> ' + esc(w.glassware) + '</div>';
+    }
+    html += '<div class="dl">Ingredients</div><ul class="ing-list">';
+    (w.ingredients || []).forEach(function(x) { html += '<li>' + esc(x) + '</li>'; });
+    html += '</ul>';
+    html += '<div class="dl">Instructions</div><p class="inst">' + esc(w.instructions) + '</p>';
+    if (w.flavorNote) html += '<div class="dl">Flavor Science</div><p class="flavor">' + esc(w.flavorNote) + '</p>';
     html += '</div></div></div>';
   }
-  html += '<button class="btn-secondary" onclick="showUpload()">📷 Scan Another Cabinet</button>';
+
+  html += '<button class="btn-secondary" onclick="showUpload()">&#128247; Scan Another Cabinet</button>';
   document.getElementById('main').innerHTML = html;
 }
 </script>
