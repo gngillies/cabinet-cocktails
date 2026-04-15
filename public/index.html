@@ -73,6 +73,20 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-body);
 .card.open { border-color: var(--gold); }
 .card.wildcard { border-color: var(--amber); background: linear-gradient(160deg, var(--surface), rgba(224,123,42,0.06)); }
 .card.wildcard::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg, var(--amber), var(--gold)); z-index:1; }
+.mocktail-label {
+  font-family: var(--font-display) !important;
+  font-size: 1rem !important;
+  color: #ffffff !important;
+  background: #cc2200;
+  padding: 0.45rem 1rem !important;
+  border-radius: 8px;
+  letter-spacing: 0.18em !important;
+  display: inline-flex !important;
+  width: auto !important;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 12px rgba(204,34,0,0.5);
+}
+.mocktail-label::after { display: none !important; }
 .card.mocktail { border-color: #3a7a5a; background: linear-gradient(160deg, var(--surface), rgba(58,122,90,0.07)); }
 .card.mocktail::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg, #3a7a5a, #5aab78); z-index:1; }
 .mocktail-badge { position: absolute; top: 0.75rem; right: 0.85rem; background: #3a7a5a; color: #ffffff; font-size: 0.6rem; font-weight: 700; padding: 0.22rem 0.6rem; border-radius: 6px; letter-spacing: 0.1em; text-transform: uppercase; z-index: 2; }
@@ -122,79 +136,17 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-body);
 var imageBase64 = null;
 var imageType = 'image/jpeg';
 
-// 40 distinct curated cocktail photos from Unsplash — all different, all cocktail-appropriate
-// Using direct photo IDs ensures reliable unique images with no API key needed
-var PHOTO_POOL = [
-  'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1546171753-97d7676e4602?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1480506132288-68f7705954bd?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1607622750671-6cd9a99eabd1?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1575023782549-62ca0d244b39?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1560508179-b2c9a3f8e92b?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1568644396922-5c3bfae12521?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1570598912132-0ba1dc952b7d?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1516535794938-6063878f08cc?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1543253687-c931c8e01820?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1560963689-b5682b6440f8?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1541614101331-1a5a3a194e92?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1567696153798-9111f9cd3d0d?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1536935338788-846bb9981813?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1517686469429-8bdb88b9f907?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1609951651556-5334e2706168?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1571613316887-6f8d5cbf7ef7?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1598300056393-4aac492f4344?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1499638673689-79a0b5115d87?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1525268323446-0505b6fe7778?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1436076863939-06870fe779c2?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1597290282695-edc43d0e7129?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1562447457-579fc34967fb?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1587223962930-cb7f31384c19?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1507041957456-9c397ce39c97?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1576867757603-05b134ebc379?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=700&h=380&fit=crop',
-  'https://images.unsplash.com/photo-1514362453360-8f94243c9996?w=700&h=380&fit=crop'
-];
-
-// Hash function: converts a cocktail name into a stable unique index
-// This ensures the SAME cocktail always gets the SAME photo,
-// but DIFFERENT cocktails always get DIFFERENT photos
-function hashName(str) {
-  var hash = 0;
-  for (var i = 0; i < str.length; i++) {
-    hash = ((hash << 5) - hash) + str.charCodeAt(i);
-    hash = hash & hash;
-  }
-  return Math.abs(hash);
-}
-
-// Assigns unique photos to an array of cocktail names
-// Guarantees no two cocktails in the same session share a photo
+// Get a relevant cocktail photo by searching Unsplash with the drink name
+// The seed parameter ensures each card gets a different image even for similar names
 function assignPhotos(names) {
   var assigned = {};
-  var usedIndices = {};
-  names.forEach(function(name) {
-    var baseIndex = hashName(name) % PHOTO_POOL.length;
-    var index = baseIndex;
-    var attempts = 0;
-    // If this index is already used, find the next available one
-    while (usedIndices[index] && attempts < PHOTO_POOL.length) {
-      index = (index + 1) % PHOTO_POOL.length;
-      attempts++;
-    }
-    usedIndices[index] = true;
-    assigned[name] = PHOTO_POOL[index];
+  names.forEach(function(name, index) {
+    // Clean the name for use in URL - remove __wildcard/__mocktail suffix
+    var cleanName = name.replace('__wildcard', '').replace('__mocktail', '');
+    // Use cocktail name + index as search terms
+    // The sig= seed ensures different results for different positions
+    var searchTerm = encodeURIComponent('cocktail drink ' + cleanName);
+    assigned[name] = 'https://source.unsplash.com/700x380/?' + searchTerm + '&sig=' + index;
   });
   return assigned;
 }
@@ -355,7 +307,7 @@ function renderResults(r) {
 
   // Mocktails
   if (r.mocktails && r.mocktails.length > 0) {
-    html += '<div class="section"><div class="section-label">Mocktails - Alcohol Free</div>';
+    html += '<div class="section"><div class="section-label mocktail-label">&#9670; Mocktails - Alcohol Free &#9670;</div>';
     r.mocktails.forEach(function(m, i) {
       var mcPhoto = photoMap[m.name + '__mocktail'];
       var mcPairs = (m.pairsWith || []).map(function(p) {
