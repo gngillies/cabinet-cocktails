@@ -73,6 +73,9 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-body);
 .card.open { border-color: var(--gold); }
 .card.wildcard { border-color: var(--amber); background: linear-gradient(160deg, var(--surface), rgba(224,123,42,0.06)); }
 .card.wildcard::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg, var(--amber), var(--gold)); z-index:1; }
+.card.mocktail { border-color: #3a7a5a; background: linear-gradient(160deg, var(--surface), rgba(58,122,90,0.07)); }
+.card.mocktail::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg, #3a7a5a, #5aab78); z-index:1; }
+.mocktail-badge { position: absolute; top: 0.75rem; right: 0.85rem; background: #3a7a5a; color: #ffffff; font-size: 0.6rem; font-weight: 700; padding: 0.22rem 0.6rem; border-radius: 6px; letter-spacing: 0.1em; text-transform: uppercase; z-index: 2; }
 .card-img-wrap { width: 100%; height: 190px; overflow: hidden; position: relative; background: var(--surface2); }
 .card-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease, filter 0.3s ease; filter: brightness(0.78) saturate(1.1); }
 .card:hover .card-img { filter: brightness(0.9) saturate(1.15); transform: scale(1.03); }
@@ -85,6 +88,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-body);
 .card-name { font-family: var(--font-display); font-size: 1.55rem; letter-spacing: 0.03em; line-height: 1.05; color: var(--text-bright); margin-bottom: 0.25rem; }
 .card-tagline { font-size: 0.8rem; color: var(--text-mid); line-height: 1.5; }
 .card-meta-row { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.65rem; flex-wrap: wrap; }
+.card-pairs-label { font-size: 0.58rem; color: var(--text-dim); letter-spacing: 0.14em; text-transform: uppercase; margin-top: 0.55rem; margin-bottom: 0.3rem; }
 .card-pairs-tag { display: flex; align-items: center; gap: 0.35rem; background: rgba(212,168,67,0.1); border: 1px solid rgba(212,168,67,0.25); border-radius: 20px; padding: 0.25rem 0.7rem; font-size: 0.7rem; color: var(--gold-light); }
 .card-toggle-row { display: flex; align-items: center; justify-content: space-between; margin-top: 0.7rem; }
 .card-toggle-hint { font-size: 0.65rem; color: var(--text-dim); letter-spacing: 0.06em; }
@@ -294,6 +298,7 @@ function renderResults(r) {
 
   // Build list of ALL names (cocktails + wildcard) and assign unique photos upfront
   var allNames = cocktails.map(function(c) { return c.name; });
+  (r.mocktails || []).forEach(function(m) { allNames.push(m.name + '__mocktail'); });
   if (r.wildcard) allNames.push(r.wildcard.name + '__wildcard');
   var photoMap = assignPhotos(allNames);
 
@@ -331,12 +336,12 @@ function renderResults(r) {
     html += '<div class="card-body">';
     html += '<div class="card-name">' + esc(c.name) + '</div>';
     html += '<div class="card-tagline">' + esc(c.tagline) + '</div>';
-    if (pairs) html += '<div class="card-meta-row">' + pairs + '</div>';
+    if (pairs) html += '<div class="card-pairs-label">Food Pairings</div><div class="card-meta-row">' + pairs + '</div>';
     html += '<div class="card-toggle-row"><span class="card-toggle-hint">Tap for recipe</span><span class="chevron">&#9660;</span></div>';
     html += '</div>';
     html += '<div class="card-detail">';
     if (c.glassware) {
-      html += '<div class="dl">Glassware</div>';
+      html += '<div class="dl">Serve In</div>';
       html += '<div class="glass-note"><span class="glass-icon">' + esc(c.glasswareIcon || '&#127867;') + '</span> ' + esc(c.glassware) + '</div>';
     }
     html += '<div class="dl">Ingredients</div><ul class="ing-list">';
@@ -347,6 +352,43 @@ function renderResults(r) {
     html += '</div></div>';
   });
   html += '</div>';
+
+  // Mocktails
+  if (r.mocktails && r.mocktails.length > 0) {
+    html += '<div class="section"><div class="section-label">Mocktails - Alcohol Free</div>';
+    r.mocktails.forEach(function(m, i) {
+      var mcPhoto = photoMap[m.name + '__mocktail'];
+      var mcPairs = (m.pairsWith || []).map(function(p) {
+        return '<span class="card-pairs-tag">&#127869; ' + esc(p) + '</span>';
+      }).join('');
+      var mcId = 'mc' + i;
+      html += '<div class="card mocktail" id="' + mcId + '" onclick="toggle('' + mcId + '')">';
+      html += '<div class="card-img-wrap">';
+      html += '<img class="card-img" src="' + mcPhoto + '" alt="' + esc(m.name) + '" loading="lazy">';
+      html += '<div class="card-img-gradient"></div>';
+      html += '<div class="mocktail-badge">&#9670; Mocktail</div>';
+      if (m.glassware) html += '<div class="card-img-glass">' + esc(m.glasswareIcon || '') + ' ' + esc(m.glassware) + '</div>';
+      html += '</div>';
+      html += '<div class="card-body">';
+      html += '<div class="card-name">' + esc(m.name) + '</div>';
+      html += '<div class="card-tagline">' + esc(m.tagline) + '</div>';
+      if (mcPairs) html += '<div class="card-pairs-label">Food Pairings</div><div class="card-meta-row">' + mcPairs + '</div>';
+      html += '<div class="card-toggle-row"><span class="card-toggle-hint">Tap for recipe</span><span class="chevron">&#9660;</span></div>';
+      html += '</div>';
+      html += '<div class="card-detail">';
+      if (m.glassware) {
+        html += '<div class="dl">Serve In</div>';
+        html += '<div class="glass-note"><span class="glass-icon">' + esc(m.glasswareIcon || '&#127863;') + '</span> ' + esc(m.glassware) + '</div>';
+      }
+      html += '<div class="dl">Ingredients</div><ul class="ing-list">';
+      (m.ingredients || []).forEach(function(x) { html += '<li>' + esc(x) + '</li>'; });
+      html += '</ul>';
+      html += '<div class="dl">Instructions</div><p class="inst">' + esc(m.instructions) + '</p>';
+      if (m.flavorNote) html += '<div class="dl">Flavor Profile</div><p class="flavor">' + esc(m.flavorNote) + '</p>';
+      html += '</div></div>';
+    });
+    html += '</div>';
+  }
 
   // Wildcard
   if (r.wildcard) {
@@ -367,13 +409,13 @@ function renderResults(r) {
     html += '<div class="card-body">';
     html += '<div class="card-name">' + esc(w.name) + '</div>';
     html += '<div class="card-tagline">' + esc(w.tagline) + '</div>';
-    if (wcPairs) html += '<div class="card-meta-row">' + wcPairs + '</div>';
+    if (wcPairs) html += '<div class="card-pairs-label">Food Pairings</div><div class="card-meta-row">' + wcPairs + '</div>';
     html += '<div class="card-toggle-row"><span class="card-toggle-hint">Tap for recipe</span><span class="chevron">&#9660;</span></div>';
     html += '</div>';
     html += '<div class="card-detail">';
     if (w.rationale) html += '<div class="dl">The Concept</div><p class="flavor">' + esc(w.rationale) + '</p>';
     if (w.glassware) {
-      html += '<div class="dl">Glassware</div>';
+      html += '<div class="dl">Serve In</div>';
       html += '<div class="glass-note"><span class="glass-icon">' + esc(w.glasswareIcon || '&#127867;') + '</span> ' + esc(w.glassware) + '</div>';
     }
     html += '<div class="dl">Ingredients</div><ul class="ing-list">';
