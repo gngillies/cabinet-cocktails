@@ -240,30 +240,16 @@ function analyze() {
     '<div class="loading-step" id="lstep">' + steps[0] + '</div></div>';
   var iv = setInterval(function() { si=(si+1)%steps.length; var el=document.getElementById('lstep'); if(el) el.textContent=steps[si]; }, 1800);
   var systemPrompt = 'You are a world-class master mixologist. Analyze this liquor cabinet image. Return ONLY valid JSON, no markdown, no other text: {"bottles":["every identified bottle"],"cocktails":[{"name":"Name","tagline":"One evocative sentence capturing mood and occasion","abv":"e.g. ~28% ABV","glassware":"specific glass e.g. Rocks glass","glasswareIcon":"single emoji","pairsWith":["2-3 specific foods e.g. Dark chocolate"],"ingredients":["2 oz bourbon","1 large ice cube","orange peel"],"instructions":"Step by step 2-3 sentences.","flavorNote":"Rich 2-3 sentence flavor description with specific notes like dried cherry, toasted oak, bitter citrus."}],"wildcard":{"name":"Creative Name","tagline":"One sentence","abv":"estimated ABV","glassware":"specific glass","glasswareIcon":"emoji","pairsWith":["2-3 foods"],"ingredients":["with amounts"],"instructions":"Steps.","flavorNote":"Rich flavor description.","rationale":"Why these ingredients work together."}} Rules: only cocktails from visible bottles (assume ice, water, simple syrup, fresh citrus available); ALWAYS include ice in ingredients when needed; sort best first; 6-10 cocktails; wildcard must be original. Return ONLY the JSON.';
-  fetch('https://api.anthropic.com/v1/messages', {
+  fetch('/analyze', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-allow-browser': 'true'
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 3000,
-      system: systemPrompt,
-      messages: [{ role: 'user', content: [
-        { type: 'image', source: { type: 'base64', media_type: imageType, data: imageBase64 } },
-        { type: 'text', text: 'Analyze this liquor cabinet.' }
-      ]}]
-    })
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ imageBase64: imageBase64, imageType: imageType, prompt: systemPrompt })
   })
   .then(function(res) { return res.json(); })
   .then(function(data) {
     clearInterval(iv);
-    if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
-    var text = (data.content||[]).map(function(b){return b.text||'';}).join('').replace(/```json|```/g,'').trim();
-    renderResults(JSON.parse(text));
+    if (data.error) throw new Error(data.error);
+    renderResults(data);
   })
   .catch(function(err) {
     clearInterval(iv);
