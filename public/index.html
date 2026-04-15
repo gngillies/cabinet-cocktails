@@ -3,15 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0a0a0a">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <title>Cabinet Cocktails</title>
-<!-- Load fonts async - never blocks rendering -->
-<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400;500;600&family=Fraunces:ital,wght@0,400;1,400&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400;500;600&family=Fraunces:ital,wght@0,400;1,400&display=swap"></noscript>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=Fraunces:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -20,9 +14,9 @@
   --gold: #d4a843; --gold-light: #e8c26a; --amber: #e07b2a;
   --text: #f2ede4; --text-bright: #ffffff; --text-mid: #c8c0b4; --text-dim: #8a8078;
   --green: #5aab78;
-  --font-display: 'Bebas Neue', Impact, 'Arial Narrow', sans-serif;
-  --font-serif: 'Fraunces', Georgia, 'Times New Roman', serif;
-  --font-body: 'Outfit', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-serif: 'Fraunces', Georgia, serif;
+  --font-body: 'Outfit', sans-serif;
   --card-shadow: 0 8px 32px rgba(0,0,0,0.7), 0 2px 8px rgba(0,0,0,0.5);
   --card-hover-shadow: 0 16px 48px rgba(0,0,0,0.8), 0 4px 16px rgba(212,168,67,0.12);
 }
@@ -125,24 +119,9 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-body);
 .flavor { font-size: 0.82rem; color: var(--text-mid); line-height: 1.68; font-style: italic; }
 .glass-note { display: flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 10px; padding: 0.55rem 0.8rem; font-size: 0.76rem; color: var(--text-mid); margin-top: 0.2rem; }
 .glass-icon { font-size: 1.1rem; }
-
-/* Skeleton loading cards - show structure while AI thinks */
-.skeleton-grid { margin-top: 1rem; }
-.skeleton-card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; margin-bottom: 1.1rem; overflow: hidden; }
-.skeleton-img { width: 100%; height: 140px; background: linear-gradient(90deg, var(--surface2) 25%, var(--border) 50%, var(--surface2) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
-.skeleton-body { padding: 1rem 1.2rem; }
-.skeleton-line { height: 14px; border-radius: 7px; background: linear-gradient(90deg, var(--surface2) 25%, var(--border) 50%, var(--surface2) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; margin-bottom: 0.6rem; }
-.skeleton-line.w80 { width: 80%; }
-.skeleton-line.w60 { width: 60%; }
-.skeleton-line.w40 { width: 40%; }
-@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
-
 .error-box { background: rgba(192,57,43,0.1); border: 1px solid rgba(192,57,43,0.3); border-radius: 14px; padding: 1.1rem 1.25rem; font-size: 0.82rem; color: #e07070; line-height: 1.6; margin-top: 1rem; }
 .error-detail { margin-top: 0.6rem; font-size: 0.72rem; color: #c06060; font-family: monospace; background: rgba(0,0,0,0.3); padding: 0.5rem 0.65rem; border-radius: 6px; word-break: break-all; }
 </style>
-<link rel="preload" as="image" href="https://images.pexels.com/photos/35087284/pexels-photo-35087284.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80">
-<link rel="preload" as="image" href="https://images.pexels.com/photos/35087290/pexels-photo-35087290.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80">
-<link rel="preload" as="image" href="https://images.pexels.com/photos/28617322/pexels-photo-28617322.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80">
 </head>
 <body>
 <div class="header">
@@ -159,54 +138,54 @@ var imageType = 'image/jpeg';
 
 // 48 cocktail photos sourced directly from Pexels cocktail search - visually verified
 var PHOTO_POOL = [
-  'https://images.pexels.com/photos/35087284/pexels-photo-35087284.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/35087290/pexels-photo-35087290.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/28617322/pexels-photo-28617322.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/14370498/pexels-photo-14370498.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/32908830/pexels-photo-32908830.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/34225450/pexels-photo-34225450.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/34519764/pexels-photo-34519764.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/7985162/pexels-photo-7985162.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/30133537/pexels-photo-30133537.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/35255778/pexels-photo-35255778.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/6451032/pexels-photo-6451032.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/24869046/pexels-photo-24869046.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/14483478/pexels-photo-14483478.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/33633642/pexels-photo-33633642.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/28642821/pexels-photo-28642821.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/36244827/pexels-photo-36244827.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/14491763/pexels-photo-14491763.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/28490829/pexels-photo-28490829.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/14537763/pexels-photo-14537763.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/32908839/pexels-photo-32908839.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/17010906/pexels-photo-17010906.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/36061350/pexels-photo-36061350.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/15973422/pexels-photo-15973422.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/31331973/pexels-photo-31331973.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/7809763/pexels-photo-7809763.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/36581128/pexels-photo-36581128.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/36117948/pexels-photo-36117948.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/29095930/pexels-photo-29095930.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/29319315/pexels-photo-29319315.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/16736474/pexels-photo-16736474.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/13799704/pexels-photo-13799704.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/28618607/pexels-photo-28618607.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/5116860/pexels-photo-5116860.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/30591631/pexels-photo-30591631.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/31331968/pexels-photo-31331968.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/29138468/pexels-photo-29138468.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/2480823/pexels-photo-2480823.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/31331969/pexels-photo-31331969.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/28792480/pexels-photo-28792480.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/29095925/pexels-photo-29095925.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/15082368/pexels-photo-15082368.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/32838165/pexels-photo-32838165.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/3407782/pexels-photo-3407782.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/32793268/pexels-photo-32793268.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/28490828/pexels-photo-28490828.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/30608745/pexels-photo-30608745.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/28893423/pexels-photo-28893423.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80',
-  'https://images.pexels.com/photos/16792149/pexels-photo-16792149.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop&q=80'
+  'https://images.pexels.com/photos/35087284/pexels-photo-35087284.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/35087290/pexels-photo-35087290.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/28617322/pexels-photo-28617322.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/14370498/pexels-photo-14370498.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/32908830/pexels-photo-32908830.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/34225450/pexels-photo-34225450.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/34519764/pexels-photo-34519764.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/7985162/pexels-photo-7985162.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/30133537/pexels-photo-30133537.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/35255778/pexels-photo-35255778.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/6451032/pexels-photo-6451032.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/24869046/pexels-photo-24869046.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/14483478/pexels-photo-14483478.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/33633642/pexels-photo-33633642.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/28642821/pexels-photo-28642821.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/36244827/pexels-photo-36244827.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/14491763/pexels-photo-14491763.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/28490829/pexels-photo-28490829.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/14537763/pexels-photo-14537763.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/32908839/pexels-photo-32908839.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/17010906/pexels-photo-17010906.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/36061350/pexels-photo-36061350.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/15973422/pexels-photo-15973422.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/31331973/pexels-photo-31331973.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/7809763/pexels-photo-7809763.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/36581128/pexels-photo-36581128.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/36117948/pexels-photo-36117948.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/29095930/pexels-photo-29095930.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/29319315/pexels-photo-29319315.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/16736474/pexels-photo-16736474.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/13799704/pexels-photo-13799704.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/28618607/pexels-photo-28618607.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/5116860/pexels-photo-5116860.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/30591631/pexels-photo-30591631.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/31331968/pexels-photo-31331968.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/29138468/pexels-photo-29138468.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/2480823/pexels-photo-2480823.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/31331969/pexels-photo-31331969.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/28792480/pexels-photo-28792480.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/29095925/pexels-photo-29095925.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/15082368/pexels-photo-15082368.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/32838165/pexels-photo-32838165.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/3407782/pexels-photo-3407782.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/32793268/pexels-photo-32793268.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/28490828/pexels-photo-28490828.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/30608745/pexels-photo-30608745.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/28893423/pexels-photo-28893423.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/16792149/pexels-photo-16792149.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop'
 ];
 
 function hashName(str) {
@@ -239,16 +218,6 @@ function esc(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt
 function toggle(id) { var el = document.getElementById(id); if (el) el.classList.toggle('open'); }
 
 showUpload();
-
-// Keep Render server warm - ping every 14 minutes to prevent cold starts
-// Cold starts on free tier can take 30+ seconds - this eliminates that
-setInterval(function() {
-  fetch('/analyze', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ping: true})
-  }).catch(function(){});
-}, 14 * 60 * 1000);
 
 function showUpload() {
   imageBase64 = null;
@@ -308,30 +277,221 @@ function showPreview(url, w, h, size) {
 
 function analyze() {
   if (!imageBase64) return;
-  var steps = ['Scanning your cabinet...','Identifying bottles...','Researching recipes...','Calculating flavors...','Selecting your cocktails...','Inventing your Wildcard...'];
-  var si = 0;
+
+  // Show loading bar + skeleton cards immediately for perceived speed
   document.getElementById('main').innerHTML =
     '<div class="loading-wrap"><div class="loading-bar"><div class="loading-fill"></div></div>' +
-    '<div class="loading-step" id="lstep">' + steps[0] + '</div></div>' +
-    '<div class="skeleton-grid">' +
-    '<div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line w80"></div><div class="skeleton-line w60"></div><div class="skeleton-line w40"></div></div></div>'.repeat(3) +
-    '</div>';
+    '<div class="loading-step" id="lstep">Scanning your cabinet...</div></div>' +
+    '<div id="stream-results"></div>';
+
+  var steps = ['Scanning your cabinet...','Identifying bottles...','Researching recipes...','Calculating flavors...','Building your cocktail menu...'];
+  var si = 0;
   var iv = setInterval(function() {
     si = (si + 1) % steps.length;
     var el = document.getElementById('lstep');
     if (el) el.textContent = steps[si];
-  }, 1800);
+  }, 2000);
+
+  // Track what we've received
+  var bottlesRendered = false;
+  var cocktailCount = 0;
+  var mocktailCount = 0;
+  var wildcardRendered = false;
+  var photoNames = [];
+  var photoMap = {};
+  var photoIndex = 0;
+
+  function getNextPhoto(name) {
+    // Assign a unique photo from the pool in order
+    if (photoMap[name]) return photoMap[name];
+    var url = PHOTO_POOL[photoIndex % PHOTO_POOL.length];
+    photoIndex++;
+    photoMap[name] = url;
+    return url;
+  }
+
+  function renderBottles(bottles) {
+    var el = document.getElementById('stream-results');
+    if (!el) return;
+    var html = '<div class="section"><div class="section-label">Detected in your cabinet</div><div class="bottles-list">';
+    bottles.forEach(function(b) { html += '<div class="bottle-tag"><span class="dot"></span>' + esc(b) + '</div>'; });
+    html += '</div></div>';
+    html += '<div class="hero-cta-banner"><div class="cta-banner-title">Cocktails You Can<br><span>Make Right Now</span></div>';
+    html += '<div class="cta-banner-sub">Based on what&#39;s in your cabinet - no missing ingredients</div>';
+    html += '<div class="cta-count" id="cocktail-count">Analyzing...</div></div>';
+    html += '<div class="section" id="cocktail-cards"></div>';
+    el.innerHTML = html;
+    // Hide the loading step text once bottles show
+    var lstep = document.getElementById('lstep');
+    if (lstep) lstep.style.display = 'none';
+  }
+
+  function renderCocktailCard(c, index) {
+    var container = document.getElementById('cocktail-cards');
+    if (!container) return;
+    var photo = getNextPhoto(c.name);
+    var pairs = (c.pairsWith || []).map(function(p) {
+      return '<span class="card-pairs-tag">&#127869; ' + esc(p) + '</span>';
+    }).join('');
+    var id = 'c' + index;
+    var div = document.createElement('div');
+    div.innerHTML = buildCard(id, c, photo, '#' + (index+1), pairs, false);
+    div.firstChild.style.animation = 'fadeUp 0.3s ease both';
+    container.appendChild(div.firstChild);
+    // Scroll the new card into view gently
+    div.firstChild && div.firstChild.scrollIntoView && div.firstChild.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function renderMocktailSection() {
+    var el = document.getElementById('stream-results');
+    if (!el || document.getElementById('mocktail-section')) return;
+    var div = document.createElement('div');
+    div.id = 'mocktail-section';
+    div.innerHTML = '<div class="section"><div class="section-label mocktail-label">&#9670; Mocktails - Alcohol Free &#9670;</div><div id="mocktail-cards"></div></div>';
+    el.appendChild(div);
+  }
+
+  function renderMocktailCard(m, index) {
+    renderMocktailSection();
+    var container = document.getElementById('mocktail-cards');
+    if (!container) return;
+    var photo = getNextPhoto('mocktail_' + index);
+    var pairs = (m.pairsWith || []).map(function(p) {
+      return '<span class="card-pairs-tag">&#127869; ' + esc(p) + '</span>';
+    }).join('');
+    var id = 'mc' + index;
+    var div = document.createElement('div');
+    div.innerHTML = buildCard(id, m, photo, null, pairs, 'mocktail');
+    div.firstChild.style.animation = 'fadeUp 0.3s ease both';
+    container.appendChild(div.firstChild);
+  }
+
+  function renderWildcard(w) {
+    var el = document.getElementById('stream-results');
+    if (!el) return;
+    var photo = getNextPhoto('wildcard_' + w.name);
+    var pairs = (w.pairsWith || []).map(function(p) {
+      return '<span class="card-pairs-tag">&#127869; ' + esc(p) + '</span>';
+    }).join('');
+    var div = document.createElement('div');
+    div.innerHTML = '<div class="section"><div class="section-label">Wildcard - Original Creation</div>' +
+      buildCard('cwc', w, photo, null, pairs, 'wildcard') + '</div>';
+    div.firstChild.style.animation = 'fadeUp 0.3s ease both';
+    el.appendChild(div.firstChild);
+    // Add scan again button
+    var btn = document.createElement('button');
+    btn.className = 'btn-secondary';
+    btn.onclick = showUpload;
+    btn.innerHTML = '&#128247; Scan Another Cabinet';
+    el.appendChild(btn);
+  }
+
+  function buildCard(id, c, photo, rankLabel, pairs, cardType) {
+    var cardClass = 'card' + (cardType === 'wildcard' ? ' wildcard' : cardType === 'mocktail' ? ' mocktail' : '');
+    var badge = cardType === 'wildcard' ? '<div class="card-img-wc-badge">&#10022; Wildcard</div>' :
+                cardType === 'mocktail' ? '<div class="mocktail-badge">&#9670; Mocktail</div>' : '';
+    var abvBadge = c.abv ? '<div class="card-img-abv">' + esc(c.abv) + '</div>' : '';
+    var glassBadge = c.glassware ? '<div class="card-img-glass">' + esc(c.glasswareIcon||'') + ' ' + esc(c.glassware) + '</div>' : '';
+    var rankBadge = rankLabel ? '<div class="card-img-rank">' + esc(rankLabel) + '</div>' : (cardType === 'wildcard' ? '<div class="card-img-rank">Claude&#39;s Original Recipe</div>' : '');
+    var glassDetail = c.glassware ? '<div class="dl">Serve In</div><div class="glass-note"><span class="glass-icon">' + esc(c.glasswareIcon||'&#127867;') + '</span> ' + esc(c.glassware) + '</div>' : '';
+    var rationale = (cardType === 'wildcard' && c.rationale) ? '<div class="dl">The Concept</div><p class="flavor">' + esc(c.rationale) + '</p>' : '';
+    var flavorLabel = cardType === 'wildcard' ? 'Flavor Science' : 'Flavor Profile';
+    return '<div class="' + cardClass + '" id="' + id + '" onclick="toggle(\'' + id + '\')">' +
+      '<div class="card-img-wrap">' +
+        '<img class="card-img" src="' + photo + '" alt="' + esc(c.name) + '" loading="lazy">' +
+        '<div class="card-img-gradient"></div>' +
+        abvBadge + badge + (cardType !== 'wildcard' && cardType !== 'mocktail' ? glassBadge : '') + rankBadge +
+      '</div>' +
+      '<div class="card-body">' +
+        '<div class="card-name">' + esc(c.name) + '</div>' +
+        '<div class="card-tagline">' + esc(c.tagline) + '</div>' +
+        (pairs ? '<div class="card-pairs-label">Food Pairings</div><div class="card-meta-row">' + pairs + '</div>' : '') +
+        '<div class="card-toggle-row"><span class="card-toggle-hint">Tap for recipe</span><span class="chevron">&#9660;</span></div>' +
+      '</div>' +
+      '<div class="card-detail">' +
+        rationale + glassDetail +
+        '<div class="dl">Ingredients</div><ul class="ing-list">' +
+        (c.ingredients||[]).map(function(x){return '<li>' + esc(x) + '</li>';}).join('') +
+        '</ul><div class="dl">Instructions</div><p class="inst">' + esc(c.instructions) + '</p>' +
+        (c.flavorNote ? '<div class="dl">' + flavorLabel + '</div><p class="flavor">' + esc(c.flavorNote) + '</p>' : '') +
+      '</div></div>';
+  }
+
+  function finalize(totalCocktails) {
+    clearInterval(iv);
+    // Hide loading bar
+    var loadWrap = document.querySelector('.loading-wrap');
+    if (loadWrap) loadWrap.style.display = 'none';
+    // Update count
+    var countEl = document.getElementById('cocktail-count');
+    if (countEl) countEl.textContent = totalCocktails + ' Cocktail' + (totalCocktails !== 1 ? 's' : '') + ' Ready - Tap Any Card for the Full Recipe';
+  }
+
+  // Connect to SSE stream
+  var evtSource;
+  if (typeof EventSource !== 'undefined') {
+    // Use EventSource if available - it handles reconnection automatically
+    // But we need POST, so we use fetch with ReadableStream instead
+  }
 
   fetch('/analyze', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ imageBase64: imageBase64, imageType: imageType })
   })
-  .then(function(res) { return res.json(); })
-  .then(function(data) {
-    clearInterval(iv);
-    if (data.error) throw new Error(data.error);
-    renderResults(data);
+  .then(function(response) {
+    if (!response.ok) return response.json().then(function(d){ throw new Error(d.error || 'Server error'); });
+    var reader = response.body.getReader();
+    var decoder = new TextDecoder();
+    var lineBuffer = '';
+
+    function processLine(line) {
+      line = line.trim();
+      if (!line.startsWith('data: ')) return;
+      var jsonStr = line.slice(6);
+      try {
+        var obj = JSON.parse(jsonStr);
+        var type = obj.type;
+        var data = obj.data;
+
+        if (type === 'bottles') {
+          renderBottles(data);
+          bottlesRendered = true;
+        } else if (type === 'cocktail') {
+          renderCocktailCard(data, cocktailCount);
+          cocktailCount++;
+        } else if (type === 'mocktail') {
+          renderMocktailCard(data, mocktailCount);
+          mocktailCount++;
+        } else if (type === 'wildcard') {
+          renderWildcard(data);
+          wildcardRendered = true;
+        } else if (type === 'done') {
+          finalize(cocktailCount);
+        } else if (type === 'error') {
+          throw new Error(data);
+        }
+      } catch(e) {
+        if (e.message && e.message !== 'Unexpected end of JSON input') {
+          console.error('Stream parse error:', e.message);
+        }
+      }
+    }
+
+    function pump() {
+      return reader.read().then(function(result) {
+        if (result.done) {
+          finalize(cocktailCount);
+          return;
+        }
+        lineBuffer += decoder.decode(result.value, { stream: true });
+        var lines = lineBuffer.split('\n');
+        lineBuffer = lines.pop(); // keep incomplete last line
+        lines.forEach(processLine);
+        return pump();
+      });
+    }
+    return pump();
   })
   .catch(function(err) {
     clearInterval(iv);
