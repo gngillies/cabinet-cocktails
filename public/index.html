@@ -90,11 +90,54 @@ body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-s
 <script>
 var imageBase64 = null;
 
-var KW_MAP = {
-  smash:'gin smash', royale:'gin tonic', reverse:'martini',
-  mule:'moscow mule', plane:'aviation', chambery:'moscow mule',
-  spritz:'aperol spritz', fizz:'gin fizz', sling:'singapore sling',
-  toddy:'hot toddy', punch:'rum punch', buck:'moscow mule', rickey:'gin rickey'
+// Curated verified image map - known good URLs from TheCocktailDB
+var IMG_MAP = {
+  'manhattan':    'https://www.thecocktaildb.com/images/media/drink/vrwquq1478252802.jpg',
+  'martini':      'https://www.thecocktaildb.com/images/media/drink/71t8581504353095.jpg',
+  'negroni':      'https://www.thecocktaildb.com/images/media/drink/qgdu971561574065.jpg',
+  'boulevardier': 'https://www.thecocktaildb.com/images/media/drink/km84qi1513705868.jpg',
+  'old fashioned':'https://www.thecocktaildb.com/images/media/drink/vrwquq1478252802.jpg',
+  'whiskey sour': 'https://www.thecocktaildb.com/images/media/drink/hbkfsh1589574990.jpg',
+  'whisky sour':  'https://www.thecocktaildb.com/images/media/drink/hbkfsh1589574990.jpg',
+  'gimlet':       'https://www.thecocktaildb.com/images/media/drink/xgldt1513707271.jpg',
+  'daiquiri':     'https://www.thecocktaildb.com/images/media/drink/mrz9091589574515.jpg',
+  'aperol spritz':'https://www.thecocktaildb.com/images/media/drink/iloasq1587661955.jpg',
+  'spritz':       'https://www.thecocktaildb.com/images/media/drink/iloasq1587661955.jpg',
+  'moscow mule':  'https://www.thecocktaildb.com/images/media/drink/3pylqc1504370988.jpg',
+  'mule':         'https://www.thecocktaildb.com/images/media/drink/3pylqc1504370988.jpg',
+  'cosmopolitan': 'https://www.thecocktaildb.com/images/media/drink/kpsajh1504368362.jpg',
+  'french 75':    'https://www.thecocktaildb.com/images/media/drink/zrxfbl1606773109.jpg',
+  'clover club':  'https://www.thecocktaildb.com/images/media/drink/30aja61504348715.jpg',
+  'aviation':     'https://www.thecocktaildb.com/images/media/drink/yrbplb1606855233.jpg',
+  'plane':        'https://www.thecocktaildb.com/images/media/drink/yrbplb1606855233.jpg',
+  'gin tonic':    'https://www.thecocktaildb.com/images/media/drink/qcgz0t1643821443.jpg',
+  'gin & tonic':  'https://www.thecocktaildb.com/images/media/drink/qcgz0t1643821443.jpg',
+  'smash':        'https://www.thecocktaildb.com/images/media/drink/iprva61606768774.jpg',
+  'sidecar':      'https://www.thecocktaildb.com/images/media/drink/l72sik1606854964.jpg',
+  'margarita':    'https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg',
+  'paloma':       'https://www.thecocktaildb.com/images/media/drink/samm5j1513706393.jpg',
+  'sour':         'https://www.thecocktaildb.com/images/media/drink/hbkfsh1589574990.jpg',
+  'fizz':         'https://www.thecocktaildb.com/images/media/drink/qcgz0t1643821443.jpg',
+  'sling':        'https://www.thecocktaildb.com/images/media/drink/hbkfsh1589574990.jpg',
+  'flip':         'https://www.thecocktaildb.com/images/media/drink/vrwquq1478252802.jpg',
+  'royale':       'https://www.thecocktaildb.com/images/media/drink/zrxfbl1606773109.jpg',
+  'reverse':      'https://www.thecocktaildb.com/images/media/drink/71t8581504353095.jpg',
+  'chambery':     'https://www.thecocktaildb.com/images/media/drink/3pylqc1504370988.jpg'
+};
+
+// Spirit-based fallback images - when nothing else matches use the primary spirit
+var SPIRIT_MAP = {
+  'bourbon':  'https://www.thecocktaildb.com/images/media/drink/vrwquq1478252802.jpg',
+  'whiskey':  'https://www.thecocktaildb.com/images/media/drink/hbkfsh1589574990.jpg',
+  'whisky':   'https://www.thecocktaildb.com/images/media/drink/hbkfsh1589574990.jpg',
+  'gin':      'https://www.thecocktaildb.com/images/media/drink/71t8581504353095.jpg',
+  'vodka':    'https://www.thecocktaildb.com/images/media/drink/3pylqc1504370988.jpg',
+  'rum':      'https://www.thecocktaildb.com/images/media/drink/mrz9091589574515.jpg',
+  'tequila':  'https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg',
+  'brandy':   'https://www.thecocktaildb.com/images/media/drink/l72sik1606854964.jpg',
+  'aperol':   'https://www.thecocktaildb.com/images/media/drink/iloasq1587661955.jpg',
+  'campari':  'https://www.thecocktaildb.com/images/media/drink/qgdu971561574065.jpg',
+  'vermouth': 'https://www.thecocktaildb.com/images/media/drink/71t8581504353095.jpg'
 };
 
 var DEFAULT_IMG = 'https://www.thecocktaildb.com/images/media/drink/metwgh1606770327.jpg';
@@ -114,25 +157,36 @@ function dbSearch(query, cb) {
 
 function getPhoto(name, cb) {
   var lower = (name||'').toLowerCase();
+
+  // 1. Check curated map first - instant, no network call needed
+  for (var key in IMG_MAP) {
+    if (lower.indexOf(key) !== -1) return cb(IMG_MAP[key]);
+  }
+
+  // 2. Try exact name search on CocktailDB
   dbSearch(name, function(p) {
     if (p) return cb(p);
-    var s = name.replace(/^the /i,'').trim();
-    dbSearch(s !== name ? s : '__', function(p2) {
-      if (p2) return cb(p2);
-      var kw = null;
-      for (var k in KW_MAP) { if (lower.indexOf(k) !== -1) { kw = KW_MAP[k]; break; } }
-      dbSearch(kw || '__', function(p3) {
-        if (p3) return cb(p3);
-        var words = lower.split(' ').filter(function(w){return w.length>3;}).sort(function(a,b){return b.length-a.length;});
-        var i = 0;
-        function next() {
-          if (i >= words.length) return cb(DEFAULT_IMG);
-          dbSearch(words[i++], function(p4) { if (p4) cb(p4); else next(); });
-        }
-        next();
+
+    // 3. Try without "The" prefix
+    var stripped = name.replace(/^the /i,'').trim();
+    if (stripped !== name) {
+      dbSearch(stripped, function(p2) {
+        if (p2) return cb(p2);
+        spiritFallback(lower, cb);
       });
-    });
+    } else {
+      spiritFallback(lower, cb);
+    }
   });
+}
+
+function spiritFallback(lower, cb) {
+  // 4. Match by spirit keyword - returns a relevant cocktail photo for that spirit
+  for (var sp in SPIRIT_MAP) {
+    if (lower.indexOf(sp) !== -1) return cb(SPIRIT_MAP[sp]);
+  }
+  // 5. Final fallback
+  cb(DEFAULT_IMG);
 }
 
 function showUpload() {
