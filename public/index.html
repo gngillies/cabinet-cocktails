@@ -362,7 +362,7 @@ function renderResults(r) {
         return '<span class="card-pairs-tag">&#127869; ' + esc(p) + '</span>';
       }).join('');
       var mcId = 'mc' + i;
-      html += '<div class="card mocktail" id="' + mcId + '" onclick="toggle('' + mcId + '')">';
+      html += '<div class="card mocktail" id="' + mcId + '" onclick="toggle(&#39;' + mcId + '&#39;)">';
       html += '<div class="card-img-wrap">';
       html += '<img class="card-img" src="' + mcPhoto + '" alt="' + esc(m.name) + '" loading="lazy">';
       html += '<div class="card-img-gradient"></div>';
