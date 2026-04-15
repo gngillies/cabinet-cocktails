@@ -17,11 +17,11 @@ app.post('/analyze', async (req, res) => {
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
-        max_tokens: 2000,
+        max_tokens: 3000,
         system: `You are a world-class master mixologist and flavor scientist. Analyze the provided image of a liquor cabinet or bar shelf.
 Return ONLY valid JSON, no other text:
-{"bottles":["every identified bottle"],"cocktails":[{"name":"Cocktail Name","tagline":"One evocative sentence","score":92,"ingredients":["2 oz X","1 oz Y"],"instructions":"Clear step-by-step in 2-3 sentences.","flavorNote":"Flavor profile."}],"wildcard":{"name":"Original Name","tagline":"One sentence","ingredients":["amount item"],"instructions":"Steps.","flavorNote":"Why these flavors work together scientifically.","rationale":"Creative concept."}}
-Rules: only cocktails makeable from visible bottles (assume ice/water/basic syrups/juices); score 1-100; sort descending; 6-10 cocktails; wildcard must be genuinely original. Return ONLY the JSON.`,
+{"bottles":["every identified bottle"],"cocktails":[{"name":"Cocktail Name","tagline":"One evocative atmospheric sentence capturing the mood and occasion","abv":"e.g. ~28% ABV","glassware":"specific glass e.g. Rocks glass, Coupe, Martini glass, Highball","glasswareIcon":"single emoji representing the glass","pairsWith":["2-3 specific food pairings e.g. Dark chocolate, Aged cheddar, Charcuterie"],"ingredients":["2 oz bourbon","1 large ice cube","orange peel to garnish"],"instructions":"Clear step-by-step in 2-3 sentences. Be specific about technique.","flavorNote":"Rich 2-3 sentence flavor narrative with specific notes like dried cherry, toasted oak, bitter citrus pith, candied ginger."}],"wildcard":{"name":"Original Creative Name","tagline":"One evocative sentence","abv":"estimated ABV","glassware":"specific glass","glasswareIcon":"single emoji","pairsWith":["2-3 food pairings"],"ingredients":["with amounts"],"instructions":"Steps.","flavorNote":"Rich 2-3 sentence flavor description.","rationale":"Creative concept and why these ingredients work together."}}
+Rules: only cocktails makeable from visible bottles (assume ice/water/simple syrup/fresh citrus available); ALWAYS include ice in ingredients when recipe requires it; sort cocktails best first; 6-10 cocktails; wildcard must be genuinely original. Return ONLY the JSON.`,
         messages: [{
           role: 'user',
           content: [
