@@ -1,11 +1,48 @@
 const express = require('express');
 const fetch = require('node-fetch');
+const zlib = require('zlib');
 const app = express();
 
+// Gzip compression middleware - reduces HTML/JSON by 60-70% over mobile networks
+app.use(function(req, res, next) {
+  const ae = req.headers['accept-encoding'] || '';
+  if (!ae.includes('gzip')) return next();
+  const _json = res.json.bind(res);
+  res.json = function(obj) {
+    const body = JSON.stringify(obj);
+    res.setHeader('Content-Encoding', 'gzip');
+    res.setHeader('Content-Type', 'application/json');
+    zlib.gzip(Buffer.from(body), function(err, buf) {
+      if (err) { res.setHeader('Content-Encoding', 'identity'); return _json(obj); }
+      res.setHeader('Content-Length', buf.length);
+      res.end(buf);
+    });
+    return res;
+  };
+  next();
+});
+
 app.use(express.json({ limit: '20mb' }));
-app.use(express.static('public'));
+
+// Static files with 1-hour cache headers
+app.use(express.static('public', {
+  maxAge: 3600000,
+  etag: true,
+  lastModified: true,
+  setHeaders: function(res, path) {
+    // HTML should revalidate - everything else can cache
+    if (path.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'no-cache');
+    }
+  }
+}));
 
 app.post('/analyze', async (req, res) => {
+  // Keep-alive ping - no API call, just confirms server is awake
+  if (req.body && req.body.ping) {
+    return res.json({ pong: true });
+  }
+
   try {
     const { imageBase64, imageType } = req.body;
     const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -28,7 +65,7 @@ Return ONLY valid JSON, no other text:
 }
 Rules:
 - cocktails: only makeable from visible bottles (assume ice/water/simple syrup/fresh citrus available); ALWAYS include ice when needed; sort best first; 6-10 cocktails; wildcard must be genuinely original
-- mocktails: create EXACTLY 2 creative, sophisticated alcohol-free drinks inspired by the spirits and flavor profiles visible in the cabinet. Assume ALL of the following are available: fresh citrus (lemon, lime, orange, grapefruit), fruit juices (cranberry, pineapple, apple, pomegranate, grapefruit), sodas (club soda, ginger beer, ginger ale, tonic water, cola, lemon-lime soda), syrups (simple syrup, grenadine, honey syrup, orgeat, mint syrup, lavender syrup), garnishes (cocktail cherries, olives, citrus twists, fresh mint, rosemary, cucumber slices, orange slices), and pantry items (angostura bitters, orange bitters, coconut cream, heavy cream, egg whites, salt, sugar, dried spices). Make them genuinely interesting and bartender-quality — mirror the complexity and mood of the cocktails in the list. Name them creatively
+- mocktails: create EXACTLY 2 creative, sophisticated alcohol-free drinks. Assume available: fresh citrus, fruit juices, sodas (club soda, ginger beer, tonic water), syrups (simple syrup, grenadine, honey syrup, orgeat), garnishes (cocktail cherries, citrus twists, fresh mint, rosemary, cucumber), bitters, coconut cream, egg whites. Make them bartender-quality and creative.
 Return ONLY the JSON.`,
         messages: [{
           role: 'user',
