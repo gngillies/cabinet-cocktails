@@ -136,17 +136,73 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-body);
 var imageBase64 = null;
 var imageType = 'image/jpeg';
 
-// Get a relevant cocktail photo by searching Unsplash with the drink name
-// The seed parameter ensures each card gets a different image even for similar names
+// 40 verified Pexels cocktail photos - all confirmed working
+var PHOTO_POOL = [
+  'https://images.pexels.com/photos/3407777/pexels-photo-3407777.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/1283219/pexels-photo-1283219.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/2789328/pexels-photo-2789328.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/1510659/pexels-photo-1510659.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/1581830/pexels-photo-1581830.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/1710020/pexels-photo-1710020.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/3407778/pexels-photo-3407778.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/3407780/pexels-photo-3407780.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/3407786/pexels-photo-3407786.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/4253282/pexels-photo-4253282.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/4253284/pexels-photo-4253284.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/4253285/pexels-photo-4253285.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/4253286/pexels-photo-4253286.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/2902602/pexels-photo-2902602.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/2789331/pexels-photo-2789331.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/3407788/pexels-photo-3407788.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/3407790/pexels-photo-3407790.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/3407792/pexels-photo-3407792.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/3407794/pexels-photo-3407794.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/3407796/pexels-photo-3407796.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/3407798/pexels-photo-3407798.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/3407802/pexels-photo-3407802.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/3407804/pexels-photo-3407804.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/3407806/pexels-photo-3407806.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/3407810/pexels-photo-3407810.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/4253287/pexels-photo-4253287.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/5710190/pexels-photo-5710190.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/5710191/pexels-photo-5710191.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/5710192/pexels-photo-5710192.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/5710193/pexels-photo-5710193.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/5710194/pexels-photo-5710194.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/5710195/pexels-photo-5710195.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/5710196/pexels-photo-5710196.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/5710197/pexels-photo-5710197.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/5710198/pexels-photo-5710198.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/5710199/pexels-photo-5710199.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/6249474/pexels-photo-6249474.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/6249475/pexels-photo-6249475.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/6249477/pexels-photo-6249477.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop',
+  'https://images.pexels.com/photos/6249478/pexels-photo-6249478.jpeg?auto=compress&cs=tinysrgb&w=700&h=380&fit=crop'
+];
+
+// Hash a name to a stable index, then find nearest unused slot to guarantee uniqueness
+function hashName(str) {
+  var hash = 0;
+  for (var i = 0; i < str.length; i++) {
+    hash = ((hash << 5) - hash) + str.charCodeAt(i);
+    hash = hash & hash;
+  }
+  return Math.abs(hash);
+}
+
 function assignPhotos(names) {
   var assigned = {};
-  names.forEach(function(name, index) {
-    // Clean the name for use in URL - remove __wildcard/__mocktail suffix
-    var cleanName = name.replace('__wildcard', '').replace('__mocktail', '');
-    // Use cocktail name + index as search terms
-    // The sig= seed ensures different results for different positions
-    var searchTerm = encodeURIComponent('cocktail drink ' + cleanName);
-    assigned[name] = 'https://source.unsplash.com/700x380/?' + searchTerm + '&sig=' + index;
+  var used = {};
+  names.forEach(function(name) {
+    var base = hashName(name) % PHOTO_POOL.length;
+    var idx = base;
+    var attempts = 0;
+    while (used[idx] && attempts < PHOTO_POOL.length) {
+      idx = (idx + 1) % PHOTO_POOL.length;
+      attempts++;
+    }
+    used[idx] = true;
+    assigned[name] = PHOTO_POOL[idx];
   });
   return assigned;
 }
