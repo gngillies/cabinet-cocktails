@@ -4,313 +4,441 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cabinet Cocktails</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=Fraunces:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --bg: #0d0d0d; --surface: #161616; --surface2: #1e1e1e;
-  --border: #2a2a2a; --gold: #c9a84c; --amber: #e07b2a;
-  --text: #f0ece4; --muted: #888888;
-}
-body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
-.header { padding: 1.25rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.75rem; position: sticky; top: 0; background: #0d0d0d; z-index: 10; }
-.header-icon { font-size: 1.7rem; line-height: 1; }
-.header-title { font-family: 'Playfair Display', serif; font-size: 1.45rem; color: var(--gold); font-weight: 700; line-height: 1; }
-.header-sub { font-size: 0.6rem; color: var(--muted); letter-spacing: 0.16em; text-transform: uppercase; margin-top: 0.2rem; }
-.main { padding: 1.25rem 1.1rem 5rem; max-width: 580px; margin: 0 auto; }
-.upload-zone { border-radius: 18px; padding: 3rem 1.5rem 2.5rem; text-align: center; cursor: pointer; background: var(--surface); border: 2px solid var(--gold); transition: all 0.3s ease; position: relative; }
-.upload-zone:hover { border-color: var(--amber); background: #1a1a1a; }
-.upload-zone input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 2; }
-.upload-icon-wrap { width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 1.25rem; background: var(--surface2); border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; }
-.upload-icon { font-size: 2.2rem; }
-.upload-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: #ffffff; margin-bottom: 0.4rem; }
-.upload-hint { font-size: 0.78rem; color: var(--muted); line-height: 1.5; margin-bottom: 1.5rem; }
-.jelly-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem; padding: 0.85rem 2.2rem; border-radius: 50px; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 700; color: #3d1f00; background: linear-gradient(180deg, #ffda6b 0%, #f0a020 55%, #c97010 100%); box-shadow: 0 3px 0 #7a4800, 0 6px 16px rgba(240,160,32,0.45); transition: all 0.12s ease; position: relative; z-index: 3; }
-.jelly-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 0 #7a4800, 0 10px 24px rgba(240,160,32,0.55); }
-.jelly-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #7a4800, 0 3px 8px rgba(240,160,32,0.3); }
-.preview-wrap { position: relative; border-radius: 16px; overflow: hidden; margin-bottom: 1rem; }
-.preview-img { width: 100%; max-height: 280px; object-fit: cover; display: block; }
-.preview-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.82)); padding: 2rem 1rem 0.85rem; display: flex; justify-content: space-between; align-items: flex-end; }
-.preview-label { font-size: 0.7rem; color: var(--gold); letter-spacing: 0.12em; text-transform: uppercase; }
-.btn-change { background: rgba(255,255,255,0.15); border: none; color: #fff; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.72rem; cursor: pointer; }
-.img-info { font-size: 0.7rem; color: var(--muted); text-align: center; margin-bottom: 0.85rem; padding: 0.35rem; background: var(--surface2); border-radius: 8px; }
-.btn-analyze { width: 100%; padding: 1rem; background: linear-gradient(135deg, var(--gold), var(--amber)); border: none; border-radius: 14px; color: #0d0d0d; font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.25s; }
-.btn-analyze:hover { box-shadow: 0 8px 24px rgba(201,168,76,0.32); transform: translateY(-1px); }
-.btn-secondary { width: 100%; padding: 0.9rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 14px; color: var(--gold); font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 1rem; }
-.loading-wrap { padding: 3.5rem 1rem; text-align: center; }
-.loading-bar { width: 100%; height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; margin-bottom: 1.5rem; }
-.loading-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--amber)); animation: loadbar 1.8s ease-in-out infinite; }
-@keyframes loadbar { 0%{width:0%;margin-left:0} 50%{width:65%;margin-left:18%} 100%{width:0%;margin-left:100%} }
-.loading-step { font-size: 0.82rem; color: var(--muted); }
-.section { margin-top: 1.75rem; }
-.section-label { font-size: 0.65rem; color: var(--gold); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.85rem; display: flex; align-items: center; gap: 0.5rem; }
-.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-.bottles-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-.bottle-tag { background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 0.28rem 0.8rem; font-size: 0.78rem; display: flex; align-items: center; gap: 0.35rem; }
-.dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; margin-bottom: 0.75rem; cursor: pointer; transition: border-color 0.2s; overflow: hidden; }
-.card:hover { border-color: rgba(201,168,76,0.4); }
-.card.open { border-color: var(--gold); }
-.card.wildcard { border-color: var(--amber); }
-.card-img-wrap { width: 100%; height: 160px; overflow: hidden; position: relative; background: var(--surface2); }
-.card-img { width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(0.85); transition: transform 0.4s ease; }
-.card:hover .card-img { transform: scale(1.03); filter: brightness(0.95); }
-.card-img-gradient { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.05) 30%, rgba(13,13,13,0.75) 100%); }
-.card-img-badge { position: absolute; top: 0.7rem; right: 0.8rem; background: linear-gradient(135deg, var(--gold), var(--amber)); color: #0d0d0d; font-weight: 700; font-size: 0.9rem; padding: 0.22rem 0.65rem; border-radius: 8px; font-family: 'Playfair Display', serif; z-index: 2; }
-.card-img-wc { position: absolute; top: 0.7rem; right: 0.8rem; background: var(--amber); color: #0d0d0d; font-size: 0.62rem; font-weight: 700; padding: 0.22rem 0.6rem; border-radius: 6px; letter-spacing: 0.1em; text-transform: uppercase; z-index: 2; }
-.card-img-rank { position: absolute; bottom: 0.7rem; left: 0.9rem; font-size: 0.62rem; color: rgba(240,236,228,0.75); letter-spacing: 0.1em; text-transform: uppercase; z-index: 2; }
-.card-body { padding: 0.9rem 1.1rem 1rem; }
-.card-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; line-height: 1.2; margin-bottom: 0.22rem; }
-.card-tagline { font-size: 0.76rem; color: var(--muted); line-height: 1.45; }
-.card-toggle-row { display: flex; align-items: center; justify-content: space-between; margin-top: 0.65rem; }
-.card-toggle-hint { font-size: 0.68rem; color: var(--gold); }
-.chevron { color: var(--muted); font-size: 0.75rem; transition: transform 0.22s; }
-.card.open .chevron { transform: rotate(180deg); }
-.card-detail { display: none; padding: 1rem 1.1rem 1.1rem; border-top: 1px solid var(--border); }
-.card.open .card-detail { display: block; }
-.dl { font-size: 0.62rem; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.45rem; margin-top: 0.9rem; }
-.dl:first-child { margin-top: 0; }
-.ing-list { list-style: none; }
-.ing-list li { font-size: 0.81rem; padding: 0.2rem 0; display: flex; align-items: flex-start; gap: 0.5rem; line-height: 1.4; }
-.ing-list li::before { content: '-'; color: var(--gold); flex-shrink: 0; }
-.inst { font-size: 0.81rem; color: var(--muted); line-height: 1.68; }
-.flavor { font-size: 0.8rem; color: var(--muted); line-height: 1.62; font-style: italic; }
-.error-box { background: rgba(192,57,43,0.1); border: 1px solid rgba(192,57,43,0.3); border-radius: 14px; padding: 1.1rem 1.25rem; font-size: 0.82rem; color: #e07070; line-height: 1.6; margin-top: 1rem; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0a0a;
+    --surface: #181818;
+    --surface2: #222222;
+    --surface3: #2a2a2a;
+    --border: #333;
+    --border-bright: #444;
+    --gold: #d4a843;
+    --gold-light: #e8c26a;
+    --amber: #e07b2a;
+    --text: #f2ede4;
+    --text-bright: #ffffff;
+    --text-mid: #c8c0b4;
+    --text-dim: #8a8078;
+    --green: #5aab78;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-serif: 'Fraunces', Georgia, serif;
+    --font-body: 'Outfit', sans-serif;
+    --card-shadow: 0 8px 32px rgba(0,0,0,0.7), 0 2px 8px rgba(0,0,0,0.5);
+    --card-hover-shadow: 0 16px 48px rgba(0,0,0,0.8), 0 4px 16px rgba(212,168,67,0.12);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgba(212,168,67,0.07) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 100%, rgba(224,123,42,0.05) 0%, transparent 50%);
+  }
+
+  .header {
+    padding: 1.1rem 1.25rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 0.75rem;
+    position: sticky; top: 0;
+    background: rgba(10,10,10,0.97);
+    backdrop-filter: blur(16px);
+    z-index: 50;
+  }
+  .header-icon { font-size: 1.6rem; line-height: 1; }
+  .header-title { font-family: var(--font-display); font-size: 1.8rem; color: var(--gold); letter-spacing: 0.06em; line-height: 1; }
+  .header-sub { font-size: 0.58rem; color: var(--text-dim); letter-spacing: 0.18em; text-transform: uppercase; margin-top: 0.15rem; }
+  .header-key-btn {
+    margin-left: auto; background: var(--surface2); border: 1px solid var(--border-bright);
+    color: var(--text-dim); font-size: 0.68rem; padding: 0.32rem 0.7rem; border-radius: 8px;
+    cursor: pointer; font-family: var(--font-body); transition: all 0.2s; white-space: nowrap;
+  }
+  .header-key-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .header-key-btn.set { color: var(--green); border-color: rgba(90,171,120,0.4); background: rgba(90,171,120,0.07); }
+
+  .main { padding: 0 1.1rem 5rem; max-width: 600px; margin: 0 auto; }
+
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 1.5rem; }
+  .modal { background: var(--surface); border: 1px solid var(--border-bright); border-radius: 20px; padding: 1.75rem; width: 100%; max-width: 420px; box-shadow: var(--card-shadow); }
+  .modal-title { font-family: var(--font-display); font-size: 2rem; color: var(--gold); letter-spacing: 0.04em; margin-bottom: 0.5rem; }
+  .modal-desc { font-size: 0.8rem; color: var(--text-mid); line-height: 1.65; margin-bottom: 1.25rem; }
+  .modal-desc a { color: var(--gold); }
+  .modal-input { width: 100%; background: var(--surface2); border: 1px solid var(--border-bright); border-radius: 10px; padding: 0.75rem 1rem; color: var(--text-bright); font-family: var(--font-body); font-size: 0.85rem; margin-bottom: 1rem; outline: none; transition: border-color 0.2s; }
+  .modal-input:focus { border-color: var(--gold); }
+  .modal-note { font-size: 0.72rem; color: var(--text-dim); line-height: 1.55; margin-bottom: 1.25rem; padding: 0.6rem 0.85rem; background: rgba(212,168,67,0.06); border-radius: 8px; border-left: 2px solid var(--gold); }
+  .btn-primary { width: 100%; padding: 0.95rem; background: linear-gradient(135deg, var(--gold), var(--amber)); border: none; border-radius: 12px; color: #0a0a0a; font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 0.06em; cursor: pointer; transition: all 0.25s; }
+  .btn-primary:hover { box-shadow: 0 6px 24px rgba(212,168,67,0.35); transform: translateY(-1px); }
+
+  .hero { padding: 2.5rem 0 0.5rem; text-align: center; animation: fadeUp 0.5s ease both; }
+  .hero-eyebrow { font-size: 0.62rem; color: var(--gold); letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 0.6rem; }
+  .hero-eyebrow::before, .hero-eyebrow::after { content: ''; display: block; width: 36px; height: 1px; background: var(--gold); opacity: 0.45; }
+  .hero-title { font-family: var(--font-display); font-size: clamp(2.8rem, 12vw, 4.2rem); line-height: 0.95; letter-spacing: 0.02em; color: var(--text-bright); margin-bottom: 0.5rem; }
+  .hero-title span { color: var(--gold); }
+  .hero-sub { font-family: var(--font-serif); font-style: italic; font-size: 1rem; color: var(--text-mid); margin-bottom: 2rem; line-height: 1.5; }
+
+  .upload-zone { border: 2px dashed var(--border-bright); border-radius: 20px; padding: 2.5rem 1.5rem; text-align: center; cursor: pointer; background: var(--surface); transition: all 0.25s; position: relative; box-shadow: var(--card-shadow); }
+  .upload-zone:hover { border-color: var(--gold); background: rgba(212,168,67,0.04); }
+  .upload-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+  .upload-icon { font-size: 2.8rem; margin-bottom: 0.85rem; }
+  .upload-title { font-family: var(--font-display); font-size: 1.5rem; letter-spacing: 0.04em; color: var(--text-bright); margin-bottom: 0.35rem; }
+  .upload-hint { font-size: 0.78rem; color: var(--text-mid); line-height: 1.5; }
+
+  .preview-wrap { position: relative; border-radius: 18px; overflow: hidden; margin-bottom: 1rem; box-shadow: var(--card-shadow); }
+  .preview-img { width: 100%; max-height: 300px; object-fit: cover; display: block; }
+  .preview-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.85)); padding: 2rem 1rem 0.85rem; display: flex; justify-content: space-between; align-items: flex-end; }
+  .preview-label { font-size: 0.65rem; color: var(--gold); letter-spacing: 0.14em; text-transform: uppercase; }
+  .btn-change { background: rgba(255,255,255,0.15); border: none; color: var(--text-bright); padding: 0.3rem 0.85rem; border-radius: 20px; font-size: 0.72rem; cursor: pointer; font-family: var(--font-body); }
+  .img-info { font-size: 0.7rem; color: var(--text-dim); text-align: center; margin-bottom: 0.85rem; }
+
+  .cta-wrap { position: relative; margin-top: 1.5rem; }
+  .cta-label { font-size: 0.6rem; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; text-align: center; margin-bottom: 0.6rem; }
+  .btn-analyze { width: 100%; padding: 1.1rem 1.5rem; background: linear-gradient(135deg, var(--gold), var(--amber)); border: none; border-radius: 16px; color: #0a0a0a; font-family: var(--font-display); font-size: 1.55rem; letter-spacing: 0.06em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.6rem; transition: all 0.25s; box-shadow: 0 4px 24px rgba(212,168,67,0.25); }
+  .btn-analyze:hover { box-shadow: 0 8px 36px rgba(212,168,67,0.4); transform: translateY(-2px); }
+  .btn-secondary { width: 100%; padding: 0.9rem; background: var(--surface2); border: 1px solid var(--border-bright); border-radius: 14px; color: var(--gold); font-family: var(--font-display); font-size: 1.1rem; letter-spacing: 0.04em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 1rem; transition: border-color 0.2s; }
+  .btn-secondary:hover { border-color: var(--gold); }
+
+  .loading-wrap { padding: 4rem 1rem; text-align: center; }
+  .loading-bar { width: 100%; height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; margin-bottom: 1.75rem; }
+  .loading-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--amber)); animation: loadbar 2s ease-in-out infinite; }
+  @keyframes loadbar { 0%{width:0%;margin-left:0} 50%{width:60%;margin-left:22%} 100%{width:0%;margin-left:100%} }
+  .loading-step { font-size: 0.82rem; color: var(--text-mid); letter-spacing: 0.04em; }
+
+  .section { margin-top: 2rem; animation: fadeUp 0.4s ease both; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+  .section-label { font-family: var(--font-display); font-size: 0.75rem; color: var(--gold); letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; }
+  .section-label::after { content:''; flex:1; height:1px; background: linear-gradient(to right, var(--border-bright), transparent); }
+
+  .bottles-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .bottle-tag { background: var(--surface2); border: 1px solid var(--border-bright); border-radius: 20px; padding: 0.28rem 0.85rem; font-size: 0.76rem; color: var(--text-mid); display: flex; align-items: center; gap: 0.35rem; }
+  .dot { width:6px; height:6px; border-radius:50%; background:var(--gold); flex-shrink:0; }
+
+  .hero-cta-banner { background: linear-gradient(135deg, rgba(212,168,67,0.12), rgba(224,123,42,0.08)); border: 1px solid rgba(212,168,67,0.3); border-radius: 18px; padding: 1.5rem 1.4rem 1.2rem; margin-top: 2rem; text-align: center; position: relative; overflow: hidden; }
+  .hero-cta-banner::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .cta-banner-title { font-family: var(--font-display); font-size: clamp(1.9rem, 8vw, 2.8rem); color: var(--text-bright); letter-spacing: 0.03em; line-height: 1; margin-bottom: 0.4rem; }
+  .cta-banner-title span { color: var(--gold); }
+  .cta-banner-sub { font-family: var(--font-serif); font-style: italic; font-size: 0.88rem; color: var(--text-mid); margin-bottom: 0.6rem; }
+  .cta-count { font-size: 0.62rem; color: var(--gold); letter-spacing: 0.16em; text-transform: uppercase; }
+
+  .card { background: var(--surface); border: 1px solid var(--border-bright); border-radius: 20px; margin-bottom: 1.1rem; cursor: pointer; transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s; position: relative; overflow: hidden; box-shadow: var(--card-shadow); }
+  .card:hover { border-color: rgba(212,168,67,0.5); transform: translateY(-2px); box-shadow: var(--card-hover-shadow); }
+  .card.open { border-color: var(--gold); }
+  .card.wildcard { border-color: var(--amber); background: linear-gradient(160deg, var(--surface), rgba(224,123,42,0.06)); }
+  .card.wildcard::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg, var(--amber), var(--gold)); z-index:1; }
+
+  .card-img-wrap { width: 100%; height: 190px; overflow: hidden; position: relative; background: var(--surface2); flex-shrink: 0; }
+  .card-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease, filter 0.3s ease; filter: brightness(0.78) saturate(1.1); }
+  .card:hover .card-img { filter: brightness(0.9) saturate(1.15); transform: scale(1.03); }
+  .card-img-gradient { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.05) 20%, rgba(10,10,10,0.8) 100%); }
+  .card-img-abv { position: absolute; top: 0.75rem; left: 0.85rem; background: rgba(10,10,10,0.82); border: 1px solid rgba(212,168,67,0.4); color: var(--gold-light); font-size: 0.66rem; font-weight: 600; padding: 0.22rem 0.6rem; border-radius: 6px; letter-spacing: 0.08em; z-index: 2; backdrop-filter: blur(4px); }
+  .card-img-glass { position: absolute; top: 0.75rem; right: 0.85rem; background: rgba(10,10,10,0.82); border: 1px solid rgba(212,168,67,0.3); color: var(--text-mid); font-size: 0.64rem; padding: 0.22rem 0.6rem; border-radius: 6px; letter-spacing: 0.06em; z-index: 2; backdrop-filter: blur(4px); }
+  .card-img-wc-badge { position: absolute; top: 0.75rem; right: 0.85rem; background: var(--amber); color: #0a0a0a; font-size: 0.6rem; font-weight: 700; padding: 0.22rem 0.6rem; border-radius: 6px; letter-spacing: 0.1em; text-transform: uppercase; z-index: 2; }
+  .card-img-rank { position: absolute; bottom: 0.75rem; right: 0.85rem; font-size: 0.58rem; color: rgba(242,237,228,0.6); letter-spacing: 0.1em; text-transform: uppercase; z-index: 2; }
+
+  .card-body { padding: 1rem 1.2rem 1rem; }
+  .card-name { font-family: var(--font-display); font-size: 1.55rem; letter-spacing: 0.03em; line-height: 1.05; color: var(--text-bright); margin-bottom: 0.25rem; }
+  .card-tagline { font-size: 0.8rem; color: var(--text-mid); line-height: 1.5; }
+  .card-meta-row { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.65rem; flex-wrap: wrap; }
+  .card-pairs-tag { display: flex; align-items: center; gap: 0.35rem; background: rgba(212,168,67,0.1); border: 1px solid rgba(212,168,67,0.25); border-radius: 20px; padding: 0.25rem 0.7rem; font-size: 0.7rem; color: var(--gold-light); }
+  .card-toggle-row { display: flex; align-items: center; justify-content: space-between; margin-top: 0.7rem; }
+  .card-toggle-hint { font-size: 0.65rem; color: var(--text-dim); letter-spacing: 0.06em; }
+  .chevron { color: var(--text-dim); font-size: 0.7rem; transition: transform 0.22s; }
+  .card.open .chevron { transform: rotate(180deg); }
+
+  .card-detail { display: none; padding: 0 1.2rem 1.2rem; border-top: 1px solid var(--border); padding-top: 1rem; margin-top: 0; }
+  .card.open .card-detail { display: block; animation: fadeUp 0.25s ease; }
+  .dl { font-size: 0.6rem; color: var(--gold); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.45rem; margin-top: 0.9rem; }
+  .dl:first-child { margin-top: 0; }
+  .ing-list { list-style: none; }
+  .ing-list li { font-size: 0.82rem; color: var(--text); padding: 0.22rem 0; display: flex; align-items: flex-start; gap: 0.5rem; line-height: 1.4; }
+  .ing-list li::before { content:'—'; color: var(--gold); font-size:0.65rem; flex-shrink:0; margin-top:0.15rem; }
+  .inst { font-size: 0.82rem; color: var(--text-mid); line-height: 1.72; }
+  .flavor { font-size: 0.82rem; color: var(--text-mid); line-height: 1.68; font-style: italic; }
+  .glass-note { display: flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 10px; padding: 0.55rem 0.8rem; font-size: 0.76rem; color: var(--text-mid); margin-top: 0.2rem; }
+  .glass-icon { font-size: 1.1rem; }
+
+  .error-box { background: rgba(192,57,43,0.1); border: 1px solid rgba(192,57,43,0.3); border-radius: 14px; padding: 1.1rem 1.25rem; font-size: 0.82rem; color: #e07070; line-height: 1.6; margin-top: 1rem; }
+  .error-detail { margin-top: 0.6rem; font-size: 0.72rem; color: #c06060; font-family: monospace; background: rgba(0,0,0,0.3); padding: 0.5rem 0.65rem; border-radius: 6px; word-break: break-all; }
 </style>
 </head>
 <body>
+
 <div class="header">
-  <div class="header-icon">&#127864;</div>
+  <div class="header-icon">🍸</div>
   <div>
     <div class="header-title">Cabinet Cocktails</div>
     <div class="header-sub">AI-Powered Bar Intelligence</div>
   </div>
+  <button class="header-key-btn" id="keyBtn" onclick="showKeyModal()">🔑 API Key</button>
 </div>
+
+<div class="modal-overlay" id="keyModal">
+  <div class="modal">
+    <div class="modal-title">API Key</div>
+    <div class="modal-desc">This app uses the Anthropic Claude API to analyze your cabinet.<br><br>Get a free API key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys.</div>
+    <input class="modal-input" type="password" id="apiKeyInput" placeholder="sk-ant-..." autocomplete="off" spellcheck="false">
+    <div class="modal-note">🔒 Your key is stored only in your browser and sent directly to Anthropic — nowhere else.</div>
+    <button class="btn-primary" onclick="saveKey()">SAVE & CONTINUE →</button>
+  </div>
+</div>
+
 <div class="main" id="main"></div>
+
 <script>
-var imageBase64 = null;
+  let apiKey = localStorage.getItem('cc_api_key') || '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';
+  let imageBase64 = null, imageType = 'image/jpeg';
 
-// Curated verified image map - known good URLs from TheCocktailDB
-var IMG_MAP = {
-  'manhattan':    'https://www.thecocktaildb.com/images/media/drink/vrwquq1478252802.jpg',
-  'martini':      'https://www.thecocktaildb.com/images/media/drink/71t8581504353095.jpg',
-  'negroni':      'https://www.thecocktaildb.com/images/media/drink/qgdu971561574065.jpg',
-  'boulevardier': 'https://www.thecocktaildb.com/images/media/drink/km84qi1513705868.jpg',
-  'old fashioned':'https://www.thecocktaildb.com/images/media/drink/vrwquq1478252802.jpg',
-  'whiskey sour': 'https://www.thecocktaildb.com/images/media/drink/hbkfsh1589574990.jpg',
-  'whisky sour':  'https://www.thecocktaildb.com/images/media/drink/hbkfsh1589574990.jpg',
-  'gimlet':       'https://www.thecocktaildb.com/images/media/drink/xgldt1513707271.jpg',
-  'daiquiri':     'https://www.thecocktaildb.com/images/media/drink/mrz9091589574515.jpg',
-  'aperol spritz':'https://www.thecocktaildb.com/images/media/drink/iloasq1587661955.jpg',
-  'spritz':       'https://www.thecocktaildb.com/images/media/drink/iloasq1587661955.jpg',
-  'moscow mule':  'https://www.thecocktaildb.com/images/media/drink/3pylqc1504370988.jpg',
-  'mule':         'https://www.thecocktaildb.com/images/media/drink/3pylqc1504370988.jpg',
-  'cosmopolitan': 'https://www.thecocktaildb.com/images/media/drink/kpsajh1504368362.jpg',
-  'french 75':    'https://www.thecocktaildb.com/images/media/drink/zrxfbl1606773109.jpg',
-  'clover club':  'https://www.thecocktaildb.com/images/media/drink/30aja61504348715.jpg',
-  'aviation':     'https://www.thecocktaildb.com/images/media/drink/yrbplb1606855233.jpg',
-  'plane':        'https://www.thecocktaildb.com/images/media/drink/yrbplb1606855233.jpg',
-  'gin tonic':    'https://www.thecocktaildb.com/images/media/drink/qcgz0t1643821443.jpg',
-  'gin & tonic':  'https://www.thecocktaildb.com/images/media/drink/qcgz0t1643821443.jpg',
-  'smash':        'https://www.thecocktaildb.com/images/media/drink/iprva61606768774.jpg',
-  'sidecar':      'https://www.thecocktaildb.com/images/media/drink/l72sik1606854964.jpg',
-  'margarita':    'https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg',
-  'paloma':       'https://www.thecocktaildb.com/images/media/drink/samm5j1513706393.jpg',
-  'sour':         'https://www.thecocktaildb.com/images/media/drink/hbkfsh1589574990.jpg',
-  'fizz':         'https://www.thecocktaildb.com/images/media/drink/qcgz0t1643821443.jpg',
-  'sling':        'https://www.thecocktaildb.com/images/media/drink/hbkfsh1589574990.jpg',
-  'flip':         'https://www.thecocktaildb.com/images/media/drink/vrwquq1478252802.jpg',
-  'royale':       'https://www.thecocktaildb.com/images/media/drink/zrxfbl1606773109.jpg',
-  'reverse':      'https://www.thecocktaildb.com/images/media/drink/71t8581504353095.jpg',
-  'chambery':     'https://www.thecocktaildb.com/images/media/drink/3pylqc1504370988.jpg'
-};
-
-// Spirit-based fallback images - when nothing else matches use the primary spirit
-var SPIRIT_MAP = {
-  'bourbon':  'https://www.thecocktaildb.com/images/media/drink/vrwquq1478252802.jpg',
-  'whiskey':  'https://www.thecocktaildb.com/images/media/drink/hbkfsh1589574990.jpg',
-  'whisky':   'https://www.thecocktaildb.com/images/media/drink/hbkfsh1589574990.jpg',
-  'gin':      'https://www.thecocktaildb.com/images/media/drink/71t8581504353095.jpg',
-  'vodka':    'https://www.thecocktaildb.com/images/media/drink/3pylqc1504370988.jpg',
-  'rum':      'https://www.thecocktaildb.com/images/media/drink/mrz9091589574515.jpg',
-  'tequila':  'https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg',
-  'brandy':   'https://www.thecocktaildb.com/images/media/drink/l72sik1606854964.jpg',
-  'aperol':   'https://www.thecocktaildb.com/images/media/drink/iloasq1587661955.jpg',
-  'campari':  'https://www.thecocktaildb.com/images/media/drink/qgdu971561574065.jpg',
-  'vermouth': 'https://www.thecocktaildb.com/images/media/drink/71t8581504353095.jpg'
-};
-
-var DEFAULT_IMG = 'https://www.thecocktaildb.com/images/media/drink/metwgh1606770327.jpg';
-
-function dbSearch(query, cb) {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + encodeURIComponent(query));
-  xhr.onload = function() {
-    try {
-      var d = JSON.parse(xhr.responseText);
-      cb(d.drinks && d.drinks[0] ? d.drinks[0].strDrinkThumb : null);
-    } catch(e) { cb(null); }
+  const COCKTAIL_PHOTOS = {
+    'manhattan':     'https://images.unsplash.com/photo-1527761939622-933c2cc40c5b?w=700&h=380&fit=crop',
+    'martini':       'https://images.unsplash.com/photo-1575023782549-62ca0d244b39?w=700&h=380&fit=crop',
+    'negroni':       'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=700&h=380&fit=crop',
+    'boulevardier':  'https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=700&h=380&fit=crop',
+    'old fashioned': 'https://images.unsplash.com/photo-1582906573562-ad2b80e21eca?w=700&h=380&fit=crop',
+    'whiskey sour':  'https://images.unsplash.com/photo-1607622750671-6cd9a99eabd1?w=700&h=380&fit=crop',
+    'sour':          'https://images.unsplash.com/photo-1607622750671-6cd9a99eabd1?w=700&h=380&fit=crop',
+    'smash':         'https://images.unsplash.com/photo-1568644396922-5c3bfae12521?w=700&h=380&fit=crop',
+    'spritz':        'https://images.unsplash.com/photo-1570598912132-0ba1dc952b7d?w=700&h=380&fit=crop',
+    'aperol':        'https://images.unsplash.com/photo-1570598912132-0ba1dc952b7d?w=700&h=380&fit=crop',
+    'gimlet':        'https://images.unsplash.com/photo-1516535794938-6063878f08cc?w=700&h=380&fit=crop',
+    'daiquiri':      'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=700&h=380&fit=crop',
+    'cosmopolitan':  'https://images.unsplash.com/photo-1560508179-b2c9a3f8e92b?w=700&h=380&fit=crop',
+    'gin tonic':     'https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=700&h=380&fit=crop',
+    'gin & tonic':   'https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=700&h=380&fit=crop',
+    'french 75':     'https://images.unsplash.com/photo-1560963689-b5682b6440f8?w=700&h=380&fit=crop',
+    'clover club':   'https://images.unsplash.com/photo-1560963689-b5682b6440f8?w=700&h=380&fit=crop',
+    'paper plane':   'https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=700&h=380&fit=crop',
+    'default':       'https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=700&h=380&fit=crop',
+    'wildcard':      'https://images.unsplash.com/photo-1543253687-c931c8e01820?w=700&h=380&fit=crop',
   };
-  xhr.onerror = function() { cb(null); };
-  xhr.send();
-}
 
-function getPhoto(name, cb) {
-  var lower = (name||'').toLowerCase();
-
-  // 1. Check curated map first - instant, no network call needed
-  for (var key in IMG_MAP) {
-    if (lower.indexOf(key) !== -1) return cb(IMG_MAP[key]);
-  }
-
-  // 2. Try exact name search on CocktailDB
-  dbSearch(name, function(p) {
-    if (p) return cb(p);
-
-    // 3. Try without "The" prefix
-    var stripped = name.replace(/^the /i,'').trim();
-    if (stripped !== name) {
-      dbSearch(stripped, function(p2) {
-        if (p2) return cb(p2);
-        spiritFallback(lower, cb);
-      });
-    } else {
-      spiritFallback(lower, cb);
+  function getPhoto(name, isWildcard) {
+    if (isWildcard) return COCKTAIL_PHOTOS.wildcard;
+    const lower = (name || '').toLowerCase();
+    for (const [key, url] of Object.entries(COCKTAIL_PHOTOS)) {
+      if (key !== 'default' && key !== 'wildcard' && lower.includes(key)) return url;
     }
-  });
-}
-
-function spiritFallback(lower, cb) {
-  // 4. Match by spirit keyword - returns a relevant cocktail photo for that spirit
-  for (var sp in SPIRIT_MAP) {
-    if (lower.indexOf(sp) !== -1) return cb(SPIRIT_MAP[sp]);
+    return COCKTAIL_PHOTOS.default;
   }
-  // 5. Final fallback
-  cb(DEFAULT_IMG);
-}
 
-function showUpload() {
-  imageBase64 = null;
-  var h = '<div class="upload-zone" id="uz">';
-  h += '<input type="file" id="fi" accept="image/*" capture="environment">';
-  h += '<div class="upload-icon-wrap"><div class="upload-icon">&#128247;</div></div>';
-  h += '<div class="upload-title">Photograph Your Liquor Cabinet</div>';
-  h += '<div class="upload-hint">Tap to take a photo - we will find every cocktail you can make</div>';
-  h += '<button class="jelly-btn" id="cb">&#128247;&nbsp; Open Camera</button>';
-  h += '</div>';
-  document.getElementById('main').innerHTML = h;
-  document.getElementById('fi').addEventListener('change', onFile);
-  document.getElementById('cb').addEventListener('click', function(e) { e.stopPropagation(); document.getElementById('fi').click(); });
-  document.getElementById('uz').addEventListener('click', function(e) { if (e.target.id !== 'fi' && e.target.id !== 'cb') document.getElementById('fi').click(); });
-}
+  if (apiKey) { hideKeyModal(); showUpload(); updateKeyBtn(); }
+  else document.getElementById('keyModal').style.display = 'flex';
 
-function onFile(e) {
-  var file = e.target.files[0]; if (!file) return;
-  var img = new Image();
-  img.onload = function() {
-    var MAX=1400, w=img.width, h=img.height;
-    if (w>MAX||h>MAX) { var r=Math.min(MAX/w,MAX/h); w=Math.round(w*r); h=Math.round(h*r); }
-    var c=document.createElement('canvas'); c.width=w; c.height=h;
-    c.getContext('2d').drawImage(img,0,0,w,h);
-    c.toBlob(function(blob) {
-      var fr=new FileReader();
-      fr.onload=function(ev){ imageBase64=ev.target.result.split(',')[1]; showPreview(c.toDataURL('image/jpeg',0.88),w,h,blob.size); };
-      fr.readAsDataURL(blob);
-    },'image/jpeg',0.88);
-  };
-  img.src=URL.createObjectURL(file);
-}
+  function updateKeyBtn() {
+    const btn = document.getElementById('keyBtn');
+    if (apiKey) { btn.textContent = '✓ Key Set'; btn.classList.add('set'); }
+    else { btn.textContent = '🔑 API Key'; btn.classList.remove('set'); }
+  }
 
-function showPreview(url,w,h,size) {
-  var h2='<div class="preview-wrap"><img src="'+url+'" class="preview-img">';
-  h2+='<div class="preview-overlay"><span class="preview-label">Ready to analyze</span>';
-  h2+='<button class="btn-change" onclick="showUpload()">Change photo</button></div></div>';
-  h2+='<div class="img-info">'+w+'x'+h+'px - '+(size/1024).toFixed(0)+' KB</div>';
-  h2+='<button class="btn-analyze" onclick="analyze()">&#128269; Discover My Cocktails</button>';
-  document.getElementById('main').innerHTML=h2;
-}
+  function showKeyModal() { document.getElementById('keyModal').style.display = 'flex'; document.getElementById('apiKeyInput').value = apiKey || ''; }
+  function hideKeyModal() { document.getElementById('keyModal').style.display = 'none'; }
 
-function analyze() {
-  if (!imageBase64) return;
-  var steps=['Scanning your cabinet...','Identifying bottles...','Cross-referencing recipes...','Crafting your list...','Inventing your Wildcard...'];
-  var si=0;
-  document.getElementById('main').innerHTML='<div class="loading-wrap"><div class="loading-bar"><div class="loading-fill"></div></div><div class="loading-step" id="ls">'+steps[0]+'</div></div>';
-  var iv=setInterval(function(){ si=(si+1)%steps.length; var el=document.getElementById('ls'); if(el) el.textContent=steps[si]; },1600);
-  var xhr=new XMLHttpRequest();
-  xhr.open('POST','/analyze');
-  xhr.setRequestHeader('Content-Type','application/json');
-  xhr.onload=function(){
-    clearInterval(iv);
+  function saveKey() {
+    const val = document.getElementById('apiKeyInput').value.trim();
+    if (!val.startsWith('sk-')) { alert('Should start with "sk-ant-"'); return; }
+    apiKey = val; localStorage.setItem('cc_api_key', apiKey);
+    hideKeyModal(); updateKeyBtn(); showUpload();
+  }
+
+  document.getElementById('apiKeyInput').addEventListener('keydown', e => { if (e.key === 'Enter') saveKey(); });
+
+  function showUpload() {
+    imageBase64 = null;
+    document.getElementById('main').innerHTML = `
+      <div class="hero">
+        <div class="hero-eyebrow">Your Personal Bartender</div>
+        <div class="hero-title">What Can You<br><span>Make Tonight?</span></div>
+        <div class="hero-sub">Photograph your liquor cabinet.<br>Discover what cocktails you can craft right now.</div>
+      </div>
+      <div class="upload-zone" id="uz">
+        <input type="file" id="fi" accept="image/*" capture="environment">
+        <div class="upload-icon">📷</div>
+        <div class="upload-title">Photograph Your Cabinet</div>
+        <div class="upload-hint">Tap to take a photo or choose one from your library.<br>The AI will identify every bottle and recommend your best options.</div>
+      </div>`;
+    document.getElementById('fi').addEventListener('change', onFile);
+    document.getElementById('uz').addEventListener('click', e => { if (e.target.tagName !== 'INPUT') document.getElementById('fi').click(); });
+  }
+
+  function onFile(e) {
+    const file = e.target.files[0]; if (!file) return;
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      const MAX = 1400;
+      let w = img.width, h = img.height;
+      if (w > MAX || h > MAX) { const r = Math.min(MAX/w, MAX/h); w = Math.round(w*r); h = Math.round(h*r); }
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      imageType = 'image/jpeg';
+      canvas.toBlob(blob => {
+        const reader = new FileReader();
+        reader.onload = ev => { imageBase64 = ev.target.result.split(',')[1]; showPreview(canvas.toDataURL('image/jpeg', 0.88), w, h, blob.size); };
+        reader.readAsDataURL(blob);
+      }, 'image/jpeg', 0.88);
+    };
+    img.src = url;
+  }
+
+  function showPreview(url, w, h, size) {
+    document.getElementById('main').innerHTML = `
+      <div class="preview-wrap">
+        <img src="${url}" class="preview-img">
+        <div class="preview-overlay">
+          <span class="preview-label">Cabinet ready to analyze</span>
+          <button class="btn-change" onclick="showUpload()">Change photo</button>
+        </div>
+      </div>
+      <div class="img-info">${w}×${h}px · ${(size/1024).toFixed(0)} KB</div>
+      <div class="cta-wrap">
+        <div class="cta-label">Tap to discover your cocktails</div>
+        <button class="btn-analyze" onclick="analyze()">🔍 What Can I Make Tonight?</button>
+      </div>`;
+  }
+
+  async function analyze() {
+    if (!imageBase64) return;
+    if (!apiKey) { showKeyModal(); return; }
+    const steps = ["Scanning your cabinet...","Identifying bottles and brands...","Researching classic recipes...","Calculating flavor combinations...","Selecting your best cocktails...","Inventing your Wildcard..."];
+    let si = 0;
+    document.getElementById('main').innerHTML = `<div class="loading-wrap"><div class="loading-bar"><div class="loading-fill"></div></div><div class="loading-step" id="lstep">${steps[0]}</div></div>`;
+    const iv = setInterval(() => { si=(si+1)%steps.length; const el=document.getElementById('lstep'); if(el) el.textContent=steps[si]; }, 1800);
+
+    const system = `You are a world-class master mixologist and flavor scientist. Analyze the provided image of a liquor cabinet or bar shelf.
+Return ONLY valid JSON, no other text:
+{
+  "bottles":["every identified bottle or spirit"],
+  "cocktails":[{
+    "name":"Cocktail Name",
+    "tagline":"One evocative, atmospheric sentence capturing the mood and occasion for this drink",
+    "abv":"e.g. ~28% ABV",
+    "glassware":"specific glass recommendation e.g. Rocks glass, Coupe, Martini glass, Highball",
+    "glasswareIcon":"single emoji representing the glass",
+    "pairsWith":["2-3 specific food pairing items e.g. Dark chocolate, Aged cheddar, Charcuterie"],
+    "ingredients":["2 oz bourbon","1 oz sweet vermouth","2 dashes Angostura bitters","1 large ice cube","orange peel to garnish"],
+    "instructions":"Clear step-by-step method in 2-3 sentences. Be specific about technique.",
+    "flavorNote":"A richly descriptive 2-3 sentence flavor narrative. Describe the aroma, initial taste, mid-palate, and finish. Use evocative language mentioning specific flavor notes like dried cherry, toasted oak, bitter citrus pith, candied ginger, etc."
+  }],
+  "wildcard":{
+    "name":"Original Creative Name",
+    "tagline":"One evocative sentence",
+    "abv":"estimated ABV",
+    "glassware":"specific glass",
+    "glasswareIcon":"emoji",
+    "pairsWith":["2-3 food pairings"],
+    "ingredients":["with amounts"],
+    "instructions":"Steps.",
+    "flavorNote":"Rich 2-3 sentence flavor description.",
+    "rationale":"The creative concept and why these ingredients work together."
+  }
+}
+Critical rules: ONLY recommend cocktails makeable from visible bottles (assume ice/water/simple syrup/fresh citrus available); ALWAYS include ice in ingredients when recipe requires it (e.g. 1 large ice cube, ice cubes to fill glass, crushed ice); sort cocktails best first; recommend 6-10 cocktails; wildcard must be genuinely original. Return ONLY the JSON object, no markdown.`;
+
     try {
-      if (xhr.status!==200) { var er=JSON.parse(xhr.responseText); throw new Error(er.error||'Server error '+xhr.status); }
-      renderResults(JSON.parse(xhr.responseText));
-    } catch(e){ showError(e.message); }
-  };
-  xhr.onerror=function(){ clearInterval(iv); showError('Network error - please try again'); };
-  xhr.send(JSON.stringify({imageBase64:imageBase64,imageType:'image/jpeg'}));
-}
-
-function showError(msg) {
-  document.getElementById('main').innerHTML='<div class="error-box"><strong>Something went wrong:</strong> '+esc(msg)+'</div><button class="btn-secondary" onclick="showUpload()">Try Again</button>';
-}
-
-function renderResults(r) {
-  var bottles=r.bottles||[], cocktails=r.cocktails||[];
-  var h='<div class="section"><div class="section-label">Detected in your cabinet</div><div class="bottles-list">';
-  for (var i=0;i<bottles.length;i++) h+='<div class="bottle-tag"><span class="dot"></span>'+esc(bottles[i])+'</div>';
-  h+='</div></div><div class="section"><div class="section-label">Cocktails you can make now</div>';
-  for (var j=0;j<cocktails.length;j++) {
-    var c=cocktails[j];
-    h+='<div class="card" id="c'+j+'" onclick="toggle(\'c'+j+'\')">';
-    h+='<div class="card-img-wrap"><img class="card-img" id="ci'+j+'" src="'+DEFAULT_IMG+'" loading="lazy">';
-    h+='<div class="card-img-gradient"></div><div class="card-img-badge">'+c.score+'</div>';
-    h+='<div class="card-img-rank">#'+(j+1)+' Recommended</div></div>';
-    h+='<div class="card-body"><div class="card-name">'+esc(c.name)+'</div>';
-    h+='<div class="card-tagline">'+esc(c.tagline)+'</div>';
-    h+='<div class="card-toggle-row"><span class="card-toggle-hint">Tap for recipe</span><span class="chevron">&#9660;</span></div></div>';
-    h+='<div class="card-detail"><div class="dl">Ingredients</div><ul class="ing-list">';
-    var ings=c.ingredients||[]; for (var k=0;k<ings.length;k++) h+='<li>'+esc(ings[k])+'</li>';
-    h+='</ul><div class="dl">Instructions</div><p class="inst">'+esc(c.instructions)+'</p>';
-    if (c.flavorNote) h+='<div class="dl">Flavor Profile</div><p class="flavor">'+esc(c.flavorNote)+'</p>';
-    h+='</div></div>';
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-allow-browser': 'true' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514', max_tokens: 3000, system,
+          messages: [{ role: 'user', content: [
+            { type: 'image', source: { type: 'base64', media_type: imageType, data: imageBase64 } },
+            { type: 'text', text: 'Analyze this liquor cabinet and return the JSON.' }
+          ]}]
+        })
+      });
+      clearInterval(iv);
+      const raw = await res.text();
+      if (!res.ok) {
+        let msg = `HTTP ${res.status}`;
+        try { const j = JSON.parse(raw); msg = j.error?.message || msg; } catch(e) {}
+        if (res.status === 401) msg = 'Invalid API key — tap "API Key" to update it.';
+        if (res.status === 429) msg = 'Rate limit reached. Wait a moment and try again.';
+        throw new Error(msg);
+      }
+      const data = JSON.parse(raw);
+      const text = (data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
+      renderResults(JSON.parse(text));
+    } catch(err) {
+      clearInterval(iv);
+      document.getElementById('main').innerHTML = `<div class="error-box">⚠️ <strong>Something went wrong</strong><div class="error-detail">${err.message}</div></div><button class="btn-secondary" onclick="showUpload()">📷 Try Again</button>`;
+    }
   }
-  h+='</div>';
-  if (r.wildcard) {
-    var w=r.wildcard;
-    h+='<div class="section"><div class="section-label">Wildcard - original creation</div>';
-    h+='<div class="card wildcard" id="cwc" onclick="toggle(\'cwc\')">';
-    h+='<div class="card-img-wrap"><img class="card-img" id="wci" src="'+DEFAULT_IMG+'" loading="lazy">';
-    h+='<div class="card-img-gradient"></div><div class="card-img-wc">Wildcard</div>';
-    h+='<div class="card-img-rank">Claude\'s Original Recipe</div></div>';
-    h+='<div class="card-body"><div class="card-name">'+esc(w.name)+'</div>';
-    h+='<div class="card-tagline">'+esc(w.tagline)+'</div>';
-    h+='<div class="card-toggle-row"><span class="card-toggle-hint">Tap for recipe</span><span class="chevron">&#9660;</span></div></div>';
-    h+='<div class="card-detail">';
-    if (w.rationale) h+='<div class="dl">The Concept</div><p class="flavor">'+esc(w.rationale)+'</p>';
-    h+='<div class="dl">Ingredients</div><ul class="ing-list">';
-    var wi=w.ingredients||[]; for (var wj=0;wj<wi.length;wj++) h+='<li>'+esc(wi[wj])+'</li>';
-    h+='</ul><div class="dl">Instructions</div><p class="inst">'+esc(w.instructions)+'</p>';
-    if (w.flavorNote) h+='<div class="dl">Flavor Science</div><p class="flavor">'+esc(w.flavorNote)+'</p>';
-    h+='</div></div></div>';
+
+  function renderResults(r) {
+    const count = (r.cocktails||[]).length;
+    let html = '';
+    html += `<div class="section"><div class="section-label">Detected in your cabinet</div><div class="bottles-list">`;
+    (r.bottles||[]).forEach(b => { html += `<div class="bottle-tag"><span class="dot"></span>${esc(b)}</div>`; });
+    html += `</div></div>`;
+    html += `<div class="hero-cta-banner"><div class="cta-banner-title">Cocktails You Can<br><span>Make Right Now</span></div><div class="cta-banner-sub">Based on what's in your cabinet — no missing ingredients</div><div class="cta-count">${count} Cocktail${count!==1?'s':''} Ready to Make · Tap Any Card for the Full Recipe</div></div>`;
+    html += `<div class="section">`;
+    (r.cocktails||[]).forEach((c, i) => {
+      const photo = getPhoto(c.name, false);
+      const pairsHtml = (c.pairsWith||[]).map(p => `<span class="card-pairs-tag">🍽 ${esc(p)}</span>`).join('');
+      html += `<div class="card" id="c${i}" onclick="toggle('c${i}')">
+        <div class="card-img-wrap">
+          <img class="card-img" src="${photo}" alt="${esc(c.name)}" loading="lazy">
+          <div class="card-img-gradient"></div>
+          ${c.abv?`<div class="card-img-abv">${esc(c.abv)}</div>`:''}
+          ${c.glassware?`<div class="card-img-glass">${esc(c.glasswareIcon||'')} ${esc(c.glassware)}</div>`:''}
+          <div class="card-img-rank">#${i+1} of ${count}</div>
+        </div>
+        <div class="card-body">
+          <div class="card-name">${esc(c.name)}</div>
+          <div class="card-tagline">${esc(c.tagline)}</div>
+          <div class="card-meta-row">${pairsHtml}</div>
+          <div class="card-toggle-row"><span class="card-toggle-hint">Tap for recipe</span><span class="chevron">▼</span></div>
+        </div>
+        <div class="card-detail">
+          ${c.glassware?`<div class="dl">Glassware</div><div class="glass-note"><span class="glass-icon">${esc(c.glasswareIcon||'🥃')}</span> ${esc(c.glassware)}</div>`:''}
+          <div class="dl">Ingredients</div>
+          <ul class="ing-list">${(c.ingredients||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
+          <div class="dl">Instructions</div>
+          <p class="inst">${esc(c.instructions)}</p>
+          ${c.flavorNote?`<div class="dl">Flavor Profile</div><p class="flavor">${esc(c.flavorNote)}</p>`:''}
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+    if (r.wildcard) {
+      const w = r.wildcard;
+      const photo = getPhoto(w.name, true);
+      const wcPairsHtml = (w.pairsWith||[]).map(p => `<span class="card-pairs-tag">🍽 ${esc(p)}</span>`).join('');
+      html += `<div class="section"><div class="section-label">Wildcard — Original Creation</div>
+        <div class="card wildcard" id="cwc" onclick="toggle('cwc')">
+          <div class="card-img-wrap">
+            <img class="card-img" src="${photo}" alt="${esc(w.name)}" loading="lazy">
+            <div class="card-img-gradient"></div>
+            ${w.abv?`<div class="card-img-abv">${esc(w.abv)}</div>`:''}
+            <div class="card-img-wc-badge">✦ Wildcard</div>
+            <div class="card-img-rank">Claude's Original Recipe</div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">${esc(w.name)}</div>
+            <div class="card-tagline">${esc(w.tagline)}</div>
+            <div class="card-meta-row">${wcPairsHtml}</div>
+            <div class="card-toggle-row"><span class="card-toggle-hint">Tap for recipe</span><span class="chevron">▼</span></div>
+          </div>
+          <div class="card-detail">
+            ${w.rationale?`<div class="dl">The Concept</div><p class="flavor">${esc(w.rationale)}</p>`:''}
+            ${w.glassware?`<div class="dl">Glassware</div><div class="glass-note"><span class="glass-icon">${esc(w.glasswareIcon||'🥃')}</span> ${esc(w.glassware)}</div>`:''}
+            <div class="dl">Ingredients</div>
+            <ul class="ing-list">${(w.ingredients||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
+            <div class="dl">Instructions</div>
+            <p class="inst">${esc(w.instructions)}</p>
+            ${w.flavorNote?`<div class="dl">Flavor Science</div><p class="flavor">${esc(w.flavorNote)}</p>`:''}
+          </div>
+        </div></div>`;
+    }
+    html += `<button class="btn-secondary" onclick="showUpload()">📷 Scan Another Cabinet</button>`;
+    document.getElementById('main').innerHTML = html;
   }
-  h+='<button class="btn-secondary" onclick="showUpload()">&#128247; Scan Another Cabinet</button>';
-  document.getElementById('main').innerHTML=h;
-  for (var ci=0;ci<cocktails.length;ci++) loadPhoto(cocktails[ci].name,'ci'+ci);
-  if (r.wildcard) loadPhoto(r.wildcard.name,'wci');
-}
 
-function loadPhoto(name,imgId) {
-  getPhoto(name,function(url){ var el=document.getElementById(imgId); if(el) el.src=url; });
-}
-
-function toggle(id) { var el=document.getElementById(id); if(el) el.classList.toggle('open'); }
-
-function esc(s) {
-  if (!s) return '';
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-showUpload();
+  function toggle(id) { document.getElementById(id).classList.toggle('open'); }
+  function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 </script>
 </body>
 </html>
