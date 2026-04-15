@@ -134,9 +134,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-body);
 .glass-note { display: flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 10px; padding: 0.55rem 0.8rem; font-size: 0.76rem; color: var(--text-mid); margin-top: 0.2rem; }
 .glass-icon { font-size: 1.1rem; }
 
-.webcam-wrap { padding: 1rem 0; }
-.webcam-label { font-size: 0.7rem; color: var(--gold); letter-spacing: 0.14em; text-transform: uppercase; text-align: center; margin-bottom: 0.75rem; }
-.webcam-btns { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; }
 
 .error-box { background: rgba(192,57,43,0.1); border: 1px solid rgba(192,57,43,0.3); border-radius: 14px; padding: 1.1rem 1.25rem; font-size: 0.82rem; color: #e07070; line-height: 1.6; margin-top: 1rem; }
 .error-detail { margin-top: 0.6rem; font-size: 0.72rem; color: #c06060; font-family: monospace; background: rgba(0,0,0,0.3); padding: 0.5rem 0.65rem; border-radius: 6px; word-break: break-all; }
@@ -278,100 +275,32 @@ function showUpload() {
       '<div class="hero-title">What Can You<br><span>Make Tonight?</span></div>' +
       '<div class="hero-sub">Photograph your liquor cabinet.<br>Discover what cocktails you can craft right now.</div>' +
     '</div>' +
-    '<div class="upload-zone" id="uz" onclick="handleUploadClick(event)">' +
-      '<input type="file" id="fi" accept="image/*">' +
+    '<div class="upload-zone" id="uz">' +
+      '<input type="file" id="fi" accept="image/*" capture="environment">' +
       '<div class="upload-icon" id="upload-icon">&#128247;</div>' +
       '<div class="upload-title">Photograph Your Cabinet</div>' +
-      '<div class="upload-hint" id="upload-hint">Loading camera options...</div>' +
+      '<div class="upload-hint">Tap to take a photo or choose one from your library.</div>' +
     '</div>';
   document.getElementById('fi').addEventListener('change', onFile);
-  initUploadZone();
+  document.getElementById('uz').addEventListener('click', function(e) {
+    if (e.target.tagName !== 'INPUT') document.getElementById('fi').click();
+  });
+
 }
 
-function initUploadZone() {
-  var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-  var hint = document.getElementById('upload-hint');
-  var icon = document.getElementById('upload-icon');
-  if (isMobile) {
-    if (hint) hint.textContent = 'Tap to take a photo or choose from your library.';
-  } else if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    if (hint) hint.innerHTML = 'Click to use your <b>webcam</b>, or drag & drop a photo.';
-    if (icon) icon.textContent = '📷';
-  } else {
-    if (hint) hint.textContent = 'Click to choose a photo from your computer.';
-  }
-}
 
-function handleUploadClick(e) {
-  if (e.target.tagName === 'INPUT') return;
-  var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-  if (!isMobile && navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    openWebcam();
-  } else {
-    document.getElementById('fi').click();
-  }
-}
 
-function openWebcam() {
-  // Build webcam capture UI
-  document.getElementById('main').innerHTML =
-    '<div class="webcam-wrap">' +
-      '<div class="webcam-label">Point your webcam at your cabinet</div>' +
-      '<video id="wcv" autoplay playsinline style="width:100%;border-radius:16px;background:#000;max-height:360px;object-fit:cover;"></video>' +
-      '<canvas id="wcc" style="display:none;"></canvas>' +
-      '<div class="webcam-btns">' +
-        '<button class="btn-analyze" id="snap-btn" onclick="snapWebcam()">&#128247; Capture Photo</button>' +
-        '<button class="btn-secondary" onclick="webcamCancel()">Cancel</button>' +
-      '</div>' +
-    '</div>';
 
-  navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment', width: {ideal:1280}, height: {ideal:720} } })
-    .catch(function() {
-      return navigator.mediaDevices.getUserMedia({ video: true });
-    })
-    .then(function(stream) {
-      var video = document.getElementById('wcv');
-      if (!video) return;
-      video.srcObject = stream;
-      window._webcamStream = stream;
-    })
-    .catch(function(err) {
-      document.getElementById('main').innerHTML =
-        '<div class="error-box">Could not access webcam: ' + esc(err.message) + '</div>' +
-        '<button class="btn-secondary" onclick="showUpload()">&#8592; Back</button>';
-    });
-}
 
-function snapWebcam() {
-  var video = document.getElementById('wcv');
-  var canvas = document.getElementById('wcc');
-  if (!video || !canvas) return;
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
-  canvas.getContext('2d').drawImage(video, 0, 0);
-  stopWebcamStream();
-  canvas.toBlob(function(blob) {
-    var reader = new FileReader();
-    reader.onload = function(ev) {
-      imageBase64 = ev.target.result.split(',')[1];
-      imageType = 'image/jpeg';
-      showPreview(canvas.toDataURL('image/jpeg', 0.92), canvas.width, canvas.height, blob.size);
-    };
-    reader.readAsDataURL(blob);
-  }, 'image/jpeg', 0.92);
-}
 
-function webcamCancel() {
-  stopWebcamStream();
-  showUpload();
-}
 
-function stopWebcamStream() {
-  if (window._webcamStream) {
-    window._webcamStream.getTracks().forEach(function(t) { t.stop(); });
-    window._webcamStream = null;
-  }
-}
+
+
+
+
+
+
+
 
 function onFile(e) {
   var file = e.target.files[0]; if (!file) return;
