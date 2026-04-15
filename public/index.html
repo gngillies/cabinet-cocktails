@@ -435,7 +435,7 @@ function analyze() {
       return '<span class="card-pairs-tag">&#127869; ' + esc(p) + '</span>';
     }).join('');
     var div = document.createElement('div');
-    div.innerHTML = '<div class="section"><div class="section-label">Wildcard - Original Creation</div>' +
+    div.innerHTML = '<div class="section"><div class="section-label wildcard-label">&#9733; Wildcard - Original Creation &#9733;</div>' +
       buildCard('cwc', w, photo, null, pairs, 'wildcard') + '</div>';
     div.firstChild.style.animation = 'fadeUp 0.3s ease both';
     el.appendChild(div.firstChild);
