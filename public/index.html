@@ -73,6 +73,20 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-body);
 .card.open { border-color: var(--gold); }
 .card.wildcard { border-color: var(--amber); background: linear-gradient(160deg, var(--surface), rgba(224,123,42,0.06)); }
 .card.wildcard::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg, var(--amber), var(--gold)); z-index:1; }
+.wildcard-label {
+  font-family: var(--font-display) !important;
+  font-size: 1rem !important;
+  color: #ffffff !important;
+  background: #0055cc;
+  padding: 0.45rem 1rem !important;
+  border-radius: 8px;
+  letter-spacing: 0.18em !important;
+  display: inline-flex !important;
+  width: auto !important;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 12px rgba(0,85,204,0.5);
+}
+.wildcard-label::after { display: none !important; }
 .mocktail-label {
   font-family: var(--font-display) !important;
   font-size: 1rem !important;
@@ -724,7 +738,7 @@ function renderResults(r) {
     var wcPairs = (w.pairsWith || []).map(function(p) {
       return '<span class="card-pairs-tag">&#127869; ' + esc(p) + '</span>';
     }).join('');
-    html += '<div class="section"><div class="section-label">Wildcard - Original Creation</div>';
+    html += '<div class="section"><div class="section-label wildcard-label">&#9733; Wildcard - Original Creation &#9733;</div>';
     html += '<div class="card wildcard" id="cwc" onclick="toggle(\'cwc\')">';
     html += '<div class="card-img-wrap">';
     html += '<img class="card-img" src="' + wcPhoto + '" alt="' + esc(w.name) + '" loading="lazy">';
