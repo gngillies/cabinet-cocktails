@@ -3,48 +3,37 @@ const fetch = require('node-fetch');
 const zlib = require('zlib');
 const app = express();
 
-// Gzip compression middleware - reduces HTML/JSON by 60-70% over mobile networks
-app.use(function(req, res, next) {
-  const ae = req.headers['accept-encoding'] || '';
-  if (!ae.includes('gzip')) return next();
-  const _json = res.json.bind(res);
-  res.json = function(obj) {
-    const body = JSON.stringify(obj);
-    res.setHeader('Content-Encoding', 'gzip');
-    res.setHeader('Content-Type', 'application/json');
-    zlib.gzip(Buffer.from(body), function(err, buf) {
-      if (err) { res.setHeader('Content-Encoding', 'identity'); return _json(obj); }
-      res.setHeader('Content-Length', buf.length);
-      res.end(buf);
-    });
-    return res;
-  };
-  next();
-});
-
 app.use(express.json({ limit: '20mb' }));
 
-// Static files with 1-hour cache headers
 app.use(express.static('public', {
   maxAge: 3600000,
   etag: true,
   lastModified: true,
   setHeaders: function(res, path) {
-    // HTML should revalidate - everything else can cache
-    if (path.endsWith('.html')) {
-      res.setHeader('Cache-Control', 'no-cache');
-    }
+    if (path.endsWith('.html')) res.setHeader('Cache-Control', 'no-cache');
   }
 }));
 
+// Keep-alive ping
+app.post('/ping', (req, res) => res.json({ pong: true }));
+
+// Streaming analysis endpoint
 app.post('/analyze', async (req, res) => {
-  // Keep-alive ping - no API call, just confirms server is awake
-  if (req.body && req.body.ping) {
-    return res.json({ pong: true });
-  }
+  if (req.body && req.body.ping) return res.json({ pong: true });
+
+  const { imageBase64, imageType } = req.body;
+
+  // Set up SSE stream to browser
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders();
+
+  const send = (type, data) => {
+    res.write('data: ' + JSON.stringify({ type, data }) + '\n\n');
+  };
 
   try {
-    const { imageBase64, imageType } = req.body;
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -55,33 +44,98 @@ app.post('/analyze', async (req, res) => {
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 3500,
-        system: `You are a world-class master mixologist and flavor scientist. Analyze the provided image of a liquor cabinet or bar shelf.
-Return ONLY valid JSON, no other text:
-{
-  "bottles": ["every identified bottle"],
-  "cocktails": [{"name":"Cocktail Name","tagline":"One evocative atmospheric sentence capturing the mood and occasion","abv":"e.g. ~28% ABV","glassware":"specific glass e.g. Rocks glass, Coupe, Martini glass, Highball","glasswareIcon":"single emoji representing the glass","pairsWith":["2-3 specific food pairings e.g. Dark chocolate, Aged cheddar, Charcuterie"],"ingredients":["2 oz bourbon","1 large ice cube","orange peel to garnish"],"instructions":"Clear step-by-step in 2-3 sentences. Be specific about technique.","flavorNote":"Rich 2-3 sentence flavor narrative with specific notes like dried cherry, toasted oak, bitter citrus pith, candied ginger."}],
-  "mocktails": [{"name":"Mocktail Name","tagline":"One evocative sentence","glassware":"specific glass","glasswareIcon":"single emoji","pairsWith":["2-3 food pairings"],"ingredients":["ingredient with amount"],"instructions":"Clear step-by-step in 2-3 sentences.","flavorNote":"Rich 2-3 sentence flavor description."}],
-  "wildcard": {"name":"Original Creative Name","tagline":"One evocative sentence","abv":"estimated ABV","glassware":"specific glass","glasswareIcon":"single emoji","pairsWith":["2-3 food pairings"],"ingredients":["with amounts"],"instructions":"Steps.","flavorNote":"Rich 2-3 sentence flavor description.","rationale":"Creative concept and why these ingredients work together."}
-}
+        stream: true,
+        system: `You are a world-class master mixologist. Analyze this liquor cabinet image.
+Output ONLY a series of JSON lines, one per line, nothing else. Each line is a complete JSON object.
+Output them in this exact order and format:
+
+{"type":"bottles","data":["bottle 1","bottle 2"]}
+{"type":"cocktail","data":{"name":"Name","tagline":"One evocative sentence","abv":"~28% ABV","glassware":"Rocks glass","glasswareIcon":"🥃","pairsWith":["Dark chocolate","Aged cheddar"],"ingredients":["2 oz bourbon","1 large ice cube"],"instructions":"Step by step method.","flavorNote":"Rich flavor description."}}
+... (6-10 cocktail lines, best first)
+{"type":"mocktail","data":{"name":"Name","tagline":"One sentence","glassware":"Glass","glasswareIcon":"🥂","pairsWith":["food","food"],"ingredients":["ingredient"],"instructions":"Steps.","flavorNote":"Flavor."}}
+{"type":"mocktail","data":{"name":"Name","tagline":"One sentence","glassware":"Glass","glasswareIcon":"🥂","pairsWith":["food","food"],"ingredients":["ingredient"],"instructions":"Steps.","flavorNote":"Flavor."}}
+{"type":"wildcard","data":{"name":"Creative Name","tagline":"One sentence","abv":"~22% ABV","glassware":"Glass","glasswareIcon":"🍸","pairsWith":["food"],"ingredients":["with amounts"],"instructions":"Steps.","flavorNote":"Flavor.","rationale":"Why this works."}}
+
 Rules:
-- cocktails: only makeable from visible bottles (assume ice/water/simple syrup/fresh citrus available); ALWAYS include ice when needed; sort best first; 6-10 cocktails; wildcard must be genuinely original
-- mocktails: create EXACTLY 2 creative, sophisticated alcohol-free drinks. Assume available: fresh citrus, fruit juices, sodas (club soda, ginger beer, tonic water), syrups (simple syrup, grenadine, honey syrup, orgeat), garnishes (cocktail cherries, citrus twists, fresh mint, rosemary, cucumber), bitters, coconut cream, egg whites. Make them bartender-quality and creative.
-Return ONLY the JSON.`,
+- Only cocktails makeable from visible bottles (assume ice/water/simple syrup/fresh citrus available)
+- ALWAYS include ice in ingredients when needed
+- Mocktails: 2 exactly, creative and sophisticated, assume available: citrus, juices, sodas, syrups, garnishes, bitters
+- Wildcard: genuinely original creation
+- Output each JSON line as soon as it is complete — do not wait
+- NO markdown, NO extra text, ONLY the JSON lines`,
         messages: [{
           role: 'user',
           content: [
             { type: 'image', source: { type: 'base64', media_type: imageType, data: imageBase64 } },
-            { type: 'text', text: 'Analyze this liquor cabinet.' }
+            { type: 'text', text: 'Analyze this liquor cabinet. Output the JSON lines now.' }
           ]
         }]
       })
     });
-    const data = await response.json();
-    if (!response.ok) return res.status(500).json({ error: data.error?.message || 'API error' });
-    const text = (data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
-    res.json(JSON.parse(text));
+
+    if (!response.ok) {
+      const err = await response.json();
+      send('error', err.error && err.error.message ? err.error.message : 'API error');
+      return res.end();
+    }
+
+    // Parse the Anthropic SSE stream and extract text chunks
+    let buffer = '';
+    
+    response.body.on('data', (chunk) => {
+      const lines = chunk.toString().split('\n');
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        const data = line.slice(6);
+        if (data === '[DONE]') continue;
+        try {
+          const obj = JSON.parse(data);
+          if (obj.type === 'content_block_delta' && obj.delta && obj.delta.text) {
+            buffer += obj.delta.text;
+            // Try to extract complete JSON lines from buffer
+            const nlIdx = buffer.lastIndexOf('\n');
+            if (nlIdx !== -1) {
+              const complete = buffer.substring(0, nlIdx);
+              buffer = buffer.substring(nlIdx + 1);
+              // Process each complete line
+              complete.split('\n').forEach(jsonLine => {
+                jsonLine = jsonLine.trim();
+                if (!jsonLine) return;
+                try {
+                  const parsed = JSON.parse(jsonLine);
+                  if (parsed.type && parsed.data) {
+                    send(parsed.type, parsed.data);
+                  }
+                } catch(e) {
+                  // Incomplete JSON line - ignore, will be in next chunk
+                }
+              });
+            }
+          }
+        } catch(e) {}
+      }
+    });
+
+    response.body.on('end', () => {
+      // Process any remaining buffer
+      if (buffer.trim()) {
+        try {
+          const parsed = JSON.parse(buffer.trim());
+          if (parsed.type && parsed.data) send(parsed.type, parsed.data);
+        } catch(e) {}
+      }
+      send('done', {});
+      res.end();
+    });
+
+    response.body.on('error', (err) => {
+      send('error', err.message);
+      res.end();
+    });
+
   } catch(err) {
-    res.status(500).json({ error: err.message });
+    send('error', err.message);
+    res.end();
   }
 });
 
