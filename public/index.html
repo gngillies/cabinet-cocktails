@@ -119,6 +119,11 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-body);
 .flavor { font-size: 0.82rem; color: var(--text-mid); line-height: 1.68; font-style: italic; }
 .glass-note { display: flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 10px; padding: 0.55rem 0.8rem; font-size: 0.76rem; color: var(--text-mid); margin-top: 0.2rem; }
 .glass-icon { font-size: 1.1rem; }
+
+.webcam-wrap { padding: 1rem 0; }
+.webcam-label { font-size: 0.7rem; color: var(--gold); letter-spacing: 0.14em; text-transform: uppercase; text-align: center; margin-bottom: 0.75rem; }
+.webcam-btns { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; }
+
 .error-box { background: rgba(192,57,43,0.1); border: 1px solid rgba(192,57,43,0.3); border-radius: 14px; padding: 1.1rem 1.25rem; font-size: 0.82rem; color: #e07070; line-height: 1.6; margin-top: 1rem; }
 .error-detail { margin-top: 0.6rem; font-size: 0.72rem; color: #c06060; font-family: monospace; background: rgba(0,0,0,0.3); padding: 0.5rem 0.65rem; border-radius: 6px; word-break: break-all; }
 </style>
@@ -136,59 +141,72 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-body);
 var imageBase64 = null;
 var imageType = 'image/jpeg';
 
-// 47 cocktail photos hosted in this repo - visually verified, always available
-var PHOTO_POOL = [
-  'images/c01.jpg',
-  'images/c03.jpg',
-  'images/c04.jpg',
-  'images/c05.jpg',
-  'images/c06.jpg',
-  'images/c07.jpg',
-  'images/c08.jpg',
-  'images/c09.jpg',
-  'images/c10.jpg',
-  'images/c11.jpg',
-  'images/c12.jpg',
-  'images/c13.jpg',
-  'images/c14.jpg',
-  'images/c15.jpg',
-  'images/c16.jpg',
-  'images/c17.jpg',
-  'images/c18.jpg',
-  'images/c19.jpg',
-  'images/c20.jpg',
-  'images/c21.jpg',
-  'images/c22.jpg',
-  'images/c23.jpg',
-  'images/c24.jpg',
-  'images/c25.jpg',
-  'images/c26.jpg',
-  'images/c27.jpg',
-  'images/c28.jpg',
-  'images/c29.jpg',
-  'images/c30.jpg',
-  'images/c31.jpg',
-  'images/c32.jpg',
-  'images/c33.jpg',
-  'images/c34.jpg',
-  'images/c35.jpg',
-  'images/c36.jpg',
-  'images/c37.jpg',
-  'images/c38.jpg',
-  'images/c39.jpg',
-  'images/c40.jpg',
-  'images/c41.jpg',
-  'images/c42.jpg',
-  'images/c43.jpg',
-  'images/c44.jpg',
-  'images/c45.jpg',
-  'images/c46.jpg',
-  'images/c47.jpg',
-  'images/c48.jpg'
-];
+// 47 cocktail photos hosted in this repo, categorised by colour/mood
+// Categories matched to spirit base for visual coherence
 
-// Hash cocktail name to a stable index, then find nearest unused slot
-// Same cocktail = same photo every time. Different cocktails = different photos.
+// AMBER/BROWN: whiskey, bourbon, scotch, brandy, dark rum, cognac
+var PHOTOS_AMBER = ['images/c06.jpg','images/c09.jpg','images/c10.jpg','images/c14.jpg',
+  'images/c20.jpg','images/c22.jpg','images/c26.jpg','images/c28.jpg',
+  'images/c30.jpg','images/c31.jpg','images/c33.jpg'];
+
+// CLEAR/LIGHT: gin, vodka, tequila, white rum, champagne, prosecco
+var PHOTOS_CLEAR = ['images/c17.jpg','images/c21.jpg','images/c25.jpg',
+  'images/c34.jpg','images/c38.jpg'];
+
+// RED/PINK: Campari, Aperol, berry liqueurs, red wine, grenadine-forward
+var PHOTOS_RED = ['images/c07.jpg','images/c36.jpg','images/c37.jpg'];
+
+// GREEN/FRESH: cucumber, mint, herb-forward, melon, matcha
+var PHOTOS_GREEN = ['images/c01.jpg','images/c08.jpg','images/c15.jpg'];
+
+// WARM/GOLDEN: tropical, orange, citrus, honey, Cointreau, triple sec, Kahlua
+var PHOTOS_WARM = ['images/c41.jpg','images/c42.jpg','images/c43.jpg',
+  'images/c44.jpg','images/c45.jpg','images/c46.jpg','images/c47.jpg'];
+
+// DARK/MOODY: complex, layered, obscure, vermouth-heavy, amaro, absinthe
+var PHOTOS_DARK = ['images/c03.jpg','images/c04.jpg','images/c05.jpg','images/c11.jpg',
+  'images/c12.jpg','images/c13.jpg','images/c16.jpg','images/c18.jpg','images/c19.jpg',
+  'images/c23.jpg','images/c24.jpg','images/c27.jpg','images/c29.jpg','images/c32.jpg',
+  'images/c35.jpg','images/c40.jpg','images/c48.jpg'];
+
+function detectPhotoCategory(name, ingredients) {
+  var text = (name + ' ' + (ingredients || []).join(' ')).toLowerCase();
+
+  // AMBER: brown spirits
+  if (/whiskey|whisky|bourbon|scotch|rye|brandy|cognac|armagnac|calvados|dark rum|spiced rum|aged rum|drambuie|amaretto|frangelico|kahlua|tia maria|baileys|irish cream/.test(text))
+    return 'amber';
+
+  // RED/PINK: red aperitifs and berry
+  if (/campari|aperol|negroni|americano|spritz|grenadine|berry|raspberry|strawberry|cherry|pomegranate|cranberry|hibiscus|rose|rosé|red wine|port|dubonnet/.test(text))
+    return 'red';
+
+  // GREEN/FRESH: herbs and green things  
+  if (/cucumber|mint|basil|matcha|green|midori|chartreuse|absinthe|herb|sage|thyme|tarragon/.test(text))
+    return 'green';
+
+  // WARM/GOLDEN: tropical and citrus
+  if (/cointreau|triple sec|orange|mango|passion|pineapple|tropical|honey|ginger|turmeric|saffron|gold|falernum|orgeat|almond/.test(text))
+    return 'warm';
+
+  // CLEAR: clean neutral spirits
+  if (/gin|vodka|tequila|mezcal|white rum|silver rum|blanco|champagne|prosecco|lillet|st.? germain|elderflower/.test(text))
+    return 'clear';
+
+  // Default to dark/moody for complex or obscure cocktails
+  return 'dark';
+}
+
+function getPhotoPool(category) {
+  switch(category) {
+    case 'amber': return PHOTOS_AMBER;
+    case 'red':   return PHOTOS_RED;
+    case 'green': return PHOTOS_GREEN;
+    case 'warm':  return PHOTOS_WARM;
+    case 'clear': return PHOTOS_CLEAR;
+    default:      return PHOTOS_DARK;
+  }
+}
+
 function hashName(str) {
   var hash = 0;
   for (var i = 0; i < str.length; i++) {
@@ -198,21 +216,39 @@ function hashName(str) {
   return Math.abs(hash);
 }
 
-function assignPhotos(names) {
-  var assigned = {};
-  var used = {};
-  names.forEach(function(name) {
-    var base = hashName(name) % PHOTO_POOL.length;
-    var idx = base;
-    var attempts = 0;
-    while (used[idx] && attempts < PHOTO_POOL.length) {
-      idx = (idx + 1) % PHOTO_POOL.length;
-      attempts++;
+// Track used photos across all categories to prevent duplicates
+var _usedPhotos = {};
+
+function getPhotoForCocktail(name, ingredients) {
+  var category = detectPhotoCategory(name, ingredients);
+  var pool = getPhotoPool(category);
+
+  // Pick from category pool using hash for consistency
+  var base = hashName(name) % pool.length;
+  var idx = base;
+  var attempts = 0;
+
+  // Find unused photo in this category
+  while (_usedPhotos[pool[idx]] && attempts < pool.length) {
+    idx = (idx + 1) % pool.length;
+    attempts++;
+  }
+
+  // If all category photos used, fall back to dark pool
+  if (_usedPhotos[pool[idx]] && category !== 'dark') {
+    var fallback = PHOTOS_DARK;
+    var fi = hashName(name) % fallback.length;
+    var fa = 0;
+    while (_usedPhotos[fallback[fi]] && fa < fallback.length) {
+      fi = (fi + 1) % fallback.length;
+      fa++;
     }
-    used[idx] = true;
-    assigned[name] = PHOTO_POOL[idx];
-  });
-  return assigned;
+    pool = fallback;
+    idx = fi;
+  }
+
+  _usedPhotos[pool[idx]] = true;
+  return pool[idx];
 }
 
 function esc(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
@@ -228,16 +264,99 @@ function showUpload() {
       '<div class="hero-title">What Can You<br><span>Make Tonight?</span></div>' +
       '<div class="hero-sub">Photograph your liquor cabinet.<br>Discover what cocktails you can craft right now.</div>' +
     '</div>' +
-    '<div class="upload-zone" id="uz">' +
-      '<input type="file" id="fi" accept="image/*" capture="environment">' +
-      '<div class="upload-icon">&#128247;</div>' +
+    '<div class="upload-zone" id="uz" onclick="handleUploadClick(event)">' +
+      '<input type="file" id="fi" accept="image/*">' +
+      '<div class="upload-icon" id="upload-icon">&#128247;</div>' +
       '<div class="upload-title">Photograph Your Cabinet</div>' +
-      '<div class="upload-hint">Tap to take a photo or choose one from your library.</div>' +
+      '<div class="upload-hint" id="upload-hint">Loading camera options...</div>' +
     '</div>';
   document.getElementById('fi').addEventListener('change', onFile);
-  document.getElementById('uz').addEventListener('click', function(e) {
-    if (e.target.tagName !== 'INPUT') document.getElementById('fi').click();
-  });
+  initUploadZone();
+}
+
+function initUploadZone() {
+  var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  var hint = document.getElementById('upload-hint');
+  var icon = document.getElementById('upload-icon');
+  if (isMobile) {
+    if (hint) hint.textContent = 'Tap to take a photo or choose from your library.';
+  } else if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    if (hint) hint.innerHTML = 'Click to use your <b>webcam</b>, or drag & drop a photo.';
+    if (icon) icon.textContent = '📷';
+  } else {
+    if (hint) hint.textContent = 'Click to choose a photo from your computer.';
+  }
+}
+
+function handleUploadClick(e) {
+  if (e.target.tagName === 'INPUT') return;
+  var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  if (!isMobile && navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    openWebcam();
+  } else {
+    document.getElementById('fi').click();
+  }
+}
+
+function openWebcam() {
+  // Build webcam capture UI
+  document.getElementById('main').innerHTML =
+    '<div class="webcam-wrap">' +
+      '<div class="webcam-label">Point your webcam at your cabinet</div>' +
+      '<video id="wcv" autoplay playsinline style="width:100%;border-radius:16px;background:#000;max-height:360px;object-fit:cover;"></video>' +
+      '<canvas id="wcc" style="display:none;"></canvas>' +
+      '<div class="webcam-btns">' +
+        '<button class="btn-analyze" id="snap-btn" onclick="snapWebcam()">&#128247; Capture Photo</button>' +
+        '<button class="btn-secondary" onclick="webcamCancel()">Cancel</button>' +
+      '</div>' +
+    '</div>';
+
+  navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment', width: {ideal:1280}, height: {ideal:720} } })
+    .catch(function() {
+      return navigator.mediaDevices.getUserMedia({ video: true });
+    })
+    .then(function(stream) {
+      var video = document.getElementById('wcv');
+      if (!video) return;
+      video.srcObject = stream;
+      window._webcamStream = stream;
+    })
+    .catch(function(err) {
+      document.getElementById('main').innerHTML =
+        '<div class="error-box">Could not access webcam: ' + esc(err.message) + '</div>' +
+        '<button class="btn-secondary" onclick="showUpload()">&#8592; Back</button>';
+    });
+}
+
+function snapWebcam() {
+  var video = document.getElementById('wcv');
+  var canvas = document.getElementById('wcc');
+  if (!video || !canvas) return;
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  canvas.getContext('2d').drawImage(video, 0, 0);
+  stopWebcamStream();
+  canvas.toBlob(function(blob) {
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      imageBase64 = ev.target.result.split(',')[1];
+      imageType = 'image/jpeg';
+      showPreview(canvas.toDataURL('image/jpeg', 0.92), canvas.width, canvas.height, blob.size);
+    };
+    reader.readAsDataURL(blob);
+  }, 'image/jpeg', 0.92);
+}
+
+function webcamCancel() {
+  stopWebcamStream();
+  showUpload();
+}
+
+function stopWebcamStream() {
+  if (window._webcamStream) {
+    window._webcamStream.getTracks().forEach(function(t) { t.stop(); });
+    window._webcamStream = null;
+  }
 }
 
 function onFile(e) {
@@ -300,13 +419,11 @@ function analyze() {
   var wildcardRendered = false;
   var photoNames = [];
   var photoMap = {};
-  var photoIndex = 0;
+  _usedPhotos = {}; // reset for each new analysis session
 
-  function getNextPhoto(name) {
-    // Assign a unique photo from the pool in order
+  function getNextPhoto(name, ingredients) {
     if (photoMap[name]) return photoMap[name];
-    var url = PHOTO_POOL[photoIndex % PHOTO_POOL.length];
-    photoIndex++;
+    var url = getPhotoForCocktail(name, ingredients);
     photoMap[name] = url;
     return url;
   }
@@ -330,7 +447,7 @@ function analyze() {
   function renderCocktailCard(c, index) {
     var container = document.getElementById('cocktail-cards');
     if (!container) return;
-    var photo = getNextPhoto(c.name);
+    var photo = getNextPhoto(c.name, c.ingredients);
     var pairs = (c.pairsWith || []).map(function(p) {
       return '<span class="card-pairs-tag">&#127869; ' + esc(p) + '</span>';
     }).join('');
@@ -356,7 +473,7 @@ function analyze() {
     renderMocktailSection();
     var container = document.getElementById('mocktail-cards');
     if (!container) return;
-    var photo = getNextPhoto('mocktail_' + index);
+    var photo = getNextPhoto('mocktail_' + index, m.ingredients);
     var pairs = (m.pairsWith || []).map(function(p) {
       return '<span class="card-pairs-tag">&#127869; ' + esc(p) + '</span>';
     }).join('');
@@ -370,7 +487,7 @@ function analyze() {
   function renderWildcard(w) {
     var el = document.getElementById('stream-results');
     if (!el) return;
-    var photo = getNextPhoto('wildcard_' + w.name);
+    var photo = getNextPhoto('wildcard_' + w.name, w.ingredients);
     var pairs = (w.pairsWith || []).map(function(p) {
       return '<span class="card-pairs-tag">&#127869; ' + esc(p) + '</span>';
     }).join('');
