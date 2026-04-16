@@ -50,13 +50,17 @@ Output ONLY a series of JSON lines, one per line, nothing else. Each line is a c
 Output them in this exact order and format:
 
 {"type":"bottles","data":["bottle 1","bottle 2"]}
-{"type":"cocktail","data":{"name":"Name","tagline":"One evocative sentence","abv":"~28% ABV","glassware":"Rocks glass","glasswareIcon":"🥃","pairsWith":["Dark chocolate","Aged cheddar"],"ingredients":["2 oz bourbon","1 large ice cube"],"instructions":"Step by step method.","flavorNote":"Rich flavor description."}}
+{"type":"cocktail","data":{"name":"Name","tagline":"One evocative sentence","profile":"Boozy & Bold","glassware":"Rocks glass","glasswareIcon":"🥃","pairsWith":["Dark chocolate","Aged cheddar"],"ingredients":["2 oz bourbon","1 large ice cube"],"instructions":"Step by step method.","flavorNote":"Rich flavor description."}}
 ... (6-10 cocktail lines, best first)
 {"type":"mocktail","data":{"name":"Name","tagline":"One sentence","glassware":"Glass","glasswareIcon":"🥂","pairsWith":["food","food"],"ingredients":["ingredient"],"instructions":"Steps.","flavorNote":"Flavor."}}
 {"type":"mocktail","data":{"name":"Name","tagline":"One sentence","glassware":"Glass","glasswareIcon":"🥂","pairsWith":["food","food"],"ingredients":["ingredient"],"instructions":"Steps.","flavorNote":"Flavor."}}
-{"type":"wildcard","data":{"name":"Creative Name","tagline":"One sentence","abv":"~22% ABV","glassware":"Glass","glasswareIcon":"🍸","pairsWith":["food"],"ingredients":["with amounts"],"instructions":"Steps.","flavorNote":"Flavor.","rationale":"Why this works."}}
+{"type":"wildcard","data":{"name":"Creative Name","tagline":"One sentence","profile":"Boozy & Bold","glassware":"Glass","glasswareIcon":"🍸","pairsWith":["food"],"ingredients":["with amounts"],"instructions":"Steps.","flavorNote":"Flavor.","rationale":"Why this works."}}
 
 Rules:
+- For "profile", choose the single most accurate descriptor based on the recipe:
+  Spirit volume guides strength: 3oz+ total spirit = "Boozy & Bold"; 2-3oz = "Strong & Spirited"; 1-2oz = "Medium & Balanced"; under 1oz or wine/prosecco/beer based = "Light & Effervescent"; no alcohol = "Crisp & Alcohol-Free"
+  Override with character if dominant: heavy citrus = "Bright & Citrusy"; cream/coffee/chocolate = "Rich & Indulgent"; Campari/Aperol/amaro heavy = "Bitter & Complex"; tropical = "Tropical & Vibrant"; mezcal/scotch dominant = "Smoky & Intense"; sweet liqueurs dominant = "Sweet & Smooth"; sparkling/champagne = "Light & Effervescent"
+  Always derive from actual ingredients — never guess
 - Only cocktails makeable from visible bottles (assume ice/water/simple syrup/fresh citrus available)
 - ALWAYS include ice in ingredients when needed
 - Mocktails: 2 exactly, creative and sophisticated, assume available: citrus, juices, sodas, syrups, garnishes, bitters
