@@ -227,117 +227,119 @@ function hashName(str) {
   return Math.abs(hash);
 }
 
-// ── NAMED COCKTAIL PHOTO LOOKUP ─────────────────────────────────────────────
-// Maps normalized cocktail names → exact filename in images/
-// Normalization: lowercase, strip punctuation, collapse spaces.
-// Claude may return slightly different names (e.g. "Daiquiri" vs "Daquiri") so
-// multiple keys can map to the same file where needed.
-var NAMED_PHOTOS = {
-  '100 year old cigar':          '100 Year Old Cigar.jpg',
-  'amaretto sour':               'Amaretto Sour.jpg',
-  'americano':                   'Americano.jpg',
-  'aperol spritz':               'Aperol Spritz.jpg',
-  'aviation':                    'Aviation Cocktail.jpg',
-  'aviation cocktail':           'Aviation Cocktail.jpg',
-  'black and tan':               'Black and Tan.jpg',
-  'black tan':                   'Black and Tan.jpg',
-  'black manhattan':             'Black Manhattan.jpg',
-  'blueberry bourbon smash':     'Blueberry Bourbon Smash.jpg',
-  'boulevardier':                'boulevardier.jpg',
-  'bramble':                     'Bramble Cocktail.jpg',
-  'bramble cocktail':            'Bramble Cocktail.jpg',
-  'chartreuse swizzle':          'Chartreuse Swizzle.jpg',
-  'cherry vodka sour':           'Cherry Vodka Sour.jpg',
-  'classic margarita':           'Classic Margarita.jpg',
-  'margarita':                   'Classic Margarita.jpg',
-  'clover club':                 'Clover Club.jpg',
-  'corpse reviver blue no 2':    'Corpse Reviver Blue No2.jpg',
-  'corpse reviver blue no2':     'Corpse Reviver Blue No2.jpg',
-  'corpse reviver no 2':         'Corpse Reviver Blue No2.jpg',
-  'corpse reviver 2':            'Corpse Reviver Blue No2.jpg',
-  'corpse reviver':              'corpse reviver.jpg',
-  'cosmopolitan':                'Cosmopolitan.jpg',
-  'cosmo':                       'Cosmopolitan.jpg',
-  'cranberry margarita':         'cranberry margarita.jpg',
-  'daiquiri':                    'Daquiri.jpg',
-  'daquiri':                     'Daquiri.jpg',
-  'dark and stormy':             'Dark Stormy.jpg',
-  'dark stormy':                 'Dark Stormy.jpg',
-  'dirty martini':               'dirty martini.jpg',
-  'division bell':               'Division Bell.jpg',
-  'dry martini':                 'Dry Martini.jpg',
-  'enzoni':                      'Enzoni.jpg',
-  'espresso martini':            'Espresso Martini.jpg',
-  'classic espresso martini':    'Espresso Martini.jpg',
-  'final ward':                  'Final Ward.jpg',
-  'fitzgerald':                  'Fitzgerald.jpg',
-  'french 75':                   'French 75.jpg',
-  'french 76':                   'French 76.jpg',
-  'french martini':              'french martini.jpg',
-  'frozen margarita':            'Frozen Margarita.jpg',
-  'gibson':                      'Gibson Martini.jpg',
-  'gibson martini':              'Gibson Martini.jpg',
-  'gin and tonic':               'gin and tonic.jpg',
-  'gin tonic':                   'gin and tonic.jpg',
-  'g and t':                     'gin and tonic.jpg',
-  'gin basil smash':             'Gin Basil Smash.jpg',
-  'gin fizz':                    'gin fizz.jpg',
-  'jungle bird':                 'jungle bird.jpg',
-  'lemon drop':                  'Lemon Drop.jpg',
-  'london calling':              'London calling.jpg',
-  'mai tai':                     'Mai Tai.jpg',
-  'manhattan':                   'Manhattan.jpg',
-  'mezcal margarita':            'Mezcal Margarita.jpg',
-  'naked and famous':            'naked and famous.jpg',
-  'negroni':                     'Negroni.jpg',
-  'old cuban':                   'old cuban.jpg',
-  'old fashioned':               'old fashioned.jpg',
-  'smoked old fashioned':        'Smoked Bourbon Old Fashioned.jpg',
-  'smoked bourbon old fashioned':'Smoked Bourbon Old Fashioned.jpg',
-  'bourbon old fashioned':       'old fashioned.jpg',
-  'paloma':                      'paloma.jpg',
-  'paper plane':                 'paper plane.jpg',
-  'penicillin':                  'penicillin.jpg',
-  'pina colada':                 'pina colada.jpg',
-  'pisco sour':                  'Pisco Sour.jpg',
-  'porn star martini':           'Porn Star Martini.jpg',
-  'revolver':                    'Revolver.jpg',
-  'sazerac':                     'sazerac.jpg',
-  'screaming orgasm':            'Screaming Orgasm.jpg',
-  'sex on the beach':            'Sex on the Beach.jpg',
-  'shaft':                       'Shaft.jpg',
-  'sidecar':                     'Sidecar.jpg',
-  'singapore sling':             'singapore sling.jpg',
-  'the last word':               'The Last Word.jpg',
-  'last word':                   'The Last Word.jpg',
-  'very sexy martini':           'Very Sexy Martini.jpg',
-  'vieux carre':                 'Vieux Carre.jpg',
-  'vodka martini':               'Vodka Martini.jpg',
-  'vodka sour':                  'Vodka Sour.jpg',
-  'whiskey sour':                'whiskey sour.jpg',
-  'whisky sour':                 'Whisky Sour.jpg',
-  'white negroni':               'White Negroni.jpg',
-  'white russian':               'White Russian.jpg',
-  'zombie':                      'Zombie.jpg'
+// ── COCKTAIL PHOTO LOOKUP ───────────────────────────────────────────────────
+// All named cocktail image files available in images/
+var COCKTAIL_FILES = [
+  '100 Year Old Cigar.jpg','Amaretto Sour.jpg','Americano.jpg','Aperol Spritz.jpg',
+  'Aviation Cocktail.jpg','Black and Tan.jpg','Black Manhattan.jpg',
+  'Blueberry Bourbon Smash.jpg','boulevardier.jpg','Bramble Cocktail.jpg',
+  'Chartreuse Swizzle.jpg','Cherry Vodka Sour.jpg','Classic Margarita.jpg',
+  'Clover Club.jpg','Corpse Reviver Blue No2.jpg','corpse reviver.jpg',
+  'Cosmopolitan.jpg','cranberry margarita.jpg','Daquiri.jpg','Dark Stormy.jpg',
+  'dirty martini.jpg','Division Bell.jpg','Dry Martini.jpg','Enzoni.jpg',
+  'Espresso Martini.jpg','Final Ward.jpg','Fitzgerald.jpg','French 75.jpg',
+  'French 76.jpg','french martini.jpg','Frozen Margarita.jpg','Gibson Martini.jpg',
+  'gin and tonic.jpg','Gin Basil Smash.jpg','gin fizz.jpg','jungle bird.jpg',
+  'Lemon Drop.jpg','London calling.jpg','Mai Tai.jpg','Manhattan.jpg',
+  'Mezcal Margarita.jpg','Moscow Mule.jpg','naked and famous.jpg','Negroni.jpg',
+  'old cuban.jpg','old fashioned.jpg','paloma.jpg','paper plane.jpg',
+  'penicillin.jpg','pina colada.jpg','Pisco Sour.jpg','Porn Star Martini.jpg',
+  'Revolver.jpg','sazerac.jpg','Screaming Orgasm.jpg','Sex on the Beach.jpg',
+  'Shaft.jpg','Sidecar.jpg','singapore sling.jpg','Smoked Bourbon Old Fashioned.jpg',
+  'The Last Word.jpg','Very Sexy Martini.jpg','Vieux Carre.jpg','Vodka Martini.jpg',
+  'Vodka Sour.jpg','whiskey sour.jpg','Whisky Sour.jpg','White Negroni.jpg',
+  'White Russian.jpg','Zombie.jpg'
+];
+
+// Aliases: handles misspellings, accented chars, word differences vs filename
+var COCKTAIL_ALIASES = {
+  'daiquiri':                     'Daquiri.jpg',
+  'margarita':                    'Classic Margarita.jpg',
+  'aviation':                     'Aviation Cocktail.jpg',
+  'last word':                    'The Last Word.jpg',
+  'bramble':                      'Bramble Cocktail.jpg',
+  'cosmo':                        'Cosmopolitan.jpg',
+  'g and t':                      'gin and tonic.jpg',
+  'dark and stormy':              'Dark Stormy.jpg',
+  'dark stormy':                  'Dark Stormy.jpg',
+  'smoked old fashioned':         'Smoked Bourbon Old Fashioned.jpg',
+  'smoked bourbon old fashioned': 'Smoked Bourbon Old Fashioned.jpg',
+  'corpse reviver blue':          'Corpse Reviver Blue No2.jpg',
+  'corpse reviver 2':             'Corpse Reviver Blue No2.jpg',
+  'corpse reviver no 2':          'Corpse Reviver Blue No2.jpg',
+  'gibson':                       'Gibson Martini.jpg',
+  'vieux carr':                   'Vieux Carre.jpg',
+  'vieux carre':                  'Vieux Carre.jpg'
 };
 
-// Normalize a cocktail name for lookup: lowercase, strip punctuation, collapse spaces
-function normalizeName(name) {
-  return String(name || '')
-    .toLowerCase()
+// Build normalized filename lookup once at startup
+var _filenameLookup = (function() {
+  var map = {};
+  for (var i = 0; i < COCKTAIL_FILES.length; i++) {
+    var f = COCKTAIL_FILES[i];
+    var key = f.replace(/\.jpg$/i, '').toLowerCase()
+               .replace(/[^a-z0-9 ]/g, ' ')
+               .replace(/\s+/g, ' ').trim();
+    map[key] = f;
+  }
+  return map;
+})();
+
+function _norm(name) {
+  return String(name || '').toLowerCase()
     .replace(/[^a-z0-9 ]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
+    .replace(/\s+/g, ' ').trim();
 }
 
-// Look up a named photo. Returns 'images/filename.jpg' or null if not in the map.
+// NOTE: 'dirty' and 'dry' deliberately excluded — those are distinct cocktails
+var _PREFIXES = ['classic ','frozen ','traditional ','smoked ','spicy ','smoky ',
+                 'perfect ','wet ','sweet ','blended ','virgin ','a ','an '];
+var _SUFFIXES = [' cocktail',' drink',' no1',' no2',' no 1',' no 2',' #1',' #2'];
+
+function _stripModifiers(n) {
+  var changed = true;
+  while (changed) {
+    changed = false;
+    for (var i = 0; i < _PREFIXES.length; i++) {
+      if (n.indexOf(_PREFIXES[i]) === 0) { n = n.slice(_PREFIXES[i].length); changed = true; }
+    }
+    for (var j = 0; j < _SUFFIXES.length; j++) {
+      if (n.slice(-_SUFFIXES[j].length) === _SUFFIXES[j]) { n = n.slice(0, -_SUFFIXES[j].length); changed = true; }
+    }
+  }
+  return n.trim();
+}
+
+// Main lookup: exact → alias → strip modifiers → null (triggers color-category fallback)
 function getNamedPhoto(name) {
-  var key = normalizeName(name);
-  var filename = NAMED_PHOTOS[key];
-  if (filename) return 'images/' + filename;
-  // Also try stripping a leading "the " in case Claude returns e.g. "The Manhattan"
-  var stripped = key.replace(/^the /, '');
-  if (stripped !== key && NAMED_PHOTOS[stripped]) return 'images/' + NAMED_PHOTOS[stripped];
+  var n = _norm(name);
+
+  // 1. Exact normalized match against filenames
+  if (_filenameLookup[n]) return 'images/' + _filenameLookup[n];
+
+  // 2. Strip leading 'the'
+  var noThe = n.replace(/^the /, '');
+  if (noThe !== n && _filenameLookup[noThe]) return 'images/' + _filenameLookup[noThe];
+
+  // 3. Alias match (misspellings, accented chars, common alternates)
+  if (COCKTAIL_ALIASES[n]) return 'images/' + COCKTAIL_ALIASES[n];
+  if (COCKTAIL_ALIASES[noThe]) return 'images/' + COCKTAIL_ALIASES[noThe];
+
+  // 4. Strip modifier prefixes/suffixes, try again
+  var base = _stripModifiers(n);
+  if (base !== n) {
+    if (_filenameLookup[base]) return 'images/' + _filenameLookup[base];
+    if (COCKTAIL_ALIASES[base]) return 'images/' + COCKTAIL_ALIASES[base];
+  }
+
+  // 5. Strip 'the' from base too
+  var baseNoThe = base.replace(/^the /, '');
+  if (baseNoThe !== base) {
+    if (_filenameLookup[baseNoThe]) return 'images/' + _filenameLookup[baseNoThe];
+    if (COCKTAIL_ALIASES[baseNoThe]) return 'images/' + COCKTAIL_ALIASES[baseNoThe];
+  }
+
+  // 6. No match — return null, caller falls through to color-category system
   return null;
 }
 
