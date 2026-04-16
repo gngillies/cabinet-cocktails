@@ -339,7 +339,63 @@ function getNamedPhoto(name) {
     if (COCKTAIL_ALIASES[baseNoThe]) return 'images/' + COCKTAIL_ALIASES[baseNoThe];
   }
 
-  // 6. No match — return null, caller falls through to color-category system
+  // 6. Word-overlap scoring — find best filename match by shared significant words
+  var STOP = {'the':1,'a':1,'an':1,'and':1,'or':1,'with':1,'style':1,'classic':1,
+    'traditional':1,'frozen':1,'smoked':1,'spicy':1,'smoky':1,'perfect':1,'wet':1,
+    'sweet':1,'blended':1,'virgin':1,'new':1,'big':1,'hot':1,'cold':1,'fresh':1,
+    'pink':1,'no':1,'not':1,'of':1,'in':1,'on':1,'at':1,'to':1,'for':1,
+    'variation':1,'riff':1,'twist':1,'royale':1,'sbagliato':1,'cocktail':1,'drink':1};
+
+  function _sigWords(str) {
+    return str.toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim()
+      .split(' ').filter(function(w){ return w.length >= 3 && !STOP[w]; });
+  }
+
+  function _scoreFile(cocktailName, filename) {
+    var fbase = filename.replace(/\.jpg$/i,'');
+    var cWords = _sigWords(cocktailName);
+    var fWords = _sigWords(fbase);
+    if (!cWords.length || !fWords.length) return 0;
+    var fSet = {}; fWords.forEach(function(w){ fSet[w]=1; });
+    var cSet = {}; cWords.forEach(function(w){ cSet[w]=1; });
+    var score = 0;
+    cWords.forEach(function(w) {
+      if (fSet[w]) { score += 2; }
+      else { fWords.forEach(function(fw){
+        if (fw.length>=4&&w.length>=4&&(fw.indexOf(w)!==-1||w.indexOf(fw)!==-1)) score+=1;
+      }); }
+    });
+    // Penalise unmatched file words (prevents "Mezcal Margarita" beating "Negroni" for "Mezcal Negroni")
+    fWords.forEach(function(fw) {
+      if (!cSet[fw]) {
+        var partial = cWords.some(function(cw){
+          return cw.length>=4&&fw.length>=4&&(fw.indexOf(cw)!==-1||cw.indexOf(fw)!==-1);
+        });
+        if (!partial) score -= 0.5;
+      }
+    });
+    // Require at least one significant word (5+ letters) — prevents "fizz" alone matching
+    var hasSig = cWords.some(function(w){ return w.length>=5 && fSet[w]; });
+    if (!hasSig && score < 3) score = 0;
+    return score;
+  }
+
+  var bestFile = null, bestScore = 1; // threshold > 1
+  for (var fi = 0; fi < COCKTAIL_FILES.length; fi++) {
+    var fs = _scoreFile(name, COCKTAIL_FILES[fi]);
+    if (fs > bestScore) {
+      bestScore = fs; bestFile = COCKTAIL_FILES[fi];
+    } else if (fs === bestScore && bestFile) {
+      // Tiebreak: prefer shorter filename (fewer unmatched words)
+      if (_sigWords(COCKTAIL_FILES[fi].replace(/\.jpg$/i,'')).length <
+          _sigWords(bestFile.replace(/\.jpg$/i,'')).length) {
+        bestFile = COCKTAIL_FILES[fi];
+      }
+    }
+  }
+  if (bestFile) return 'images/' + bestFile;
+
+  // 7. No match — return null, caller falls through to color-category system
   return null;
 }
 
