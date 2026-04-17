@@ -143,6 +143,56 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-body);
 
 .error-box { background: rgba(192,57,43,0.1); border: 1px solid rgba(192,57,43,0.3); border-radius: 14px; padding: 1.1rem 1.25rem; font-size: 0.82rem; color: #e07070; line-height: 1.6; margin-top: 1rem; }
 .error-detail { margin-top: 0.6rem; font-size: 0.72rem; color: #c06060; font-family: monospace; background: rgba(0,0,0,0.3); padding: 0.5rem 0.65rem; border-radius: 6px; word-break: break-all; }
+
+/* Rejection card — shown when image isn't a cabinet/bar */
+.rejection-card {
+  max-width: 520px;
+  margin: 2rem auto 0;
+  padding: 2.75rem 1.5rem 2rem;
+  background: var(--surface);
+  border: 1px solid var(--border-bright);
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: var(--card-shadow);
+  animation: fadeUp 0.4s ease both;
+}
+.rejection-icon {
+  font-size: 2.6rem;
+  margin-bottom: 1.1rem;
+  opacity: 0.9;
+}
+.rejection-message {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1.55;
+  color: var(--text-bright);
+  margin-bottom: 1.25rem;
+  padding: 0 0.25rem;
+}
+.rejection-detail {
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 1.75rem;
+  line-height: 1.5;
+}
+.rejection-detail span {
+  color: var(--gold-light);
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-size: 0.82rem;
+  display: block;
+  margin-top: 0.3rem;
+  font-style: italic;
+  font-family: var(--font-serif);
+}
+.rejection-btn {
+  margin-top: 0;
+}
 </style>
 </head>
 <body>
@@ -547,6 +597,7 @@ function analyze() {
   var cocktailCount = 0;
   var mocktailCount = 0;
   var wildcardRendered = false;
+  var rejected = false;
   var photoNames = [];
   var photoMap = {};
   _usedPhotos = {}; // reset for each new analysis session
@@ -556,6 +607,25 @@ function analyze() {
     var url = getPhotoForCocktail(name, ingredients);
     photoMap[name] = url;
     return url;
+  }
+
+  function renderRejection(data) {
+    rejected = true;
+    clearInterval(iv);
+    var iconEmoji = data.reason === 'finished_drink' ? '&#129347;' : '&#128247;';
+    var message = esc(data.wittyMessage || "No bottles in sight. Point the camera at your bar and I'll have something for you.");
+    var description = esc(data.description || '');
+    var detailBlock = description
+      ? '<div class="rejection-detail">What I see<span>' + description + '</span></div>'
+      : '';
+
+    document.getElementById('main').innerHTML =
+      '<div class="rejection-card">' +
+        '<div class="rejection-icon">' + iconEmoji + '</div>' +
+        '<div class="rejection-message">' + message + '</div>' +
+        detailBlock +
+        '<button class="btn-secondary rejection-btn" onclick="showUpload()">&#128247; Try Another Photo</button>' +
+      '</div>';
   }
 
   function renderBottles(bottles) {
@@ -666,6 +736,7 @@ function analyze() {
   }
 
   function finalize(totalCocktails) {
+    if (rejected) return; // don't clobber the rejection card
     clearInterval(iv);
     // Hide loading bar
     var loadWrap = document.querySelector('.loading-wrap');
@@ -702,7 +773,9 @@ function analyze() {
         var type = obj.type;
         var data = obj.data;
 
-        if (type === 'bottles') {
+        if (type === 'rejected') {
+          renderRejection(data);
+        } else if (type === 'bottles') {
           renderBottles(data);
           bottlesRendered = true;
         } else if (type === 'cocktail') {
