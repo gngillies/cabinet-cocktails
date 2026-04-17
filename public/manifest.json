@@ -3,10 +3,12 @@
   "short_name": "Cocktails",
   "description": "Photograph your liquor cabinet and discover what cocktails you can make tonight.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#0a0a0a",
   "theme_color": "#d4a843",
+  "id": "cabinet-cocktails",
   "icons": [
     {
       "src": "/icons/icon-192.png",
@@ -20,5 +22,7 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
 }
