@@ -44,6 +44,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-body);
 .upload-icon { font-size: 2.8rem; margin-bottom: 0.85rem; }
 .upload-title { font-family: var(--font-display); font-size: 1.5rem; letter-spacing: 0.04em; color: var(--text-bright); margin-bottom: 0.35rem; }
 .upload-hint { font-size: 0.78rem; color: var(--text-mid); line-height: 1.5; }
+.upload-tip { font-size: 0.7rem; color: var(--text-dim); line-height: 1.5; margin-top: 0.6rem; font-style: italic; }
 .preview-wrap { position: relative; border-radius: 18px; overflow: hidden; margin-bottom: 1rem; box-shadow: var(--card-shadow); }
 .preview-img { width: 100%; max-height: 300px; object-fit: cover; display: block; }
 .preview-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.85)); padding: 2rem 1rem 0.85rem; display: flex; justify-content: space-between; align-items: flex-end; }
@@ -517,6 +518,7 @@ function showUpload() {
       '<div class="upload-icon" id="upload-icon">&#128247;</div>' +
       '<div class="upload-title">Photograph Your Cabinet</div>' +
       '<div class="upload-hint">Tap to take a photo or choose one from your library.</div>' +
+      '<div class="upload-tip">Cabinet over ~20 bottles? Shoot it in two halves for best detection.</div>' +
     '</div>';
   document.getElementById('fi').addEventListener('change', onFile);
   document.getElementById('uz').addEventListener('click', function(e) {
@@ -544,7 +546,7 @@ function onFile(e) {
   var img = new Image();
   var url = URL.createObjectURL(file);
   img.onload = function() {
-    var MAX = 1400, w = img.width, h = img.height;
+    var MAX = 1800, w = img.width, h = img.height;
     if (w > MAX || h > MAX) { var r = Math.min(MAX/w, MAX/h); w = Math.round(w*r); h = Math.round(h*r); }
     var canvas = document.createElement('canvas');
     canvas.width = w; canvas.height = h;
