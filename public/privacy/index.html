@@ -1,1 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — Cabinet Cocktails</title>
+<meta name="description" content="Cabinet Cocktails' privacy policy. We don't collect your personal information. This page explains exactly what that means.">
+<meta name="robots" content="index,follow">
+<link rel="icon" href="/icons/icon-192.png">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<meta name="theme-color" content="#d4a843">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=Fraunces:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0a0a0a; --surface: #181818; --surface2: #222222;
+  --border: #2a2a2a; --border-bright: #3a3a3a;
+  --gold: #d4a843; --gold-light: #e8c26a; --amber: #e07b2a;
+  --text: #f2ede4; --text-bright: #ffffff; --text-mid: #c8c0b4; --text-dim: #8a8078;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-serif: 'Fraunces', Georgia, serif;
+  --font-body: 'Outfit', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.7;
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(212,168,67,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 100%, rgba(224,123,42,0.04) 0%, transparent 50%);
+}
+/* Header */
+.site-header {
+  padding: 1.1rem 1.25rem 1rem;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: rgba(10,10,10,0.97);
+  backdrop-filter: blur(16px);
+  z-index: 50;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: 760px;
+  margin: 0 auto;
+  text-decoration: none;
+  color: inherit;
+}
+.brand-icon { font-size: 2rem; line-height: 1; }
+.brand-title {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+  line-height: 1;
+  font-weight: 700;
+}
+.brand-sub {
+  font-size: 0.58rem;
+  color: var(--text-dim);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-top: 0.15rem;
+}
+/* Main content */
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 3rem 1.25rem 5rem;
+}
+.hero {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.hero-eyebrow {
+  font-size: 0.62rem;
+  color: var(--gold);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-bottom: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content: '';
+  display: block;
+  width: 36px;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.45;
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 8vw, 3.4rem);
+  line-height: 1;
+  letter-spacing: 0.03em;
+  color: var(--text-bright);
+  margin-bottom: 0.6rem;
+}
+.hero-title span { color: var(--gold); }
+.hero-sub {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--text-mid);
+  line-height: 1.5;
+}
+.effective-date {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-top: 1.25rem;
+}
+/* TL;DR card */
+.tldr {
+  background: linear-gradient(135deg, rgba(212,168,67,0.08), rgba(224,123,42,0.05));
+  border: 1px solid rgba(212,168,67,0.28);
+  border-radius: 18px;
+  padding: 1.6rem 1.75rem 1.75rem;
+  margin-bottom: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+.tldr::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.tldr-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  margin-bottom: 0.9rem;
+}
+.tldr ul {
+  list-style: none;
+  padding-left: 0;
+}
+.tldr li {
+  font-size: 0.92rem;
+  color: var(--text);
+  padding: 0.3rem 0 0.3rem 1.4rem;
+  position: relative;
+  line-height: 1.55;
+}
+.tldr li::before {
+  content: '—';
+  color: var(--gold);
+  position: absolute;
+  left: 0;
+  top: 0.3rem;
+}
+/* Section headings */
+h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  font-weight: 700;
+}
+h3 {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-bright);
+  margin-top: 1.8rem;
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.01em;
+}
+h2:first-of-type { margin-top: 0; }
+/* Body text */
+p {
+  margin-bottom: 1.1rem;
+  color: var(--text);
+}
+p + p { margin-top: -0.2rem; }
+strong { color: var(--text-bright); font-weight: 600; }
+em { font-family: var(--font-serif); font-style: italic; color: var(--text-mid); }
+ul, ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1.2rem;
+}
+ul li, ol li {
+  margin-bottom: 0.45rem;
+  color: var(--text);
+}
+ul li::marker { color: var(--gold); }
+ol li::marker { color: var(--gold); font-family: var(--font-display); }
+/* Links */
+a {
+  color: var(--gold-light);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(212,168,67,0.3);
+  transition: border-color 0.2s, color 0.2s;
+}
+a:hover {
+  color: var(--gold);
+  border-color: var(--gold);
+}
+/* Contact card */
+.contact-card {
+  background: var(--surface);
+  border: 1px solid var(--border-bright);
+  border-radius: 14px;
+  padding: 1.5rem 1.75rem;
+  margin-top: 1.5rem;
+  line-height: 1.85;
+}
+.contact-card .label {
+  font-size: 0.62rem;
+  color: var(--gold);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+.contact-card .value {
+  font-size: 1rem;
+  color: var(--text-bright);
+}
+.contact-card .contact-block + .contact-block { margin-top: 1rem; }
+/* Footer */
+footer {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 3rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+  border-bottom: none;
+  padding: 0.8rem 1.6rem;
+  border: 1px solid var(--border-bright);
+  border-radius: 14px;
+  transition: border-color 0.2s, color 0.2s;
+}
+.back-link:hover { border-color: var(--gold); color: var(--gold-light); }
+.footer-meta {
+  margin-top: 1.5rem;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.8;
+}
+/* Small refinements */
+@media (max-width: 520px) {
+  main { padding: 2rem 1rem 4rem; }
+  .hero-title { font-size: 2.1rem; }
+  .tldr { padding: 1.3rem 1.3rem 1.4rem; }
+  h2 { font-size: 1.3rem; margin-top: 2.4rem; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <a href="/" class="brand" aria-label="Return to Cabinet Cocktails home">
+    <span class="brand-icon">🍸</span>
+    <span>
+      <div class="brand-title">CABINET COCKTAILS</div>
+      <div class="brand-sub">AI-Powered Bar Intelligence</div>
+    </span>
+  </a>
+</header>
 
+<main>
+
+<section class="hero">
+  <div class="hero-eyebrow">Legal</div>
+  <h1 class="hero-title">Privacy <span>Policy</span></h1>
+  <p class="hero-sub">What we collect, what we don't, and what you can do about it.</p>
+  <div class="effective-date">Effective April 20, 2026</div>
+</section>
+
+<section class="tldr">
+  <div class="tldr-title">The short version</div>
+  <ul>
+    <li>You don't create an account. We never ask for your name, email, phone number, or location.</li>
+    <li>The photo you take of your cabinet is processed by a third-party AI service to identify bottles, then discarded by our server. We don't keep it.</li>
+    <li>We don't use cookies, analytics, advertising identifiers, or cross-site tracking.</li>
+    <li>We don't sell your data, because we don't have any of it to sell.</li>
+    <li>Purchases, when available, are handled entirely by Google Play.</li>
+  </ul>
+</section>
+
+<h2>1. Who we are</h2>
+<p>Cabinet Cocktails is a cocktail-recommendation application that uses your device's camera to photograph a liquor cabinet, shelf, or bar cart, and returns cocktails you can make from the bottles visible in the photo.</p>
+<p>It is operated by <strong>Cabinet Studios</strong>, an unincorporated business operated by Graham Gillies as a sole proprietor, based in California, United States. In this policy we refer to ourselves as "Cabinet Studios," "we," "us," or "our."</p>
+<p>This policy applies to your use of:</p>
+<ul>
+  <li>The Cabinet Cocktails web application at <a href="https://cabinet-cocktails.com">cabinet-cocktails.com</a></li>
+  <li>The Cabinet Cocktails Android application, once available on Google Play</li>
+</ul>
+
+<h2>2. Information we process</h2>
+
+<h3>2.1 Cabinet photos (processed, not stored)</h3>
+<p>When you use Cabinet Cocktails to analyze a cabinet, the photo is transmitted from your device to our web server, which forwards it to a third-party AI service for identification of visible bottles. After the AI service returns its response, our server discards the photo. <strong>We do not retain it, archive it, back it up, or associate it with you in any way.</strong></p>
+<p>The AI service we use does not retain images sent via its API for training purposes; inputs are processed only as needed to generate a response and then discarded.</p>
+
+<h3>2.2 Data on your device</h3>
+<p>Cabinet Cocktails does not currently store any data on your device between sessions. When you close the browser tab or Android app, nothing persists.</p>
+<p>We plan to offer a one-time purchase option for unlimited scans in a future release. When that launches, Cabinet Cocktails will store two small values in your device's local storage:</p>
+<ul>
+  <li>A counter of how many analyses you have performed, used to determine when a free-scan limit has been reached</li>
+  <li>A flag indicating that you have purchased the unlock through Google Play, if you do so</li>
+</ul>
+<p>These values stay on your device. They are never transmitted to us and we have no way to read them remotely. When this feature ships, we will update this policy with a new effective date.</p>
+
+<h3>2.3 What we do not collect</h3>
+<p>To be explicit, Cabinet Cocktails does not collect, receive, or process any of the following:</p>
+<ul>
+  <li>Your name, email address, phone number, postal address, or any other contact information</li>
+  <li>Your location, whether GPS, IP-based, or inferred</li>
+  <li>Device identifiers, advertising IDs, or device fingerprints</li>
+  <li>Facial data, biometric data, or any identifying human-subject data from the photos you submit</li>
+  <li>Your browsing history, other installed apps, or any files on your device other than the one photo you explicitly submit</li>
+  <li>Any form of analytics, usage telemetry, crash reporting, or behavioral data</li>
+</ul>
+<p>We do not set cookies for tracking, authentication, or analytics. We do not set any cookies at all.</p>
+
+<h2>3. How we use what we process</h2>
+<p>We use your submitted photo for one purpose only: to call the third-party AI service, receive the resulting cocktail recommendations, and return those recommendations to your device. That is the sole use.</p>
+<p>We do not use any information for advertising, marketing, profiling, or any secondary purpose. We do not sell, share, or rent any user information to any third party, because there is nothing to sell, share, or rent.</p>
+
+<h2>4. Third-party services in the data path</h2>
+<p>Three third parties are involved in Cabinet Cocktails' operation. They act as service providers to us, not as independent data controllers.</p>
+
+<h3>4.1 Anthropic (Claude Vision API)</h3>
+<p>Your submitted photo and a system prompt are sent to Anthropic for image analysis. Anthropic is a US-based AI company that provides the Claude AI models. Anthropic's handling of this data is governed by their own privacy policy, available at <a href="https://www.anthropic.com/legal/privacy">anthropic.com/legal/privacy</a>.</p>
+
+<h3>4.2 Google Play Billing (future)</h3>
+<p>When the paid unlock becomes available in a future release, purchase transactions will be handled entirely by Google Play. Google's privacy policy at <a href="https://policies.google.com/privacy">policies.google.com/privacy</a> governs those transactions. We receive only a confirmation that a purchase occurred; we do not receive your payment method, your real name, your email, or any other identity information from Google.</p>
+
+<h3>4.3 Render (hosting)</h3>
+<p>The Cabinet Cocktails web application is hosted on <a href="https://render.com">Render.com</a>, a US-based cloud hosting provider. Render provides the server infrastructure we run the application on. It does not access or process your photos for any purpose beyond the transient hosting of our web application.</p>
+
+<h2>5. Data retention</h2>
+<p><strong>Photos:</strong> Not retained. Discarded the moment the AI service returns its response.</p>
+<p><strong>On-device data:</strong> Retained on your device until you clear your browser's site data or uninstall the Android app. You are in control of this.</p>
+<p><strong>Server logs:</strong> Our web server retains routine operational logs — request paths, response status codes, timestamps, and transient IP addresses — for approximately 30 days for debugging, performance tuning, and abuse prevention. These logs do not include photo content or any information that identifies you personally beyond the short-term IP address routinely visible to any web server.</p>
+
+<h2>6. Your rights</h2>
+<p>Because Cabinet Cocktails does not maintain records of you as an individual user, most data-subject rights are self-service:</p>
+<ul>
+  <li><strong>To delete all data Cabinet Cocktails has about you:</strong> clear your browser's site data for cabinet-cocktails.com, or uninstall the Android app. There is nothing on our servers tied to you to delete.</li>
+  <li><strong>To stop using Cabinet Cocktails:</strong> simply stop using it. No account closure or unsubscribe process is required.</li>
+</ul>
+
+<h3>6.1 California residents (CCPA / CPRA)</h3>
+<p>If you are a California resident, you have the right under the California Consumer Privacy Act and the California Privacy Rights Act to know what personal information a business has collected about you; to request deletion of personal information; to correct inaccurate personal information; to opt out of the sale or sharing of personal information; to limit the use of sensitive personal information; and to be free from discrimination for exercising these rights.</p>
+<p>Cabinet Cocktails does not collect, sell, or share personal information as those terms are defined by the CCPA/CPRA, so most of these rights are not triggered by our service. If you believe we have collected personal information about you, contact <a href="mailto:privacy@cabinet-cocktails.com">privacy@cabinet-cocktails.com</a> and we will respond within the statutory time limits.</p>
+
+<h3>6.2 European Union, United Kingdom, and other jurisdictions</h3>
+<p>If you are in the European Union, the United Kingdom, or another jurisdiction with data-protection rights (GDPR, UK GDPR, or equivalent), you have the right to access, rectify, erase, restrict processing of, object to processing of, and port any personal data we hold about you. Because Cabinet Cocktails does not maintain personal data associated with individual users, there is in practice nothing for us to access, rectify, erase, or port — but you may still exercise these rights by contacting <a href="mailto:privacy@cabinet-cocktails.com">privacy@cabinet-cocktails.com</a>.</p>
+<p>You also have the right to lodge a complaint with your local data-protection supervisory authority.</p>
+
+<h2>7. Children's privacy</h2>
+<p>Cabinet Cocktails is designed for adult users. The app presents cocktail recipes containing alcohol and is rated Mature 17+ on Google Play. We do not knowingly collect information from children under 13 (or under 16 in jurisdictions where that is the applicable threshold), and do not direct the service to children.</p>
+<p>If you are under the legal drinking age in your jurisdiction, do not use this application. If you believe a child has submitted information to Cabinet Cocktails, contact <a href="mailto:privacy@cabinet-cocktails.com">privacy@cabinet-cocktails.com</a> and we will take appropriate action.</p>
+
+<h2>8. International users and data transfers</h2>
+<p>If you use Cabinet Cocktails from outside the United States, your submitted photo will be transmitted to servers located in the United States (our hosting provider and our AI service provider — both named in section 4 above). By using the application, you consent to this transfer.</p>
+<p>We do not execute Standard Contractual Clauses or perform Transfer Impact Assessments because we do not identify you as an individual; there is no personal data flowing across borders in a form that would trigger those requirements.</p>
+
+<h2>9. Security</h2>
+<p>We take reasonable commercial measures to protect the data that passes through Cabinet Cocktails:</p>
+<ul>
+  <li>All network traffic to and from cabinet-cocktails.com is encrypted using HTTPS / TLS.</li>
+  <li>Photos are transmitted, processed, and discarded within a single request lifecycle.</li>
+  <li>The web application employs rate limiting and request validation to prevent abuse.</li>
+</ul>
+<p>No system is perfectly secure, and we cannot guarantee against all possible threats. But because we do not store personal data, the consequences of a potential breach of our server are inherently limited.</p>
+
+<h2>10. Changes to this policy</h2>
+<p>We may update this policy from time to time — for example, when we ship the paid unlock feature described in section 2.2. When we do, we will post the updated policy at <a href="/privacy">cabinet-cocktails.com/privacy</a> with a new effective date. Material changes will be accompanied by a more prominent notice.</p>
+<p>Because Cabinet Cocktails does not maintain contact information for users, we cannot notify you of changes directly. We recommend checking this page occasionally if you are concerned about how your data is handled.</p>
+
+<h2>11. Governing law</h2>
+<p>This policy is governed by the laws of the State of California, United States, without regard to conflict-of-laws principles. Any disputes arising from this policy or from your use of Cabinet Cocktails will be resolved in the state or federal courts located in Marin County, California.</p>
+
+<h2>12. Contact</h2>
+<p>For any privacy question, request, or concern, contact us using the information below. We respond to privacy inquiries within 30 days, and sooner when the matter is time-sensitive.</p>
+
+<div class="contact-card">
+  <div class="contact-block">
+    <span class="label">Operator</span>
+    <span class="value">Cabinet Studios</span>
+  </div>
+  <div class="contact-block">
+    <span class="label">Location</span>
+    <span class="value">San Anselmo, California, USA</span>
+  </div>
+  <div class="contact-block">
+    <span class="label">Privacy email</span>
+    <span class="value"><a href="mailto:privacy@cabinet-cocktails.com">privacy@cabinet-cocktails.com</a></span>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <a href="/" class="back-link">← Back to Cabinet Cocktails</a>
+  <div class="footer-meta">
+    Cabinet Studios · Effective April 20, 2026
+  </div>
+</footer>
+
+</body>
+</html>
