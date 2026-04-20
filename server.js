@@ -1,7 +1,11 @@
 const express = require('express');
 const fetch = require('node-fetch');
 const zlib = require('zlib');
+const rateLimit = require('express-rate-limit');
 const app = express();
+
+// Don't advertise Express in response headers (Perf Deep-Dive §5.1 finding)
+app.disable('x-powered-by');
 
 app.use(express.json({ limit: '20mb' }));
 
@@ -14,11 +18,21 @@ app.use(express.static('public', {
   }
 }));
 
+// Rate limiter — scoped to /analyze only. Protects the Anthropic API budget
+// from script-driven abuse. /ping intentionally NOT limited (keepalive path).
+const analyzeLimiter = rateLimit({
+  windowMs: 60 * 1000,        // 1 minute window
+  limit: 10,                   // 10 requests per IP per window
+  standardHeaders: 'draft-7',  // IETF RateLimit-* headers
+  legacyHeaders: false,        // suppress deprecated X-RateLimit-* headers
+  message: { error: 'Too many requests. Please wait a minute and try again.' }
+});
+
 // Keep-alive ping
 app.post('/ping', (req, res) => res.json({ pong: true }));
 
 // Streaming analysis endpoint
-app.post('/analyze', async (req, res) => {
+app.post('/analyze', analyzeLimiter, async (req, res) => {
   if (req.body && req.body.ping) return res.json({ pong: true });
 
   const { imageBase64, imageType } = req.body;
@@ -30,8 +44,14 @@ app.post('/analyze', async (req, res) => {
   res.flushHeaders();
 
   const send = (type, data) => {
+    if (res.writableEnded || res.destroyed) return;
     res.write('data: ' + JSON.stringify({ type, data }) + '\n\n');
   };
+
+  // Cancel the upstream Anthropic request if the client disconnects mid-stream.
+  // Stops paying for output tokens nobody will read (Perf Deep-Dive item 4).
+  const controller = new AbortController();
+  req.on('close', () => controller.abort());
 
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -61,7 +81,7 @@ STEP 2 — OUTPUT based on the gate:
 
 If (A) BAR/CABINET — output ONLY these JSON lines, one per line, in this exact order:
 
-{"type":"bottles","data":["bottle 1","bottle 2"]}
+{"type":"bottles","data":["Hendrick's Gin","Tanqueray","Bombay Sapphire","Grey Goose Vodka","Tito's Vodka","Patrón Silver","Bacardi White Rum","Mount Gay Rum","Maker's Mark","Woodford Reserve","Glenfiddich 12","Campari","Aperol","Cointreau","Angostura Bitters"]
 {"type":"cocktail","data":{"name":"Name","tagline":"One evocative sentence","profile":"Boozy & Bold","glassware":"Rocks glass","glasswareIcon":"🥃","pairsWith":["Dark chocolate","Aged cheddar"],"ingredients":["2 oz bourbon","1 large ice cube"],"instructions":"Step by step method.","flavorNote":"Rich flavor description."}}
 ... (6-10 cocktail lines, best first)
 {"type":"mocktail","data":{"name":"Name","tagline":"One sentence","glassware":"Glass","glasswareIcon":"🥂","pairsWith":["food","food"],"ingredients":["ingredient"],"instructions":"Steps.","flavorNote":"Flavor."}}
@@ -69,6 +89,7 @@ If (A) BAR/CABINET — output ONLY these JSON lines, one per line, in this exact
 {"type":"wildcard","data":{"name":"Creative Name","tagline":"One sentence","profile":"Boozy & Bold","glassware":"Glass","glasswareIcon":"🍸","pairsWith":["food"],"ingredients":["with amounts"],"instructions":"Steps.","flavorNote":"Flavor.","rationale":"Why this works."}}
 
 Rules for (A):
+- EXHAUSTIVE BOTTLE ENUMERATION: List EVERY identifiable bottle in the image, regardless of total count. Do not truncate, do not stop at a round number, do not summarize. If 8 bottles are visible, list 8. If 28 are visible, list 28. If 45 are visible, list 45. The "bottles" array has no length limit. Include a bottle if its label is readable enough to identify both the brand and the spirit type; partial visibility is fine. Scan the entire image systematically — left to right, back to front — before emitting the bottles line.
 - For "profile", choose the single most accurate descriptor based on the recipe:
   Spirit volume guides strength: 3oz+ total spirit = "Boozy & Bold"; 2-3oz = "Strong & Spirited"; 1-2oz = "Medium & Balanced"; under 1oz or wine/prosecco/beer based = "Light & Effervescent"; no alcohol = "Crisp & Alcohol-Free"
   Override with character if dominant: heavy citrus = "Bright & Citrusy"; cream/coffee/chocolate = "Rich & Indulgent"; Campari/Aperol/amaro heavy = "Bitter & Complex"; tropical = "Tropical & Vibrant"; mezcal/scotch dominant = "Smoky & Intense"; sweet liqueurs dominant = "Sweet & Smooth"; sparkling/champagne = "Light & Effervescent"
@@ -117,6 +138,7 @@ ABSOLUTE RULES — these override everything:
 - NEVER output cocktail, mocktail, or wildcard lines when the gate decision is (B) or (C).
 - NEVER output a "bottles" line when the gate decision is (B) or (C).
 - Only include bottles that are actually, literally visible as identifiable containers in the image.
+- NEVER truncate the bottles list. If 30 identifiable bottles are present, list 30. There is no maximum.
 - Output ONLY the JSON lines specified. No markdown, no preamble, no explanation, no trailing text.`,
         messages: [{
           role: 'user',
@@ -125,18 +147,20 @@ ABSOLUTE RULES — these override everything:
             { type: 'text', text: 'Do the gate check first, then output the appropriate JSON lines.' }
           ]
         }]
-      })
+      }),
+      signal: controller.signal
     });
 
     if (!response.ok) {
       const err = await response.json();
       send('error', err.error && err.error.message ? err.error.message : 'API error');
-      return res.end();
+      if (!res.writableEnded) res.end();
+      return;
     }
 
     // Parse the Anthropic SSE stream and extract text chunks
     let buffer = '';
-    
+
     response.body.on('data', (chunk) => {
       const lines = chunk.toString().split('\n');
       for (const line of lines) {
@@ -180,17 +204,22 @@ ABSOLUTE RULES — these override everything:
         } catch(e) {}
       }
       send('done', {});
-      res.end();
+      if (!res.writableEnded) res.end();
     });
 
     response.body.on('error', (err) => {
+      // AbortError means the client disconnected and we deliberately cancelled.
+      // Response socket is already closed — nothing to send or end.
+      if (err.name === 'AbortError' || err.code === 'ABORT_ERR') return;
       send('error', err.message);
-      res.end();
+      if (!res.writableEnded) res.end();
     });
 
   } catch(err) {
+    // Same guard: client disconnect during the initial fetch is not an error to surface.
+    if (err.name === 'AbortError' || err.code === 'ABORT_ERR') return;
     send('error', err.message);
-    res.end();
+    if (!res.writableEnded) res.end();
   }
 });
 
