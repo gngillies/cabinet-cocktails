@@ -1,1 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cabinet Cocktails for Android — Join the Waitlist</title>
+<meta name="description" content="Cabinet Cocktails is coming to Android. Get notified the moment it launches on Google Play.">
+<meta name="robots" content="index,follow">
+
+<!-- Open Graph / social sharing -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Cabinet Cocktails for Android — Coming Soon">
+<meta property="og:description" content="Snap your cabinet. AI finds every cocktail you can make. No signup, no subscription. Join the waitlist for early access on Android.">
+<meta property="og:url" content="https://cabinet-cocktails.com/android">
+<meta property="og:site_name" content="Cabinet Cocktails">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cabinet Cocktails for Android — Coming Soon">
+<meta name="twitter:description" content="Snap your cabinet. AI finds every cocktail you can make.">
+
+<link rel="icon" href="/icons/icon-192.png">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<meta name="theme-color" content="#d4a843">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=Fraunces:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
+
+<!-- GetWaitlist widget assets -->
+<link rel="stylesheet" type="text/css" href="https://prod-waitlist-widget.s3.us-east-2.amazonaws.com/getwaitlist.min.css"/>
+<script src="https://prod-waitlist-widget.s3.us-east-2.amazonaws.com/getwaitlist.min.js"></script>
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0a0a0a; --surface: #181818; --surface2: #222222;
+  --border: #2a2a2a; --border-bright: #3a3a3a;
+  --gold: #d4a843; --gold-light: #e8c26a; --amber: #e07b2a;
+  --text: #f2ede4; --text-bright: #ffffff; --text-mid: #c8c0b4; --text-dim: #8a8078;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-serif: 'Fraunces', Georgia, serif;
+  --font-body: 'Outfit', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.7;
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(212,168,67,0.08) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 100%, rgba(224,123,42,0.06) 0%, transparent 55%);
+}
+
+/* Header */
+.site-header {
+  padding: 1.1rem 1.25rem 1rem;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: rgba(10,10,10,0.97);
+  backdrop-filter: blur(16px);
+  z-index: 50;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: 840px;
+  margin: 0 auto;
+  text-decoration: none;
+  color: inherit;
+}
+.brand-icon { font-size: 2rem; line-height: 1; }
+.brand-title {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+  line-height: 1;
+  font-weight: 700;
+}
+.brand-sub {
+  font-size: 0.58rem;
+  color: var(--text-dim);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-top: 0.15rem;
+}
+
+/* Main */
+main {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 3.5rem 1.25rem 4rem;
+}
+
+/* Android badge */
+.platform-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(212,168,67,0.1);
+  border: 1px solid rgba(212,168,67,0.32);
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  margin-bottom: 1.5rem;
+}
+.platform-badge-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--gold);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(212,168,67,0.6);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.platform-badge-text {
+  font-size: 0.65rem;
+  color: var(--gold);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* Hero */
+.hero { text-align: center; margin-bottom: 3.5rem; }
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 10vw, 5rem);
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  color: var(--text-bright);
+  margin-bottom: 1rem;
+}
+.hero-title .gold { color: var(--gold); display: block; }
+.hero-sub {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.05rem, 3vw, 1.25rem);
+  color: var(--text-mid);
+  line-height: 1.5;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+/* Promise card */
+.promise {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 3.5rem;
+}
+.promise-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.3rem 1.25rem;
+  text-align: center;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.promise-item:hover {
+  border-color: var(--border-bright);
+  transform: translateY(-2px);
+}
+.promise-icon {
+  font-size: 1.75rem;
+  margin-bottom: 0.6rem;
+  display: block;
+}
+.promise-label {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.25rem;
+}
+.promise-sub {
+  font-size: 0.82rem;
+  color: var(--text-mid);
+  line-height: 1.45;
+}
+
+/* Waitlist section */
+.waitlist-section {
+  background: linear-gradient(135deg, rgba(212,168,67,0.05), rgba(224,123,42,0.03));
+  border: 1px solid rgba(212,168,67,0.25);
+  border-radius: 22px;
+  padding: 2.5rem 2rem 2.75rem;
+  margin-bottom: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+.waitlist-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.waitlist-heading {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+.waitlist-heading-eyebrow {
+  font-size: 0.62rem;
+  color: var(--gold);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+.waitlist-heading-eyebrow::before,
+.waitlist-heading-eyebrow::after {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.5;
+}
+.waitlist-heading-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 5vw, 2.4rem);
+  letter-spacing: 0.04em;
+  color: var(--text-bright);
+  margin-bottom: 0.5rem;
+  line-height: 1.05;
+}
+.waitlist-heading-sub {
+  font-size: 0.95rem;
+  color: var(--text-mid);
+  line-height: 1.5;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+/* GetWaitlist widget wrapper — cream card to anchor their default styling on our dark page */
+.widget-wrapper {
+  background: #f8f4ec;
+  border-radius: 14px;
+  padding: 1.75rem 1.5rem;
+  margin-top: 1.75rem;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.3);
+}
+
+/* What's coming section */
+.whats-coming {
+  margin-bottom: 3rem;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.whats-coming-list {
+  list-style: none;
+  padding-left: 0;
+}
+.whats-coming-list li {
+  padding: 0.85rem 0 0.85rem 2rem;
+  position: relative;
+  font-size: 0.96rem;
+  color: var(--text);
+  line-height: 1.55;
+  border-bottom: 1px solid var(--border);
+}
+.whats-coming-list li:last-child { border-bottom: none; }
+.whats-coming-list li::before {
+  content: '→';
+  color: var(--gold);
+  position: absolute;
+  left: 0;
+  top: 0.85rem;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.whats-coming-list strong {
+  color: var(--text-bright);
+  font-weight: 600;
+}
+
+/* Footer */
+footer {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 3rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+  text-decoration: none;
+  padding: 0.8rem 1.6rem;
+  border: 1px solid var(--border-bright);
+  border-radius: 14px;
+  transition: border-color 0.2s, color 0.2s;
+}
+.back-link:hover {
+  border-color: var(--gold);
+  color: var(--gold-light);
+}
+.footer-meta {
+  margin-top: 1.5rem;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.8;
+}
+.footer-meta a {
+  color: var(--text-mid);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+.footer-meta a:hover {
+  color: var(--gold);
+  border-color: var(--gold);
+}
+
+/* iOS users note */
+.ios-note {
+  margin-top: 1.5rem;
+  padding: 1rem 1.25rem;
+  background: rgba(255,255,255,0.02);
+  border: 1px dashed var(--border-bright);
+  border-radius: 12px;
+  font-size: 0.85rem;
+  color: var(--text-mid);
+  text-align: center;
+  line-height: 1.5;
+}
+.ios-note a {
+  color: var(--gold);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(212,168,67,0.3);
+}
+.ios-note a:hover {
+  border-color: var(--gold);
+}
+
+/* Mobile refinements */
+@media (max-width: 520px) {
+  main { padding: 2.5rem 1rem 3rem; }
+  .waitlist-section { padding: 2rem 1.25rem 2.25rem; }
+  .widget-wrapper { padding: 1.5rem 1rem; }
+  .promise { gap: 0.75rem; }
+  .promise-item { padding: 1.1rem 1rem; }
+  .section-title { font-size: 1.3rem; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="/" class="brand" aria-label="Return to Cabinet Cocktails home">
+    <span class="brand-icon">🍸</span>
+    <span>
+      <div class="brand-title">CABINET COCKTAILS</div>
+      <div class="brand-sub">AI-Powered Bar Intelligence</div>
+    </span>
+  </a>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="platform-badge">
+    <span class="platform-badge-dot"></span>
+    <span class="platform-badge-text">Coming to Google Play</span>
+  </div>
+  <h1 class="hero-title">
+    Your cabinet,<br>
+    <span class="gold">in your pocket.</span>
+  </h1>
+  <p class="hero-sub">
+    Cabinet Cocktails launches on Android soon. Join the waitlist and be first in line when it hits Google Play.
+  </p>
+</section>
+
+<section class="promise">
+  <div class="promise-item">
+    <span class="promise-icon">📷</span>
+    <div class="promise-label">SNAP</div>
+    <div class="promise-sub">One photo of your cabinet. That's the whole UI.</div>
+  </div>
+  <div class="promise-item">
+    <span class="promise-icon">🤖</span>
+    <div class="promise-label">SCAN</div>
+    <div class="promise-sub">AI identifies every bottle in seconds.</div>
+  </div>
+  <div class="promise-item">
+    <span class="promise-icon">🍹</span>
+    <div class="promise-label">SIP</div>
+    <div class="promise-sub">Cocktails you can actually make, ranked and ready.</div>
+  </div>
+</section>
+
+<section class="waitlist-section">
+  <div class="waitlist-heading">
+    <div class="waitlist-heading-eyebrow">Early Access</div>
+    <h2 class="waitlist-heading-title">Join the Android Waitlist</h2>
+    <p class="waitlist-heading-sub">
+      Drop your email below. We'll ping you the moment it's live on Google Play — and anyone who joins the waitlist gets first access.
+    </p>
+  </div>
+
+  <div class="widget-wrapper">
+    <div id="getWaitlistContainer" data-waitlist_id="32752" data-widget_type="WIDGET_1"></div>
+  </div>
+
+  <div class="ios-note">
+    iOS user? The web app already works on iPhone — <a href="/">open Cabinet Cocktails</a> and add it to your Home Screen. No waitlist needed.
+  </div>
+</section>
+
+<section class="whats-coming">
+  <h2 class="section-title">What's in the Android app</h2>
+  <ul class="whats-coming-list">
+    <li><strong>No signup.</strong> No account, no email collection, no password. Install and scan.</li>
+    <li><strong>Three free scans.</strong> Try it before paying anything. If it doesn't work for your cabinet, walk away.</li>
+    <li><strong>$6.99 one-time unlock.</strong> Unlimited scans forever after that. No subscription, no auto-renewal, no hidden charges.</li>
+    <li><strong>Built on the same AI engine</strong> the web app runs today — same recognition, same cocktail logic, same wry commentary on your life choices at the bar cart.</li>
+  </ul>
+</section>
+
+</main>
+
+<footer>
+  <a href="/" class="back-link">← Back to Cabinet Cocktails</a>
+  <div class="footer-meta">
+    Cabinet Studios · <a href="/privacy">Privacy Policy</a>
+  </div>
+</footer>
+
+</body>
+</html>
 
