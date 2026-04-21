@@ -1,1 +1,9 @@
 
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.cabinetstudios.cocktails",
+    "sha256_cert_fingerprints": ["B5:1A:1F:6E:6B:B3:88:1B:06:AA:4A:A0:43:5F:86:46:D0:90:1B:C7:DE:59:A2:49:95:21:37:03:99:4C:82:89"]
+  }
+}]
