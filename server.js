@@ -100,6 +100,39 @@ Rules for (A):
 - Wildcard: genuinely original creation
 - Output each JSON line as soon as it is complete — do not wait
 
+RECIPE ACCURACY — these rules apply to EVERY cocktail, mocktail, and wildcard:
+
+- INGREDIENT NAMING CONSISTENCY: Every ingredient mentioned in "instructions" MUST appear in the "ingredients" array using the EXACT same name, or referenced by a generic role word ("the gin", "the spirit", "the juice"). Do NOT substitute a different category label for a product. Example of what NOT to do: ingredient list has "Hangar 1 Anise" but instructions say "add anise vodka" — this is wrong because "anise vodka" does not appear in the ingredient list. Write "add Hangar 1 Anise" or "add the anise spirit" instead.
+
+- PRODUCT-SPECIFIC ACCURACY: Do not invent category labels for specific products. If unsure of a product's spirit category, use the exact brand + style as it appears on the label. Specifically:
+  * Hangar 1 Anise: anise-flavored spirit (liqueur-style) — reference it as "Hangar 1 Anise" in instructions
+  * Hangar 1 Citrus: citrus-flavored vodka
+  * Bombay Bramble: berry-flavored gin
+  * Navigate: London Dry gin
+  * El Sorciere: absinthe
+  * St. George Citrus: citrus-flavored vodka
+  * Frankly Organic: organic vodka (various flavors)
+
+- STRAINING TECHNIQUE LOGIC:
+  * Double-straining (fine mesh over hawthorne) is for drinks where a CLEAN, clear texture is wanted — typically citrus sours served up, where small ice shards and pulp are undesirable.
+  * DO NOT double-strain cocktails with muddled fruit, berries, or herbs that are meant to be visible in the drink. Smashes, juleps, muddled old fashioneds, caipirinhas, and mojitos are examples — these contain their muddled ingredients as a texture element. Use a single strain through a hawthorne, or fine-strain only if specifically removing herb fragments while keeping fruit.
+  * Smashes specifically: single-strain over fresh ice. The muddled fruit stays in the drink.
+
+- TECHNIQUE-TO-STYLE MATCH:
+  * STIRRED: spirit-forward drinks with no citrus, dairy, or fruit (martini, Manhattan, Negroni, Old Fashioned, Boulevardier, Vieux Carré). Never shake these — stirring preserves clarity and silky texture.
+  * SHAKEN: drinks containing citrus juice, dairy, egg, or fresh fruit (daiquiri, sour, margarita, gimlet, cosmopolitan, smash). Shake hard 8–15 seconds with ice.
+  * BUILT IN GLASS: highballs, tonics, spritzes, mules — poured and lightly stirred in the serving glass.
+  * MUDDLED: smashes, juleps, caipirinhas, mojitos — muddle gently for herbs (to release oils without tearing), more firmly for fruit.
+
+- GARNISH REALISM: Garnishes should be achievable from what a home bartender has on hand. Fresh citrus, fresh herbs (mint, basil, rosemary), and pitted fruit are fine. Avoid requiring dehydrated garnishes, edible flowers, specialty bitters not visible in the cabinet, or other niche items unless those items were actually detected in the image.
+
+- PRE-OUTPUT SELF-CHECK: Before emitting each cocktail JSON line, silently verify:
+  (1) Every ingredient named in "instructions" appears in "ingredients" using the same name, OR is referenced by a generic role word.
+  (2) The technique used (shake/stir/muddle/build) matches the drink's style and ingredients.
+  (3) The straining method is appropriate — no double-strain on muddled drinks where the muddled material is meant to stay.
+  (4) The drink is physically makeable using only the bottles visible in the image plus the standard home-bar assumptions (ice, water, simple syrup, fresh citrus).
+  If any check fails, revise silently and then emit.
+
 If (B) FINISHED_DRINK — output ONLY this single JSON line and stop:
 
 {"type":"rejected","data":{"reason":"finished_drink","description":"Brief factual description of what you see — color of the drink, type of glass, any garnish. Do NOT guess the recipe.","wittyMessage":"A wry bartender-style observation, see VOICE GUIDE below."}}
