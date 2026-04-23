@@ -201,7 +201,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-body);
   <div class="header-icon">🍸</div>
   <div>
     <div class="header-title">Cabinet Cocktails</div>
-    <div class="header-sub">AI-Powered Bar Intelligence</div>
   </div>
 </div>
 <div class="main" id="main"></div>
@@ -712,7 +711,7 @@ function analyze() {
                 cardType === 'mocktail' ? '<div class="mocktail-badge">&#9670; Mocktail</div>' : '';
     var profileBadge = c.profile ? '<div class="card-img-profile">' + esc(c.profile) + '</div>' : '';
     var glassBadge = c.glassware ? '<div class="card-img-glass">' + esc(c.glasswareIcon||'') + ' ' + esc(c.glassware) + '</div>' : '';
-    var rankBadge = rankLabel ? '<div class="card-img-rank">' + esc(rankLabel) + '</div>' : (cardType === 'wildcard' ? '<div class="card-img-rank">Claude&#39;s Original Recipe</div>' : '');
+    var rankBadge = rankLabel ? '<div class="card-img-rank">' + esc(rankLabel) + '</div>' : (cardType === 'wildcard' ? '<div class="card-img-rank">CABINET EXCLUSIVE</div>' : '');
     var glassDetail = c.glassware ? '<div class="dl">Serve In</div><div class="glass-note"><span class="glass-icon">' + esc(c.glasswareIcon||'&#127867;') + '</span> ' + esc(c.glassware) + '</div>' : '';
     var rationale = (cardType === 'wildcard' && c.rationale) ? '<div class="dl">The Concept</div><p class="flavor">' + esc(c.rationale) + '</p>' : '';
     var flavorLabel = cardType === 'wildcard' ? 'Flavor Science' : 'Flavor Profile';
@@ -936,7 +935,7 @@ function renderResults(r) {
     html += '<div class="card-img-gradient"></div>';
     if (w.profile) html += '<div class="card-img-profile">' + esc(w.profile) + '</div>';
     html += '<div class="card-img-wc-badge">&#10022; Wildcard</div>';
-    html += '<div class="card-img-rank">Claude&#39;s Original Recipe</div>';
+    html += '<div class="card-img-rank">CABINET EXCLUSIVE</div>';
     html += '</div>';
     html += '<div class="card-body">';
     html += '<div class="card-name">' + esc(w.name) + '</div>';
