@@ -14,7 +14,9 @@ app.use(express.static('public', {
   etag: true,
   lastModified: true,
   setHeaders: function(res, path) {
-    if (path.endsWith('.html')) res.setHeader('Cache-Control', 'no-cache');
+    if (path.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'public, max-age=300, s-maxage=600, must-revalidate');
+    }
   }
 }));
 
