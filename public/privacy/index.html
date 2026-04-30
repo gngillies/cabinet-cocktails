@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Privacy Policy — Cabinet Cocktails</title>
-<meta name="description" content="Cabinet Cocktails' privacy policy. We don't collect your personal information. This page explains exactly what that means.">
+<meta name="description" content="Cabinet Cocktails' privacy policy. We collect almost no personal information — limited Google Analytics for product improvement and nothing else. This page explains exactly what that means.">
 <meta name="robots" content="index,follow">
 <link rel="icon" href="/icons/icon-192.png">
 <link rel="apple-touch-icon" href="/icons/icon-192.png">
@@ -296,7 +296,7 @@ footer {
   <div class="hero-eyebrow">Legal</div>
   <h1 class="hero-title">Privacy <span>Policy</span></h1>
   <p class="hero-sub">What we collect, what we don't, and what you can do about it.</p>
-  <div class="effective-date">Effective April 20, 2026</div>
+  <div class="effective-date">Effective April 30, 2026</div>
 </section>
 
 <section class="tldr">
@@ -304,7 +304,7 @@ footer {
   <ul>
     <li>You don't create an account. We never ask for your name, email, phone number, or location.</li>
     <li>The photo you take of your cabinet is processed by a third-party AI service to identify bottles, then discarded by our server. We don't keep it.</li>
-    <li>We don't use cookies, analytics, advertising identifiers, or cross-site tracking.</li>
+    <li>We use Google Analytics 4 to understand aggregate product usage. Cookies set: <code>_ga</code> and <code>_ga_*</code> only. No cross-site tracking, no advertising identifiers, no Google Signals — see section 4.4 for details.</li>
     <li>We don't sell your data, because we don't have any of it to sell.</li>
     <li>Purchases, when available, are handled entirely by Google Play.</li>
   </ul>
@@ -342,16 +342,15 @@ footer {
   <li>Device identifiers, advertising IDs, or device fingerprints</li>
   <li>Facial data, biometric data, or any identifying human-subject data from the photos you submit</li>
   <li>Your browsing history, other installed apps, or any files on your device other than the one photo you explicitly submit</li>
-  <li>Any form of analytics, usage telemetry, crash reporting, or behavioral data</li>
 </ul>
-<p>We do not set cookies for tracking, authentication, or analytics. We do not set any cookies at all.</p>
+<p>Beyond the Google Analytics cookies described in section 4.4, we do not set any cookies. We do not use cookies for authentication, advertising, or cross-site tracking.</p>
 
 <h2>3. How we use what we process</h2>
 <p>We use your submitted photo for one purpose only: to call the third-party AI service, receive the resulting cocktail recommendations, and return those recommendations to your device. That is the sole use.</p>
 <p>We do not use any information for advertising, marketing, profiling, or any secondary purpose. We do not sell, share, or rent any user information to any third party, because there is nothing to sell, share, or rent.</p>
 
 <h2>4. Third-party services in the data path</h2>
-<p>Three third parties are involved in Cabinet Cocktails' operation. They act as service providers to us, not as independent data controllers.</p>
+<p>Four third parties are involved in Cabinet Cocktails' operation. They act as service providers to us, not as independent data controllers.</p>
 
 <h3>4.1 Anthropic (Claude Vision API)</h3>
 <p>Your submitted photo and a system prompt are sent to Anthropic for image analysis. Anthropic is a US-based AI company that provides the Claude AI models. Anthropic's handling of this data is governed by their own privacy policy, available at <a href="https://www.anthropic.com/legal/privacy">anthropic.com/legal/privacy</a>.</p>
@@ -361,6 +360,25 @@ footer {
 
 <h3>4.3 Render (hosting)</h3>
 <p>The Cabinet Cocktails web application is hosted on <a href="https://render.com">Render.com</a>, a US-based cloud hosting provider. Render provides the server infrastructure we run the application on. It does not access or process your photos for any purpose beyond the transient hosting of our web application.</p>
+
+<h3>4.4 Google Analytics 4 (Firebase)</h3>
+<p>We use Google Analytics 4, operated by Google LLC, to understand aggregate product usage — for example, how many people open the application, how many cabinet scans succeed, and which cocktails are suggested most often. This information helps us improve the application and make decisions about future development.</p>
+<p>What Google Analytics receives:</p>
+<ul>
+  <li>Page-view events when you load the application.</li>
+  <li>A small set of custom product events (app open, cabinet scan, cocktail suggested, scan rejected). These events carry category labels and counts only — never the contents of your photo.</li>
+  <li>Your approximate location, derived from your IP address. Google Analytics 4 does not store full IP addresses.</li>
+  <li>Browser and device type, used to render the application correctly and to monitor compatibility.</li>
+  <li>A first-party cookie named <code>_ga</code> (and a related <code>_ga_*</code> variant) used to distinguish unique browsers across sessions. These cookies expire after two years and contain a randomly generated identifier — not your name, email, or any persistent personal information.</li>
+</ul>
+<p>What Google Analytics does <em>not</em> receive:</p>
+<ul>
+  <li>The image you submit, or any data derived from it.</li>
+  <li>Account information or any persistent identifier we could use to recognize you across devices. We have not enabled the User-ID feature.</li>
+  <li>Cross-site tracking data — Google Signals and Google Analytics advertising features are disabled on our property.</li>
+</ul>
+<p>Our legal basis for processing this data is legitimate interest in understanding how Cabinet Cocktails is used in order to improve it. Google's handling of analytics data is governed by their privacy policy at <a href="https://policies.google.com/privacy">policies.google.com/privacy</a>.</p>
+<p><strong>How to opt out:</strong> You can prevent Google Analytics from collecting any data about your visits by enabling Do Not Track in your browser, by using a privacy extension such as uBlock Origin or Privacy Badger, or by installing Google's official opt-out browser add-on at <a href="https://tools.google.com/dlpage/gaoptout">tools.google.com/dlpage/gaoptout</a>. Opting out will not affect your ability to use Cabinet Cocktails.</p>
 
 <h2>5. Data retention</h2>
 <p><strong>Photos:</strong> Not retained. Discarded the moment the AI service returns its response.</p>
@@ -376,10 +394,10 @@ footer {
 
 <h3>6.1 California residents (CCPA / CPRA)</h3>
 <p>If you are a California resident, you have the right under the California Consumer Privacy Act and the California Privacy Rights Act to know what personal information a business has collected about you; to request deletion of personal information; to correct inaccurate personal information; to opt out of the sale or sharing of personal information; to limit the use of sensitive personal information; and to be free from discrimination for exercising these rights.</p>
-<p>Cabinet Cocktails does not collect, sell, or share personal information as those terms are defined by the CCPA/CPRA, so most of these rights are not triggered by our service. If you believe we have collected personal information about you, contact <a href="mailto:privacy@cabinet-cocktails.com">privacy@cabinet-cocktails.com</a> and we will respond within the statutory time limits.</p>
+<p>The personal information Cabinet Cocktails collects is limited to the analytics data described in section 4.4 above. We do not sell or share personal information, and we do not engage in cross-context behavioral advertising. To exercise CCPA/CPRA rights regarding analytics data — including a request for deletion or opt-out — contact <a href="mailto:privacy@cabinet-cocktails.com">privacy@cabinet-cocktails.com</a> and we will respond within the statutory time limits.</p>
 
 <h3>6.2 European Union, United Kingdom, and other jurisdictions</h3>
-<p>If you are in the European Union, the United Kingdom, or another jurisdiction with data-protection rights (GDPR, UK GDPR, or equivalent), you have the right to access, rectify, erase, restrict processing of, object to processing of, and port any personal data we hold about you. Because Cabinet Cocktails does not maintain personal data associated with individual users, there is in practice nothing for us to access, rectify, erase, or port — but you may still exercise these rights by contacting <a href="mailto:privacy@cabinet-cocktails.com">privacy@cabinet-cocktails.com</a>.</p>
+<p>If you are in the European Union, the United Kingdom, or another jurisdiction with data-protection rights (GDPR, UK GDPR, or equivalent), you have the right to access, rectify, erase, restrict processing of, object to processing of, and port any personal data we hold about you. The personal data we hold is limited to the analytics data described in section 4.4 above. To exercise these rights — including erasure or restriction of processing — contact <a href="mailto:privacy@cabinet-cocktails.com">privacy@cabinet-cocktails.com</a>. You can also opt out of analytics collection directly using the methods described at the end of section 4.4.</p>
 <p>You also have the right to lodge a complaint with your local data-protection supervisory authority.</p>
 
 <h2>7. Children's privacy</h2>
@@ -429,7 +447,7 @@ footer {
 <footer>
   <a href="/" class="back-link">← Back to Cabinet Cocktails</a>
   <div class="footer-meta">
-    Cabinet Studios · Effective April 20, 2026
+    Cabinet Studios · Effective April 30, 2026
   </div>
 </footer>
 
