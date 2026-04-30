@@ -10,6 +10,33 @@
 <link rel="apple-touch-icon" href="/icons/icon-192.png">
 <meta name="theme-color" content="#d4a843">
 <title>Cabinet Cocktails</title>
+
+<!-- Google Analytics 4 (Firebase) — Cabinet Cocktails GA4 web stream -->
+<script>
+window.GA_MEASUREMENT_ID = 'G-JY713M3WHX';
+(function() {
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.GA_MEASUREMENT_ID;
+  document.head.appendChild(s);
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function() { dataLayer.push(arguments); };
+  gtag('js', new Date());
+  gtag('config', window.GA_MEASUREMENT_ID, {
+    send_page_view: true,
+    anonymize_ip: true
+  });
+  // Event helper: safe to call even if gtag fails to load
+  window.ccTrack = function(name, params) {
+    try { if (typeof gtag === 'function') gtag('event', name, params || {}); } catch(e) {}
+  };
+  // Detect TWA wrapper vs plain web
+  window.ccIsTWA = (document.referrer || '').indexOf('android-app://') === 0;
+  // Fire app_open once per session
+  ccTrack('app_open', { surface: window.ccIsTWA ? 'twa' : 'web' });
+})();
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=Fraunces:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
 <style>
@@ -540,6 +567,11 @@ function showUpload() {
 
 
 
+
+
+
+
+
 function onFile(e) {
   var file = e.target.files[0]; if (!file) return;
   var img = new Image();
@@ -613,6 +645,8 @@ function analyze() {
   function renderRejection(data) {
     rejected = true;
     clearInterval(iv);
+    // Analytics: scan rejected, capture reason for product-quality monitoring
+    if (window.ccTrack) ccTrack('rejection_shown', { reason: (data && data.reason) || 'unknown' });
     var iconEmoji = data.reason === 'finished_drink' ? '&#129347;' : '&#128247;';
     var message = esc(data.wittyMessage || "No bottles in sight. Point the camera at your bar and I'll have something for you.");
     var description = esc(data.description || '');
@@ -632,6 +666,8 @@ function analyze() {
   function renderBottles(bottles) {
     var el = document.getElementById('stream-results');
     if (!el) return;
+    // Analytics: scan succeeded with this many identifiable bottles
+    if (window.ccTrack) ccTrack('cabinet_scan', { bottles_detected: (bottles || []).length });
     var html = '<div class="section"><div class="section-label">Detected in your cabinet</div><div class="bottles-list">';
     bottles.forEach(function(b) { html += '<div class="bottle-tag"><span class="dot"></span>' + esc(b) + '</div>'; });
     html += '</div></div>';
@@ -648,6 +684,8 @@ function analyze() {
   function renderCocktailCard(c, index) {
     var container = document.getElementById('cocktail-cards');
     if (!container) return;
+    // Analytics: a cocktail card was rendered to the user
+    if (window.ccTrack) ccTrack('cocktail_suggested', { cocktail_name: (c && c.name) || 'unknown', position: index + 1 });
     var photo = getNextPhoto(c.name, c.ingredients);
     var pairs = (c.pairsWith || []).map(function(p) {
       return '<span class="card-pairs-tag">&#127869; ' + esc(p) + '</span>';
