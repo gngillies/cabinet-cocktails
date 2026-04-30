@@ -1,1 +1,8 @@
 
+# Cabinet Cocktails security disclosure policy
+# RFC 9116 — https://www.rfc-editor.org/rfc/rfc9116
+
+Contact: mailto:support@cabinet-cocktails.com
+Expires: 2027-04-30T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://www.cabinet-cocktails.com/.well-known/security.txt
